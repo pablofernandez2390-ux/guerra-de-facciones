@@ -237,7 +237,7 @@ button.big{font-size:clamp(15px,3.6dvh,22px);padding:.55em 1.8em;border-radius:1
 .lki{width:1.1em;height:1.1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .pt.lk .pc{position:relative;filter:grayscale(.6) brightness(.6)}.pt.lk .lki{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:42%;height:42%;color:#ffd54a;filter:drop-shadow(0 0 4px #000)}
 .fk.lk{opacity:.55;position:relative}.fk.lk::after{content:'';position:absolute;right:1px;bottom:1px;width:7px;height:7px;border-radius:50%;background:#ffd54a}
-#menu{background:linear-gradient(180deg,#05060fcc 0,#05060f55 30%,#05060f55 60%,#05060fdd 100%),url(img/portada.webp?v=202611121257) center/cover no-repeat;--ink:#f3f1ff;--mut:#c4c8e6;--panel:#0a1024c4;--line:#ffffff4d;--slot:#0a102488;--slotline:#ffffff44;--acc:#ffc680;--accfg:#1a0d00;color:var(--ink)}
+#menu{background:linear-gradient(180deg,#05060fcc 0,#05060f55 30%,#05060f55 60%,#05060fdd 100%),url(img/portada.webp?v=202611121414) center/cover no-repeat;--ink:#f3f1ff;--mut:#c4c8e6;--panel:#0a1024c4;--line:#ffffff4d;--slot:#0a102488;--slotline:#ffffff44;--acc:#ffc680;--accfg:#1a0d00;color:var(--ink)}
 #menu button,#menu .rr,#menu .mi label{text-shadow:0 1px 3px #000}
 #menu button{-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);box-shadow:0 3px 12px #000c}
 #menu button.pri{background:linear-gradient(180deg,#ffd49a,#e3873a);color:#1a0d00;text-shadow:0 1px 0 #fff8;border-color:#ffe2b8;box-shadow:0 0 18px #ff9a3c99,0 4px 14px #000d}
@@ -369,7 +369,7 @@ textarea{font:12px/1.35 ui-monospace,Menlo,Consolas,monospace;width:100%;color:v
 
 <script>
 'use strict';
-const LOGO_IMG="img/logo.webp?v=202611121257";
+const LOGO_IMG="img/logo.webp?v=202611121414";
 /* ============ EFECTOS (formato v2): vocabulario, texto generado, migración y validación ============
    Un efecto = { disparador:{tipo,ventanas?}, condicion:null|{tipo,..}, costo:{tipo,n}, objetivo, accion:{tipo,..}, limite, alternativas? } */
 const VENT={ataque:'attack',invocacion:'summon',finTurno:'endTurn',dano:'damage'};
@@ -406,7 +406,12 @@ const V_ACC={
  fijarNivel0:{n:'Fijar Nivel en 0',p:[],ob:MON_OBJ,dur:1},
  nivelExtra:{n:'Nivel extra por batalla',p:[['n','Nivel extra',100,500]],ob:['esteMonstruo'],pas:1},
  mitadDano:{n:'Reducir daño a la mitad',p:[],ob:['yo'],pas:1},
- pasarSobrante:{n:'Pasar daño sobrante',p:[],ob:['jugadorRival']}};
+ pasarSobrante:{n:'Pasar daño sobrante',p:[],ob:['jugadorRival']},
+ /* movimientos entre zonas (mano, mazo, cementerio, campo) */
+ descartarAzar:{n:'Descartar al azar de la mano',p:[['n','Cartas',1,3]],ob:['jugadorRival','yo']},
+ recuperar:{n:'Recuperar del cementerio a la mano',p:[['n','Cartas',1,2]],ob:['yo']},
+ moler:{n:'Enviar cartas del mazo al cementerio',p:[['n','Cartas',1,5]],ob:['jugadorRival','yo']},
+ devolverMazo:{n:'Devolver al mazo',p:[],ob:['monstruoRival','monstruoCampo','cartaCampoRival','atacante']}};
 const NIVEL_BATALLA=100;
 
 /* ---- texto ---- */
@@ -431,7 +436,11 @@ function accTxt(e){const a=e.accion,o=e.objetivo,S=T_SUJ[o]||'';const st=a.stat=
  case'fijarNivel0':return`${S} tiene Nivel 0`;
  case'nivelExtra':return`aprende rápido: gana +${a.n} de Nivel extra por batalla`;
  case'mitadDano':return'el daño de batalla que recibes se reduce a la mitad';
- case'pasarSobrante':return'el daño sobrante pasa al rival'}return''}
+ case'pasarSobrante':return'el daño sobrante pasa al rival';
+ case'descartarAzar':return o==='yo'?`descartas ${a.n} carta${a.n>1?'s':''} al azar de tu mano`:`el rival descarta ${a.n} carta${a.n>1?'s':''} al azar de su mano`;
+ case'recuperar':return`devuelves ${a.n} carta${a.n>1?'s':''} de tu cementerio a tu mano`;
+ case'moler':return o==='yo'?`envías ${a.n} carta${a.n>1?'s':''} de arriba de tu mazo al cementerio`:`el rival envía ${a.n} carta${a.n>1?'s':''} de arriba de su mazo al cementerio`;
+ case'devolverMazo':return`devuelves ${S} al mazo de su dueño, que se mezcla`}return''}
 /* conCosto: los monstruos muestran su costo en el texto; las Acciones y Reacciones lo muestran aparte */
 function textoEfecto(e,conCosto){if(!e)return'';const D=e.disparador||{},t=D.tipo;
  if(t==='alDestruirEnBatalla'&&e.accion&&e.accion.tipo==='pasarSobrante'&&e.condicion&&e.condicion.tipo==='posicionVictima'&&e.condicion.pos==='def'&&!(e.alternativas&&e.alternativas.length))return'Perforación: cuando ataca a un monstruo en defensa con DEF menor que su ATK, el rival pierde LP igual a la diferencia.'+(e.limite==='unaVezTurno'?' (1 vez por turno)':e.limite==='unaVezDuelo'?' (1 vez por duelo)':'');
@@ -561,15 +570,15 @@ const KIND_N={N:'normal',E:'efecto',H:'pesado',T:'tanque'};
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const sacOf=cap=>cap<=400?0:cap<=600?1:cap<=800?2:3;
 const FAC=[],MONS=[];
-const fxText=d=>d.ef?textoEfecto(d.ef,true):'';
+const fxText=d=>d.efs&&d.efs.length>1?d.efs.map(e=>textoEfecto(e,true)).join(' '):d.ef?textoEfecto(d.ef,true):'';
 const SP=[],ICONOS=['atk','def','lp','xp','swap','boom','down','eye','block','undo'];
 
 /* JSON -> objetos internos */
 const facToF=f=>({id:esc(f.id||''),n:esc(f.nombre||'Facción'),c:RX_COL.test(f.color)?f.color:'#888888',c2:RX_COL.test(f.color2)?f.color2:'#333333',d:esc(f.descripcion||''),sym:RX_PATH.test(f.simbolo)?f.simbolo:'M12 2L22 22H2Z',img:RX_IMG.test(f.imagen)?imgURL(f.imagen):null});
 function monToD(m,F,fi,i){
- const ef=m.efecto?compilarEfecto(m.efecto):null;
- const cap=+m.topeNivel||0,extra=ef&&ef.accion.tipo==='nivelExtra'?ef.accion.n:0;
- return{id:'m'+i,rid:m.id||null,vfx:typeof m.vfx==='string'&&RX_ID.test(m.vfx)?m.vfx:null,fi,fac:esc(m.faccion),f:F,name:esc(m.nombre||'Sin nombre'),kind:KIND[m.tipo]||'N',at:+m.ataque||0,df:+m.defensa||0,sac:sacOf(cap),ef,speed:NIVEL_BATALLA+extra,cap,copies:+m.copias||1,img:RX_IMG.test(m.imagen)?imgURL(m.imagen):((F&&F.img)||null)}}
+ const efs=[m.efecto,m.efecto2,m.efecto3].filter(Boolean).map(compilarEfecto).filter(Boolean),ef=efs[0]||null;
+ const cap=+m.topeNivel||0,extra=efs.reduce((s,x)=>s+(x.accion.tipo==='nivelExtra'?x.accion.n:0),0);
+ return{id:'m'+i,rid:m.id||null,vfx:typeof m.vfx==='string'&&RX_ID.test(m.vfx)?m.vfx:null,fi,fac:esc(m.faccion),f:F,name:esc(m.nombre||'Sin nombre'),kind:KIND[m.tipo]||'N',at:+m.ataque||0,df:+m.defensa||0,sac:sacOf(cap),ef,efs,speed:NIVEL_BATALLA+extra,cap,copies:+m.copias||1,img:RX_IMG.test(m.imagen)?imgURL(m.imagen):((F&&F.img)||null)}}
 const PERMS={equipo:'equip',continua:'cont'};
 const MODPARA={faccion:'de la facción',otras:'de otras facciones',todas:'de cualquier facción'};
 function campoTexto(a,fname){const g={};(a.modificadores||[]).forEach(m=>{(g[m.para]=g[m.para]||[]).push(`${m.valor>0?'+':''}${m.valor} ${m.stat==='atk'?'ATK':'DEF'}`)});
@@ -660,11 +669,16 @@ function validateCards(data0){
   const capOK=int(m.topeNivel,100,1200)&&m.topeNivel%100===0;
   if(!capOK)e(t+': tope de Nivel debe ser múltiplo de 100 entre 100 y 1200 (1 a 12 estrellas).',i,fi);
   if(!int(m.copias,1,3))e(t+': copias debe ser 1, 2 o 3.',i,fi);
-  const ef=m.efecto;
+  const ef=m.efecto,EF3=[m.efecto,m.efecto2,m.efecto3];
+  if(!ef&&(m.efecto2||m.efecto3))e(t+': tiene efecto 2 o 3 pero no tiene efecto 1.',i,fi);
   if(ef!==null&&ef!==undefined){
-   validarEfecto(ef,true).forEach(x=>(x.lvl==='e'?e:w)(t+': '+x.msg,i,fi));
-   const c=compilarEfecto(ef);
-   if(c&&c.costo.tipo==='gastarNivel'&&capOK&&c.costo.n>m.topeNivel)w(t+': gasta más Nivel del que puede acumular, nunca podrá usarlo.',i,fi)}
+   EF3.forEach((x0,k)=>{if(x0===null||x0===undefined)return;const tk=t+(k?` (efecto ${k+1})`:'');
+    validarEfecto(x0,true).forEach(x=>(x.lvl==='e'?e:w)(tk+': '+x.msg,i,fi));
+    const c=compilarEfecto(x0);
+    if(c&&c.costo.tipo==='gastarNivel'&&capOK&&c.costo.n>m.topeNivel)w(tk+': gasta más Nivel del que puede acumular, nunca podrá usarlo.',i,fi)});
+   const cs=EF3.filter(Boolean).map(compilarEfecto).filter(Boolean);
+   if(cs.filter(x=>x.disparador.tipo==='manual').length>1)e(t+': solo puede tener un efecto manual.',i,fi);
+   if(cs.length===3&&m.copias>1)e(t+': con 3 efectos es una carta única: solo 1 copia.',i,fi)}
   else if(m.tipo==='efecto')w(t+': es de tipo efecto pero no tiene efecto.',i,fi);
   if(ef&&m.tipo==='normal')w(t+': es de tipo normal pero tiene efecto.',i,fi);
   if(capOK&&m.tipo==='pesado'&&m.topeNivel<=400)w(t+': es pesado pero no pide sacrificio (tope de 400 o menos).',i,fi);
@@ -745,7 +759,7 @@ function cardHTML(x,o={}){
   body=`<div class="nm">${d.name}</div><div class="art">${artS(d)}<i class="fb t">${ic(typeIcon(d))}</i></div><div class="sub"><span>${lab}</span><span></span></div><div class="st"><span>${costText(d.cost)}</span></div>${o.large?`<div class="txt">${d.text}</div>`:''}`}
  return`<div class="card${o.hand?' hand':''}${o.field||o.tile?' fld':''}${o.full?' full':''}${isMon?'':(d.type==='A'?' spa':d.type==='R'?' spr':' spf')}${o.cls||''}" style="${style}"${ua}>${body}</div>`}
 
-let DEFAULT_DATA=null;const BASE_JSON='cartas/base.json?v=202611121257';
+let DEFAULT_DATA=null;const BASE_JSON='cartas/base.json?v=202611121414';
 /* ============ CONFIG (todo lo marcado "supuesto" está por validar) ============ */
 const CFG={lp:8000,hand0:5,handMax:7,xpCap0:200,xpCapStep:100,xpGain:100,vetNivel:300,vetValue:2,recActLP:500,recReaXP:300,tieAtk:3000};
 const WLAB={attack:'cuando el rival ataca',summon:'cuando el rival invoca',endTurn:'al final del turno rival',damage:'cuando recibes daño'};
@@ -756,12 +770,13 @@ const UI={hideL:false,hideR:true,sel:null,target:null,busy:false,modal:null,acts
 const sleep=ms=>{const g=GEN;return new Promise(r=>{const go=()=>{if(g===GEN)r()};ms?setTimeout(go,ms):go()})};
 const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
 const mk=(d,o)=>({uid:UID++,d,o,nivel:0,pos:'atk',boost:null,mods:[],st:-9,att:false,ub:false,uh:false,pc:false,ut:-1,ud:false,up:false,eq:null});
-function resetC(c){c.nivel=0;c.pos='atk';c.boost=null;c.mods=[];c.st=-9;c.att=false;c.ub=false;c.uh=false;c.pc=false;c.ut=-1;c.up=false;c.eq=null}
+function resetC(c){c.nivel=0;c.pos='atk';c.boost=null;c.mods=[];c.st=-9;c.att=false;c.ub=false;c.uh=false;c.pc=false;c.ut=-1;c.up=false;c.eq=null;c.lt={}}
 const isM=c=>c.d.kind!==undefined;
 const cur=()=>G.pl[G.cur],opp=()=>G.pl[1-G.cur];
 const xpCap=()=>CFG.xpCap0+CFG.xpCapStep*Math.floor((G.round-1)/2);
-const disp=(c,t)=>{const e=c.d.ef;return e&&e.disparador.tipo===t?e:null};
-const pasiva=(c,a)=>{const e=c.d.ef;return e&&e.disparador.tipo==='continuo'&&e.accion.tipo===a?e.accion:null};
+const effs=c=>c.d.efs||(c.d.ef?[c.d.ef]:[]);
+const disp=(c,t)=>{for(const e of effs(c))if(e.disparador.tipo===t)return e;return null};
+const pasiva=(c,a)=>{for(const e of effs(c))if(e.disparador.tipo==='continuo'&&e.accion.tipo===a)return e.accion;return null};
 const eN=c=>c.mods.some(m=>m.stat==='nivel0')?0:c.nivel;
 const allies=c=>G.pl[c.o].mons.filter(x=>x&&x!==c&&x.d.fac===c.d.fac);
 function bonus(c,st){let v=0;const pl=G.pl[c.o];
@@ -828,6 +843,7 @@ const snap=c=>({a:eATK(c),d:eDEF(c)});
 function statFx(c,b){if(!FX.on())return;const a=snap(c);if(a.a!==b.a)FX.mark(c,{k:'stat',st:'atk',from:b.a,to:a.a});if(a.d!==b.d)FX.mark(c,{k:'stat',st:'def',from:b.d,to:a.d})}
 function dropEq(c,p){p.zones.forEach((z,i)=>{if(z&&z.eq===c.uid){p.zones[i]=null;resetC(z);p.grave.push(z);log(`${z.d.name} se destruye junto a ${c.d.name}.`)}})}
 function destroy(c){FX.ghost(c,'boom');const p=G.pl[c.o];const i=p.mons.indexOf(c);if(i>=0)p.mons[i]=null;const z=p.zones.indexOf(c);if(z>=0)p.zones[z]=null;dropEq(c,p);resetC(c);p.grave.push(c)}
+function toDeck(c){FX.ghost(c,'up');const p=G.pl[c.o];const i=p.mons.indexOf(c);if(i>=0)p.mons[i]=null;const z=p.zones.indexOf(c);if(z>=0)p.zones[z]=null;dropEq(c,p);resetC(c);p.deck.push(c);shuffle(p.deck);FX.snd('shuffle')}
 function bounce(c){FX.ghost(c,'up');const p=G.pl[c.o];const i=p.mons.indexOf(c);if(i>=0)p.mons[i]=null;const z=p.zones.indexOf(c);if(z>=0)p.zones[z]=null;dropEq(c,p);resetC(c);joinHand(p,c)}
 const inField=c=>G.pl[c.o].mons.includes(c);
 const canAttack=c=>inField(c)&&c.pos==='atk'&&!c.att&&G.turn>1;
@@ -906,18 +922,26 @@ async function resolver(e,src,ap,ctx,prm){
   case'cambiarPosicion':cards().forEach(flip);log('Cambian posiciones de batalla.');break;
   case'negarAtaque':if(ctx){ctx.cancelled=true;FX.lockFx(ctx.attacker);FX.mark(ctx.attacker,{k:'pulse',label:'¡Ataque negado!'})}break;
   case'fijarNivel0':for(const x of cards()){const b=snap(x);x.mods.push({stat:'nivel0',amt:0,until:durUntil(e.limite,ap)});statFx(x,b);log(`${nm(x)} tiene Nivel 0.`)}break;
-  case'pasarSobrante':log(`${src.d.name} perfora la defensa.`);await hurt(rv.i,ctx.exceso,'battle');break}}
+  case'pasarSobrante':log(`${src.d.name} perfora la defensa.`);await hurt(rv.i,ctx.exceso,'battle');break;
+  case'descartarAzar':{let k=0;for(let i=0;i<a.n&&pl.hand.length;i++){const j=Math.random()*pl.hand.length|0,x=pl.hand.splice(j,1)[0];pl.grave.push(x);k++}
+   log(k?`${pl.name} descarta ${k} carta${k>1?'s':''} al azar.`:`${pl.name} no tiene cartas en la mano.`);if(k){FX.snd('slide');FX.hud(pl.i,`−${k} carta${k>1?'s':''}`,'dn')}render();break}
+  case'recuperar':{const pool=ap.grave.slice();if(!pool.length){log(`${ap.name} no tiene cartas en el cementerio.`);break}const n=Math.min(a.n,pool.length);
+   let ch;if(ap.ai)ch=pool.sort((x,y)=>val(y)-val(x)).slice(0,n);else ch=await pickCards(`Elige ${n} carta(s) de tu cementerio para volver a tu mano`,pool,n,n,{nocancel:1});
+   (ch||[]).forEach(x=>{ap.grave.splice(ap.grave.indexOf(x),1);joinHand(ap,x)});log(`${ap.name} recupera ${(ch||[]).length} carta(s) del cementerio.`);render();break}
+  case'moler':{let k=0;for(let i=0;i<a.n&&pl.deck.length;i++){pl.grave.push(pl.deck.pop());k++}log(`${pl.name} envía ${k} carta${k>1?'s':''} de su mazo al cementerio.`);if(k)FX.snd('slide');render();break}
+  case'devolverMazo':for(const x of cards()){log(`${nm(x)} vuelve al mazo de su dueño.`);if(ctx&&(x===ctx.attacker||x===ctx.card))ctx.cancelled=true;toDeck(x)}break}}
 /* efecto de monstruo con disparador (alInvocar, alSerAtacado, alDestruirEnBatalla, finMiTurno) */
 const CH=new Set(); /* cartas cuyo efecto se está resolviendo: una carta no puede encadenar su efecto dos veces */
 const LBL={robar:'Roba una carta',infligirDano:'Daño',pasarSobrante:'Perfora',curar:'Cura'};
-async function fireMon(src,trig,ctx){const e=disp(src,trig);if(!e||CH.has(src.uid))return false;
- if(!cumple(e.condicion,src,ctx))return false;
- if(e.limite==='unaVezTurno'&&src.ut===G.turn)return false;if(e.limite==='unaVezDuelo'&&src.ud)return false;
- if(e.limite==='unaVezTurno')src.ut=G.turn;if(e.limite==='unaVezDuelo')src.ud=true;
- CH.add(src.uid);
- try{FX.mark(src,{k:'pulse',label:LBL[e.accion.tipo]||(V_ACC[e.accion.tipo]||{}).n||''});render();await FX.settle();
-  await resolver(e,src,G.pl[src.o],ctx,{})}finally{CH.delete(src.uid)}
- return true}
+async function fireMon(src,trig,ctx){if(CH.has(src.uid))return false;
+ const L=effs(src).map((e,i)=>[e,i]).filter(([e])=>e.disparador.tipo===trig);if(!L.length)return false;
+ let any=false;src.lt=src.lt||{};CH.add(src.uid);
+ try{for(const[e,i]of L){if(G.over)break;if(!cumple(e.condicion,src,ctx))continue;
+  if(e.limite==='unaVezTurno'&&src.lt[i]===G.turn)continue;if(e.limite==='unaVezDuelo'&&src.lt['d'+i])continue;
+  if(e.limite==='unaVezTurno')src.lt[i]=G.turn;if(e.limite==='unaVezDuelo')src.lt['d'+i]=true;
+  FX.mark(src,{k:'pulse',label:LBL[e.accion.tipo]||(V_ACC[e.accion.tipo]||{}).n||''});render();await FX.settle();
+  await resolver(e,src,G.pl[src.o],ctx,{});any=true}}finally{CH.delete(src.uid)}
+ return any}
 /* efecto manual de un monstruo (por ejemplo, curar gastando Nivel) */
 function manualInfo(p,c){const e=disp(c,'manual');if(!e)return null;
  const used=(e.limite==='unaVezTurno'&&c.ut===G.turn)||(e.limite==='unaVezDuelo'&&c.ud)||CH.has(c.uid),lvl=e.costo.tipo==='gastarNivel'&&c.nivel<e.costo.n;
@@ -1382,7 +1406,7 @@ function recLoad(){
  REC.loaded=true;recSave()}
 function recInfo(r){
  const idx=cardIdx();let n=0,mon=0,sp=0,miss=0;const cards=[];
- r.cards.forEach(c=>{const d=idx.get(c.id);const k=Math.max(0,Math.min(REC_COP,c.n|0));if(!d){miss+=k;return}n+=k;if(d.kind!==undefined)mon+=k;else sp+=k;if(k)cards.push({d,n:k})});
+ r.cards.forEach(c=>{const d=idx.get(c.id);const k=Math.max(0,Math.min(d&&d.efs&&d.efs.length>=3?1:REC_COP,c.n|0));if(!d){miss+=k;return}n+=k;if(d.kind!==undefined)mon+=k;else sp+=k;if(k)cards.push({d,n:k})});
  const err=[],warn=[];
  if(n<REC_MIN)err.push(`Faltan ${REC_MIN-n} carta(s): mínimo ${REC_MIN}.`);
  if(n>REC_MAX)err.push(`Sobran ${n-REC_MAX} carta(s): máximo ${REC_MAX}.`);
@@ -1444,7 +1468,7 @@ function drawEdit(){
  else if(MENU.fk==='R')pool=SP.filter(d=>d.type==='R');
  else if(MENU.fk==='F')pool=SP.filter(d=>d.type==='F');
  else pool=i.cards.map(c=>c.d);
- const tile=d=>{const id=cid(d),n=edCount(r,id);if(d.lock)return`<div class="pt lk"><div class="pc">${cardHTML(d,{hidden:1,cls:' fld'})}${LOCKSVG}</div><small class="ps">Bloqueada</small><div class="pb"><button disabled>−</button><button disabled>+</button></div></div>`;return`<div class="pt ${n?'has':''}"><button class="pc" data-mg="info:${id}" aria-label="Ver ${esc(d.name)}">${cardHTML(d,{tile:1})}${n?`<b class="cn">${n}</b>`:''}</button><small class="ps">${d.kind!==undefined?d.at+' / '+d.df:costText(d.cost)}</small><div class="pb"><button data-mg="sub:${id}" ${n?'':'disabled'} aria-label="Quitar una">−</button><button data-mg="add:${id}" ${n>=REC_COP||i.n>=REC_MAX?'disabled':''} aria-label="Agregar una">+</button></div></div>`};
+ const tile=d=>{const id=cid(d),n=edCount(r,id);if(d.lock)return`<div class="pt lk"><div class="pc">${cardHTML(d,{hidden:1,cls:' fld'})}${LOCKSVG}</div><small class="ps">Bloqueada</small><div class="pb"><button disabled>−</button><button disabled>+</button></div></div>`;return`<div class="pt ${n?'has':''}"><button class="pc" data-mg="info:${id}" aria-label="Ver ${esc(d.name)}">${cardHTML(d,{tile:1})}${n?`<b class="cn">${n}</b>`:''}</button><small class="ps">${d.kind!==undefined?d.at+' / '+d.df:costText(d.cost)}</small><div class="pb"><button data-mg="sub:${id}" ${n?'':'disabled'} aria-label="Quitar una">−</button><button data-mg="add:${id}" ${n>=(d.efs&&d.efs.length>=3?1:REC_COP)||i.n>=REC_MAX?'disabled':''} aria-label="Agregar una">+</button></div></div>`};
  const sorted=[...i.cards].sort((a,b)=>(a.d.kind!==undefined?0:1)-(b.d.kind!==undefined?0:1)||(a.d.fi-b.d.fi)||(a.d.cap-b.d.cap));
  const cls=i.n>REC_MAX||i.n<REC_MIN?'bad':'good';
  return`<div class="mi ed"><div class="mtop">${back('decks')}<input id="rname" maxlength="20" value="${esc(r.name)}" aria-label="Nombre de la receta"><span class="cnt ${cls}">${i.n}/${REC_MAX}</span></div>
@@ -1494,7 +1518,7 @@ document.addEventListener('click',e=>{
  else if(a==='del'){if(MENU.del===v){REC.list=REC.list.filter(r=>r.id!==v);if(!REC.list.some(r=>r.id===REC.sel))REC.sel=REC.list[0].id;MENU.del=null;recSave()}else MENU.del=v;renderMenu()}
  else if(a==='ff'){MENU.ff=+v;renderMenu()}
  else if(a==='fk'){MENU.fk=v;renderMenu()}
- else if(a==='add'){const r=recSel();if(recInfo(r).n<REC_MAX)edSet(r,v,edCount(r,v)+1);renderMenu()}
+ else if(a==='add'){const r=recSel(),d=cardIdx().get(v);if(recInfo(r).n<REC_MAX&&!(d&&d.efs&&d.efs.length>=3&&edCount(r,v)>=1))edSet(r,v,edCount(r,v)+1);renderMenu()}
  else if(a==='sub'){const r=recSel();edSet(r,v,edCount(r,v)-1);renderMenu()}
  else if(a==='clear'){recSel().cards=[];recSave();renderMenu()}
  else if(a==='info')infoModal(v)});
