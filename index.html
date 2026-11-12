@@ -230,6 +230,8 @@ button.big{font-size:clamp(15px,3.6dvh,22px);padding:.55em 1.8em;border-radius:1
 .card.back .bk{position:relative;padding:0;width:68%;aspect-ratio:1;background:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cg fill=%22none%22 stroke=%22%23e0b04f%22 stroke-width=%222.4%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2245%22/%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2240%22 stroke-width=%221%22 opacity=%22.7%22/%3E%3Cpath d=%22M33 84L45 20M67 84L55 20%22/%3E%3Cpath d=%22M45 20L26 27L41 40Z%22 fill=%22%23e0b04f%22/%3E%3Cpath d=%22M55 20L74 27L59 40Z%22 fill=%22%23e0b04f%22/%3E%3Cpath d=%22M50 40L58 54L50 68L42 54Z%22 fill=%22%23e0b04f%22/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat;opacity:.85;margin:0}
 .card.back .bk::after{content:'ESTANDARTES\A ETERNOS';white-space:pre;display:block;position:absolute;left:50%;transform:translateX(-50%);top:100%;width:max-content;text-align:center;color:#e0b04f;font-size:.62em;letter-spacing:.14em;line-height:1.25;padding-top:.3em;opacity:.9;text-shadow:0 0 .4em #e0b04f66}
 .slot .card.back .bk::after,#oppx .card.back .bk::after,.fxfly .bk::after{display:none}
+/* llaves de búsqueda */
+.llaves{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0 6px}.llaves .ll{padding:3px 8px;font-size:11px;border-radius:999px}.llaves .ll i{font-style:normal;opacity:.6;font-size:.9em}.llaves .ll.on{background:var(--acc);color:var(--accfg);border-color:var(--acc)}
 /* facciones personalizadas */
 .fxl{display:grid;gap:4px;max-height:46dvh;overflow:auto;margin:6px 0}
 .fxr{display:flex;align-items:center;gap:8px;padding:5px 7px;border:1px solid var(--line);border-radius:8px;background:var(--slot)}
@@ -237,7 +239,7 @@ button.big{font-size:clamp(15px,3.6dvh,22px);padding:.55em 1.8em;border-radius:1
 .lki{width:1.1em;height:1.1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .pt.lk .pc{position:relative;filter:grayscale(.6) brightness(.6)}.pt.lk .lki{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:42%;height:42%;color:#ffd54a;filter:drop-shadow(0 0 4px #000)}
 .fk.lk{opacity:.55;position:relative}.fk.lk::after{content:'';position:absolute;right:1px;bottom:1px;width:7px;height:7px;border-radius:50%;background:#ffd54a}
-#menu{background:linear-gradient(180deg,#05060fcc 0,#05060f55 30%,#05060f55 60%,#05060fdd 100%),url(img/portada.webp?v=202611121414) center/cover no-repeat;--ink:#f3f1ff;--mut:#c4c8e6;--panel:#0a1024c4;--line:#ffffff4d;--slot:#0a102488;--slotline:#ffffff44;--acc:#ffc680;--accfg:#1a0d00;color:var(--ink)}
+#menu{background:linear-gradient(180deg,#05060fcc 0,#05060f55 30%,#05060f55 60%,#05060fdd 100%),url(img/portada.webp?v=202611121711) center/cover no-repeat;--ink:#f3f1ff;--mut:#c4c8e6;--panel:#0a1024c4;--line:#ffffff4d;--slot:#0a102488;--slotline:#ffffff44;--acc:#ffc680;--accfg:#1a0d00;color:var(--ink)}
 #menu button,#menu .rr,#menu .mi label{text-shadow:0 1px 3px #000}
 #menu button{-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);box-shadow:0 3px 12px #000c}
 #menu button.pri{background:linear-gradient(180deg,#ffd49a,#e3873a);color:#1a0d00;text-shadow:0 1px 0 #fff8;border-color:#ffe2b8;box-shadow:0 0 18px #ff9a3c99,0 4px 14px #000d}
@@ -369,7 +371,7 @@ textarea{font:12px/1.35 ui-monospace,Menlo,Consolas,monospace;width:100%;color:v
 
 <script>
 'use strict';
-const LOGO_IMG="img/logo.webp?v=202611121414";
+const LOGO_IMG="img/logo.webp?v=202611121711";
 /* ============ EFECTOS (formato v2): vocabulario, texto generado, migración y validación ============
    Un efecto = { disparador:{tipo,ventanas?}, condicion:null|{tipo,..}, costo:{tipo,n}, objetivo, accion:{tipo,..}, limite, alternativas? } */
 const VENT={ataque:'attack',invocacion:'summon',finTurno:'endTurn',dano:'damage'};
@@ -563,6 +565,22 @@ function migrarV1(d){
  return o}
 /* acepta v1 o v2 y devuelve siempre v2 (o el dato tal cual si no se reconoce) */
 function normalizarCartas(d){if(d&&typeof d==='object'&&!Array.isArray(d)&&d.formato==='tcg-cartas'&&d.version===1&&Array.isArray(d.monstruos))return migrarV1(d);return d}
+/* ============ LLAVES de búsqueda: qué hace un efecto (se calculan solas desde el efecto) ============ */
+const LLAVES=[['mazo','Destrucción del mazo'],['mano','Destrucción de la mano'],['amano','Devolver a la mano'],['amazo','Devolver al mazo'],['cem','Recuperar del cementerio'],['robar','Robar cartas'],
+ ['sube','Aumentar ATK/DEF'],['baja','Reducir ATK/DEF'],['dano','Daño por efecto'],['lp','Aumentar LP'],['perf','Perforar'],['negar','Negar ataque'],['destr','Destruir carta'],['pos','Cambiar posición'],
+ ['nivel','Nivel'],['xp','XP'],['menos','Reducir daño'],['fac','Facción y aliados'],['cont','Efecto continuo'],['man','Activación manual'],['reac','Reacción en turno rival'],['equipo','Equipo'],['campo','Carta de campo'],['lim1','Una vez por duelo'],['unica','Carta única (3 efectos)']];
+const LL_ACC={moler:'mazo',descartarAzar:'mano',devolverMano:'amano',devolverMazo:'amazo',recuperar:'cem',robar:'robar',infligirDano:'dano',curar:'lp',pasarSobrante:'perf',negarAtaque:'negar',destruir:'destr',cambiarPosicion:'pos',ganarXp:'xp',mitadDano:'menos',fijarNivel0:'nivel',nivelExtra:'nivel',sinergiaStat:'sube'};
+function llavesEf(e,s=new Set()){if(!e||!e.accion||!e.disparador)return s;const a=e.accion,t=e.disparador.tipo,c=e.condicion;
+ if(LL_ACC[a.tipo])s.add(LL_ACC[a.tipo]);if(a.tipo==='cambiarStat')s.add(a.valor<0?'baja':'sube');if(a.porNivel)s.add('nivel');
+ if(a.tipo==='sinergiaStat'||e.objetivo==='todosMisMonstruos'||(c&&c.tipo==='aliadosMin'))s.add('fac');
+ if((c&&c.tipo==='nivelMin')||(e.costo&&e.costo.tipo==='gastarNivel'))s.add('nivel');
+ if(t==='continuo')s.add('cont');if(t==='manual')s.add('man');if(t==='ventana')s.add('reac');if(e.limite==='unaVezDuelo')s.add('lim1');
+ (e.alternativas||[]).forEach(x=>llavesEf({...e,...x,alternativas:null},s));return s}
+/* llaves de una carta ya compilada (monstruo, Acción, Reacción o Campo) */
+function llavesCarta(d){const s=new Set();if(!d)return s;
+ if(d.kind!==undefined){(d.efs||(d.ef?[d.ef]:[])).forEach(x=>llavesEf(x,s));if(d.efs&&d.efs.length>=3)s.add('unica');return s}
+ if(d.type==='F'){s.add('campo');(d.field&&d.field.mods||[]).forEach(m=>{s.add(m.valor<0?'baja':'sube');if(m.para==='faccion')s.add('fac')});return s}
+ llavesEf(d.ef,s);if(d.perm==='equip')s.add('equipo');if(d.perm==='cont')s.add('cont');if(d.type==='R')s.add('reac');return s}
 /* ============ COMÚN: formato de cartas, validación, aplicación y dibujo de carta ============ */
 const KLAB={N:'Normal',E:'Efecto',H:'Pesado',T:'Tanque'};
 const KIND={normal:'N',efecto:'E',pesado:'H',tanque:'T'};
@@ -594,7 +612,7 @@ function accToD(a){
   if(ef.objetivo==='todosMisMonstruos')text=text.replace('Todos tus monstruos gana','Todos tus monstruos ganan');
   const fn=fi>=0?FAC[fi].n:'';text=perm==='equip'?'Equipo: se queda en tu zona. '+text+(fn?' Solo puede equiparse a monstruos de '+fn+'.':'')+' Se destruye si el monstruo equipado deja el campo.':a.tipo==='reaccion'?text+' Se queda en tu zona después de activarse.':'Continua: se queda en tu zona. '+text+(fn?' Solo beneficia a monstruos de '+fn+'.':'')+' Se aplica mientras esté en tu zona.'}
  return{id:esc(a.id),vfx:typeof a.vfx==='string'&&RX_ID.test(a.vfx)?a.vfx:null,type:a.tipo==='reaccion'?'R':'A',perm,fac:esc(a.faccion||''),fi,name:esc(a.nombre||'Carta'),icon:ICONOS.includes(a.icono)?a.icono:'atk',cost:co,windows:ef.disparador.tipo==='ventana'?ef.disparador.ventanas.map(v=>VENT[v]):[],text:esc(text),ef,copies:+a.copias||1,img:RX_IMG.test(a.imagen)?imgURL(a.imagen):null}}
-function applyCards(data){IMG_REV=String(data&&data.rev||'').replace(/[^a-z0-9]/gi,'').slice(0,20);
+function applyCards(data){if(typeof LLC!=='undefined')LLC.clear();IMG_REV=String(data&&data.rev||'').replace(/[^a-z0-9]/gi,'').slice(0,20);
  FAC.length=0;MONS.length=0;SP.length=0;
  data.facciones.forEach(f=>FAC.push(facToF(f)));
  data.monstruos.forEach((m,i)=>{const fi=FAC.findIndex(f=>f.id===m.faccion);MONS.push(monToD(m,FAC[fi],fi,i))});
@@ -759,7 +777,7 @@ function cardHTML(x,o={}){
   body=`<div class="nm">${d.name}</div><div class="art">${artS(d)}<i class="fb t">${ic(typeIcon(d))}</i></div><div class="sub"><span>${lab}</span><span></span></div><div class="st"><span>${costText(d.cost)}</span></div>${o.large?`<div class="txt">${d.text}</div>`:''}`}
  return`<div class="card${o.hand?' hand':''}${o.field||o.tile?' fld':''}${o.full?' full':''}${isMon?'':(d.type==='A'?' spa':d.type==='R'?' spr':' spf')}${o.cls||''}" style="${style}"${ua}>${body}</div>`}
 
-let DEFAULT_DATA=null;const BASE_JSON='cartas/base.json?v=202611121414';
+let DEFAULT_DATA=null;const BASE_JSON='cartas/base.json?v=202611121711';
 /* ============ CONFIG (todo lo marcado "supuesto" está por validar) ============ */
 const CFG={lp:8000,hand0:5,handMax:7,xpCap0:200,xpCapStep:100,xpGain:100,vetNivel:300,vetValue:2,recActLP:500,recReaXP:300,tieAtk:3000};
 const WLAB={attack:'cuando el rival ataca',summon:'cuando el rival invoca',endTurn:'al final del turno rival',damage:'cuando recibes daño'};
@@ -1316,10 +1334,10 @@ function rules(){return modal(`<h3>Reglas de este prototipo</h3><div class="rtxt
 <h4>XP del jugador</h4><ul><li>+100 por cada ataque directo recibido, hasta un tope compartido que empieza en ${CFG.xpCap0} (supuesto) y sube +${CFG.xpCapStep} cada 2 rondas. La XP se gasta. Cada punto del marcador son 100 XP.</li></ul>
 <h4>Costos y recuperación</h4><ul><li>Cada carta paga con LP, descartes o XP (se ve en la carta). No puedes pagar un costo en LP que te deje en 0.</li><li>Los monstruos pesados se invocan sacrificando monstruos de su facción en tu campo. Un veterano (Nivel ${CFG.vetNivel}+) vale ${CFG.vetValue} (supuesto).</li><li>Cementerio (tócalo): recuperar un monstruo cuesta descartar de tu mano tantos monstruos de su facción como sacrificios pide (mínimo 1) y vuelve a la mano. Una Acción cuesta ${CFG.recActLP} LP. Una Reacción cuesta ${CFG.recReaXP} XP.</li></ul>
 <h4>Combate</h4><ul><li>Ataque contra ataque: gana el mayor, la diferencia es daño. Si empatan, no se destruyen, salvo que el ATK sea ${CFG.tieAtk} o más: entonces ambos se destruyen. Contra defensa: si ATK supera DEF se destruye sin daño. Si DEF es mayor, quien ataca pierde la diferencia en LP.</li></ul></div><div class="mbtns"><button class="pri" data-m="x">Cerrar</button></div>`)}
-function catalog(tab=0){
+function catalog(tab=0,ll=''){
  const tabs=[...FAC.map(f=>f.n),'Acciones, Reacciones y Campos'];
- const list=tab<FAC.length?MONS.filter(d=>d.fi===tab):SP;
- return modal(`<h3>Catálogo (${MONS.length+SP.length} cartas)</h3><div class="tabs">${tabs.map((n,i)=>`<button class="${i===tab?'pri':''}" data-m="t${i}">${n}</button>`).join('')}<button class="ghost" data-m="x">Cerrar</button></div><div class="cat">${list.map(d=>d.lock?`<div class="ci">${cardHTML(d,{hidden:1})}<div><b>Carta bloqueada</b><br><span class="mut">Desbloquéala con su clave en Facciones.</span></div></div>`:`<div class="ci">${cardHTML(d,{})}<div><b>${d.name}</b><br>${d.kind?`${KLAB[d.kind]} · ${stars(d)}★${d.sac?` · ${d.sac} sac.`:''}<br>ATK ${d.at} / DEF ${d.df}<br>Nivel tope ${d.cap}, +${d.speed}<br>${fxText(d)}`:`${d.type==='F'?'Campo':d.type==='A'?(d.perm==='equip'?'Equipo':d.perm==='cont'?'Continua':'Acción'):(d.perm?'Reacción continua':'Reacción')} · ${costText(d.cost)}<br>${d.text}${d.windows?`<br><span class="mut">Se activa ${d.windows.map(w=>WLAB[w]).join(', ')}.</span>`:''}`}</div></div>`).join('')}</div>`).then(v=>{if(v&&v[0]==='t')return catalog(+v.slice(1))})}
+ const list0=tab<FAC.length?MONS.filter(d=>d.fi===tab):SP,list=ll?list0.filter(d=>!d.lock&&llavesDe(d).has(ll)):list0;
+ return modal(`<h3>Catálogo (${MONS.length+SP.length} cartas)</h3><div class="tabs">${tabs.map((n,i)=>`<button class="${i===tab?'pri':''}" data-m="t${i}">${n}</button>`).join('')}<button class="ghost" data-m="x">Cerrar</button></div>${llavesFila(list0.filter(d=>!d.lock),ll,'data-m').replace(/data-m="([a-z0-9]*)"/g,(s,k)=>`data-m="k${k}"`)}<div class="cat">${list.length?'':'<p class="mut">No hay cartas con esta llave en esta pestaña.</p>'}${list.map(d=>d.lock?`<div class="ci">${cardHTML(d,{hidden:1})}<div><b>Carta bloqueada</b><br><span class="mut">Desbloquéala con su clave en Facciones.</span></div></div>`:`<div class="ci">${cardHTML(d,{})}<div><b>${d.name}</b><br>${d.kind?`${KLAB[d.kind]} · ${stars(d)}★${d.sac?` · ${d.sac} sac.`:''}<br>ATK ${d.at} / DEF ${d.df}<br>Nivel tope ${d.cap}, +${d.speed}<br>${fxText(d)}`:`${d.type==='F'?'Campo':d.type==='A'?(d.perm==='equip'?'Equipo':d.perm==='cont'?'Continua':'Acción'):(d.perm?'Reacción continua':'Reacción')} · ${costText(d.cost)}<br>${d.text}${d.windows?`<br><span class="mut">Se activa ${d.windows.map(w=>WLAB[w]).join(', ')}.</span>`:''}`}</div></div>`).join('')}</div>`).then(v=>{if(v&&v[0]==='t')return catalog(+v.slice(1),ll);if(v&&v[0]==='k')return catalog(tab,v.slice(1))})}
 async function logModal(){return modal(`<h3>Registro</h3><div class="logl">${G.log.map(e=>`<div class="${e.h?'h':''}">${e.t}</div>`).join('')}</div><div class="mbtns"><button class="pri" data-m="x">Cerrar</button></div>`)}
 async function openMenu(){
  const v=await modal(`<h3>Menú</h3><div class="mbtns"><button data-m="rules">Reglas</button><button data-m="cat">Catálogo</button><button data-m="log">Registro</button><button data-m="sfx">Sonido: ${Snd.cfg.sfx?'sí':'no'}</button><button data-m="mus">Música: ${Snd.cfg.mus?'sí':'no'}</button><button data-m="quit">Salir al inicio</button><button class="pri" data-m="x">Seguir jugando</button></div>`);
@@ -1385,7 +1403,10 @@ const TITULO={n:'Guerra de Facciones',sub:'',marca:'Estandartes Eternos'};
 const MARCA_SVG='<svg viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="50" r="45"/><path d="M33 84L45 20M67 84L55 20"/><path d="M45 20L26 27L41 40Z" fill="currentColor"/><path d="M55 20L74 27L59 40Z" fill="currentColor"/><path d="M50 40L58 54L50 68L42 54Z" fill="currentColor"/></g></svg>';
 const REC_KEY='tcg.recetas.v1',REC_MIN=20,REC_MAX=40,REC_COP=3,REC_LIM=12;
 const SCR=['cover','mode','play','decks','edit'];
-const MENU={cur:0,op:-1,ff:-1,fk:'m',del:null};
+const MENU={cur:0,op:-1,ff:-1,fk:'m',del:null,ll:''};
+const LLC=new Map();const llavesDe=d=>{let s=LLC.get(d);if(!s){s=llavesCarta(d);LLC.set(d,s)}return s};
+function llavesFila(pool,cur,attr){const cnt={};pool.forEach(d=>llavesDe(d).forEach(k=>cnt[k]=(cnt[k]||0)+1));
+ return`<div class="llaves"><button class="ll${cur?'':' on'}" ${attr}="">Todas <i>${pool.length}</i></button>${LLAVES.filter(([k])=>cnt[k]).map(([k,l])=>`<button class="ll${cur===k?' on':''}" ${attr}="${k}">${l} <i>${cnt[k]}</i></button>`).join('')}</div>`}
 let REC={list:[],sel:null};
 const cid=d=>d.kind!==undefined?d.rid:d.id;
 const cardIdx=()=>{const m=new Map();MONS.forEach(d=>{if(d.rid)m.set(d.rid,d)});SP.forEach(d=>m.set(d.id,d));return m};
@@ -1468,13 +1489,14 @@ function drawEdit(){
  else if(MENU.fk==='R')pool=SP.filter(d=>d.type==='R');
  else if(MENU.fk==='F')pool=SP.filter(d=>d.type==='F');
  else pool=i.cards.map(c=>c.d);
+ const pool0=pool;if(MENU.ll)pool=pool.filter(d=>llavesDe(d).has(MENU.ll));
  const tile=d=>{const id=cid(d),n=edCount(r,id);if(d.lock)return`<div class="pt lk"><div class="pc">${cardHTML(d,{hidden:1,cls:' fld'})}${LOCKSVG}</div><small class="ps">Bloqueada</small><div class="pb"><button disabled>−</button><button disabled>+</button></div></div>`;return`<div class="pt ${n?'has':''}"><button class="pc" data-mg="info:${id}" aria-label="Ver ${esc(d.name)}">${cardHTML(d,{tile:1})}${n?`<b class="cn">${n}</b>`:''}</button><small class="ps">${d.kind!==undefined?d.at+' / '+d.df:costText(d.cost)}</small><div class="pb"><button data-mg="sub:${id}" ${n?'':'disabled'} aria-label="Quitar una">−</button><button data-mg="add:${id}" ${n>=(d.efs&&d.efs.length>=3?1:REC_COP)||i.n>=REC_MAX?'disabled':''} aria-label="Agregar una">+</button></div></div>`};
  const sorted=[...i.cards].sort((a,b)=>(a.d.kind!==undefined?0:1)-(b.d.kind!==undefined?0:1)||(a.d.fi-b.d.fi)||(a.d.cap-b.d.cap));
  const cls=i.n>REC_MAX||i.n<REC_MIN?'bad':'good';
  return`<div class="mi ed"><div class="mtop">${back('decks')}<input id="rname" maxlength="20" value="${esc(r.name)}" aria-label="Nombre de la receta"><span class="cnt ${cls}">${i.n}/${REC_MAX}</span></div>
  <div class="edg"><div class="edp"><div class="ftabs">${kinds.map(([k,t])=>`<button class="${MENU.fk===k?'pri':''}" data-mg="fk:${k}">${t}</button>`).join('')}</div>
   ${MENU.fk==='m'?`<div class="fks">${fch(-1,'Todas las facciones',null)}${FAC.map((f,k)=>fch(k,f.n,f)).join('')}</div>`:''}
-  <div class="pkg">${pool.map(tile).join('')||'<p class="mut">No hay cartas aquí.</p>'}</div></div>
+  ${MENU.fk==='d'?'':llavesFila(pool0,MENU.ll,'data-mg-ll')}<div class="pkg">${pool.map(tile).join('')||'<p class="mut">No hay cartas aquí'+(MENU.ll?' con esta llave':'')+'.</p>'}</div></div>
   <div class="edd"><h3 class="sh">Mazo · ${i.n} cartas</h3><div class="mut" style="font-size:11px">${i.mon} monstruos · ${i.sp} A/R · mínimo ${REC_MIN}</div>
    <div class="dl">${sorted.map(({d,n})=>`<button class="dr" data-mg="sub:${cid(d)}"><i class="dot" style="background:${d.kind!==undefined?d.f.c:(d.type==='A'?'#19b5d1':'#d8453a')};border-color:transparent"></i><span>${n}× ${esc(d.name)}</span></button>`).join('')||'<p class="mut">Vacío: toca “+” en las cartas.</p>'}</div>
    ${[...i.err.map(t=>`<div class="wn bad">${t}</div>`),...i.warn.map(t=>`<div class="wn">${t}</div>`)].join('')}
@@ -1522,6 +1544,7 @@ document.addEventListener('click',e=>{
  else if(a==='sub'){const r=recSel();edSet(r,v,edCount(r,v)-1);renderMenu()}
  else if(a==='clear'){recSel().cards=[];recSave();renderMenu()}
  else if(a==='info')infoModal(v)});
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-mg-ll]');if(!b||UI.modal)return;MENU.ll=b.getAttribute('data-mg-ll');renderMenu()});
 /* ============ SONIDO: futurista + post-punk, todo sintetizado con Web Audio (sin archivos) ============
    · Efectos (Snd.sfx): bips digitales para clics y sonidos que acompañan cada animación.
    · Música (Snd.music): 5 temas que se generan en vivo: calm (inicio y partida), losing (perdiendo),
