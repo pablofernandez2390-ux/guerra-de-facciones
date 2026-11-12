@@ -237,7 +237,7 @@ button.big{font-size:clamp(15px,3.6dvh,22px);padding:.55em 1.8em;border-radius:1
 .lki{width:1.1em;height:1.1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .pt.lk .pc{position:relative;filter:grayscale(.6) brightness(.6)}.pt.lk .lki{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:42%;height:42%;color:#ffd54a;filter:drop-shadow(0 0 4px #000)}
 .fk.lk{opacity:.55;position:relative}.fk.lk::after{content:'';position:absolute;right:1px;bottom:1px;width:7px;height:7px;border-radius:50%;background:#ffd54a}
-#menu{background:linear-gradient(180deg,#05060fcc 0,#05060f55 30%,#05060f55 60%,#05060fdd 100%),url(img/portada.webp?v=202611120339) center/cover no-repeat;--ink:#f3f1ff;--mut:#c4c8e6;--panel:#0a1024c4;--line:#ffffff4d;--slot:#0a102488;--slotline:#ffffff44;--acc:#ffc680;--accfg:#1a0d00;color:var(--ink)}
+#menu{background:linear-gradient(180deg,#05060fcc 0,#05060f55 30%,#05060f55 60%,#05060fdd 100%),url(img/portada.webp?v=202611121257) center/cover no-repeat;--ink:#f3f1ff;--mut:#c4c8e6;--panel:#0a1024c4;--line:#ffffff4d;--slot:#0a102488;--slotline:#ffffff44;--acc:#ffc680;--accfg:#1a0d00;color:var(--ink)}
 #menu button,#menu .rr,#menu .mi label{text-shadow:0 1px 3px #000}
 #menu button{-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);box-shadow:0 3px 12px #000c}
 #menu button.pri{background:linear-gradient(180deg,#ffd49a,#e3873a);color:#1a0d00;text-shadow:0 1px 0 #fff8;border-color:#ffe2b8;box-shadow:0 0 18px #ff9a3c99,0 4px 14px #000d}
@@ -369,7 +369,7 @@ textarea{font:12px/1.35 ui-monospace,Menlo,Consolas,monospace;width:100%;color:v
 
 <script>
 'use strict';
-const LOGO_IMG="img/logo.webp?v=202611120339";
+const LOGO_IMG="img/logo.webp?v=202611121257";
 /* ============ EFECTOS (formato v2): vocabulario, texto generado, migración y validación ============
    Un efecto = { disparador:{tipo,ventanas?}, condicion:null|{tipo,..}, costo:{tipo,n}, objetivo, accion:{tipo,..}, limite, alternativas? } */
 const VENT={ataque:'attack',invocacion:'summon',finTurno:'endTurn',dano:'damage'};
@@ -434,6 +434,7 @@ function accTxt(e){const a=e.accion,o=e.objetivo,S=T_SUJ[o]||'';const st=a.stat=
  case'pasarSobrante':return'el daño sobrante pasa al rival'}return''}
 /* conCosto: los monstruos muestran su costo en el texto; las Acciones y Reacciones lo muestran aparte */
 function textoEfecto(e,conCosto){if(!e)return'';const D=e.disparador||{},t=D.tipo;
+ if(t==='alDestruirEnBatalla'&&e.accion&&e.accion.tipo==='pasarSobrante'&&e.condicion&&e.condicion.tipo==='posicionVictima'&&e.condicion.pos==='def'&&!(e.alternativas&&e.alternativas.length))return'Perforación: cuando ataca a un monstruo en defensa con DEF menor que su ATK, el rival pierde LP igual a la diferencia.'+(e.limite==='unaVezTurno'?' (1 vez por turno)':e.limite==='unaVezDuelo'?' (1 vez por duelo)':'');
  let pre='';if(t==='alInvocar')pre='Al ser invocado';else if(t==='alAtacar')pre='Cuando ataca';else if(t==='alSerAtacado')pre='Cuando es atacado';else if(t==='alDestruirEnBatalla')pre=e.condicion&&e.condicion.tipo==='posicionVictima'?(e.condicion.pos==='def'?'Si destruye un monstruo en defensa':'Si destruye un monstruo en ataque'):'Si destruye un monstruo en batalla';else if(t==='alRecibirDano')pre='Cuando recibes daño';else if(t==='finMiTurno')pre='Al final de tu turno';else if(t==='ventana')pre=ventTxt(D.ventanas||[]);
  const lim=e.limite;if(lim==='unaVezTurno')pre=(pre?pre+', ':'')+'1 vez por turno';else if(lim==='unaVezDuelo')pre=(pre?pre+', ':'')+'1 vez por duelo';
  const cond=t==='alDestruirEnBatalla'&&e.condicion&&e.condicion.tipo==='posicionVictima'?'':condTxt(e.condicion);
@@ -503,7 +504,7 @@ const PRESETS=[
  {k:'curar',n:'Curar gastando Nivel',p:[['costo','Nivel que gasta',300],['n','LP que recuperas',500]],build:v=>({disparador:{tipo:'manual'},condicion:null,costo:{tipo:'gastarNivel',n:v.costo},objetivo:'yo',accion:{tipo:'curar',n:v.n},limite:'unaVezTurno'})},
  {k:'ejecucion',n:'Ejecución: daño al destruir en batalla',p:[['n','LP que pierde el rival',300]],build:v=>({disparador:{tipo:'alDestruirEnBatalla'},condicion:null,costo:{tipo:'ninguno',n:0},objetivo:'jugadorRival',accion:{tipo:'infligirDano',n:v.n},limite:'ninguno'})},
  {k:'aprendizajeRapido',n:'Aprendizaje rápido (+100 de Nivel por batalla)',p:[],build:()=>({disparador:{tipo:'continuo'},condicion:null,costo:{tipo:'ninguno',n:0},objetivo:'esteMonstruo',accion:{tipo:'nivelExtra',n:100},limite:'mientrasCampo'})},
- {k:'perforar',n:'Perforar defensa',p:[],build:()=>({disparador:{tipo:'alDestruirEnBatalla'},condicion:{tipo:'posicionVictima',pos:'def'},costo:{tipo:'ninguno',n:0},objetivo:'jugadorRival',accion:{tipo:'pasarSobrante'},limite:'ninguno'})},
+ {k:'perforar',n:'Perforación (daño a través de la defensa)',p:[],build:()=>({disparador:{tipo:'alDestruirEnBatalla'},condicion:{tipo:'posicionVictima',pos:'def'},costo:{tipo:'ninguno',n:0},objetivo:'jugadorRival',accion:{tipo:'pasarSobrante'},limite:'ninguno'})},
  {k:'mitadDano',n:'Reduce a la mitad el daño que recibes',p:[],build:()=>({disparador:{tipo:'continuo'},condicion:null,costo:{tipo:'ninguno',n:0},objetivo:'yo',accion:{tipo:'mitadDano'},limite:'mientrasCampo'})}];
 const presetBuild=(k,v)=>{const p=PRESETS.find(x=>x.k===k);if(!p)return null;const o={};p.p.forEach(([c,,def])=>{o[c]=v&&v[c]!==undefined&&v[c]!==''?+v[c]:def});return compilarEfecto(p.build(o))};
 /* a qué plantilla corresponde un efecto (con sus valores), o null si es personalizado */
@@ -744,7 +745,7 @@ function cardHTML(x,o={}){
   body=`<div class="nm">${d.name}</div><div class="art">${artS(d)}<i class="fb t">${ic(typeIcon(d))}</i></div><div class="sub"><span>${lab}</span><span></span></div><div class="st"><span>${costText(d.cost)}</span></div>${o.large?`<div class="txt">${d.text}</div>`:''}`}
  return`<div class="card${o.hand?' hand':''}${o.field||o.tile?' fld':''}${o.full?' full':''}${isMon?'':(d.type==='A'?' spa':d.type==='R'?' spr':' spf')}${o.cls||''}" style="${style}"${ua}>${body}</div>`}
 
-let DEFAULT_DATA=null;const BASE_JSON='cartas/base.json?v=202611120339';
+let DEFAULT_DATA=null;const BASE_JSON='cartas/base.json?v=202611121257';
 /* ============ CONFIG (todo lo marcado "supuesto" está por validar) ============ */
 const CFG={lp:8000,hand0:5,handMax:7,xpCap0:200,xpCapStep:100,xpGain:100,vetNivel:300,vetValue:2,recActLP:500,recReaXP:300,tieAtk:3000};
 const WLAB={attack:'cuando el rival ataca',summon:'cuando el rival invoca',endTurn:'al final del turno rival',damage:'cuando recibes daño'};
