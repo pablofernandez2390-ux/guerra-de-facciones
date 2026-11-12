@@ -230,7 +230,14 @@ button.big{font-size:clamp(15px,3.6dvh,22px);padding:.55em 1.8em;border-radius:1
 .card.back .bk{position:relative;padding:0;width:68%;aspect-ratio:1;background:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cg fill=%22none%22 stroke=%22%23e0b04f%22 stroke-width=%222.4%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2245%22/%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2240%22 stroke-width=%221%22 opacity=%22.7%22/%3E%3Cpath d=%22M33 84L45 20M67 84L55 20%22/%3E%3Cpath d=%22M45 20L26 27L41 40Z%22 fill=%22%23e0b04f%22/%3E%3Cpath d=%22M55 20L74 27L59 40Z%22 fill=%22%23e0b04f%22/%3E%3Cpath d=%22M50 40L58 54L50 68L42 54Z%22 fill=%22%23e0b04f%22/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat;opacity:.85;margin:0}
 .card.back .bk::after{content:'ESTANDARTES\A ETERNOS';white-space:pre;display:block;position:absolute;left:50%;transform:translateX(-50%);top:100%;width:max-content;text-align:center;color:#e0b04f;font-size:.62em;letter-spacing:.14em;line-height:1.25;padding-top:.3em;opacity:.9;text-shadow:0 0 .4em #e0b04f66}
 .slot .card.back .bk::after,#oppx .card.back .bk::after,.fxfly .bk::after{display:none}
-#menu{background:linear-gradient(180deg,#05060fcc 0,#05060f55 30%,#05060f55 60%,#05060fdd 100%),url(img/portada.webp?v=202611120249) center/cover no-repeat;--ink:#f3f1ff;--mut:#c4c8e6;--panel:#0a1024c4;--line:#ffffff4d;--slot:#0a102488;--slotline:#ffffff44;--acc:#ffc680;--accfg:#1a0d00;color:var(--ink)}
+/* facciones personalizadas */
+.fxl{display:grid;gap:4px;max-height:46dvh;overflow:auto;margin:6px 0}
+.fxr{display:flex;align-items:center;gap:8px;padding:5px 7px;border:1px solid var(--line);border-radius:8px;background:var(--slot)}
+.fxr .fxn{flex:1;min-width:0;display:grid}.fxr .fxn small{color:var(--mut);font-size:11px}.fxr button{padding:4px 9px;font-size:12px;display:flex;align-items:center;gap:4px}.fxr .fxb{font-size:11px}
+.lki{width:1.1em;height:1.1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pt.lk .pc{position:relative;filter:grayscale(.6) brightness(.6)}.pt.lk .lki{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:42%;height:42%;color:#ffd54a;filter:drop-shadow(0 0 4px #000)}
+.fk.lk{opacity:.55;position:relative}.fk.lk::after{content:'';position:absolute;right:1px;bottom:1px;width:7px;height:7px;border-radius:50%;background:#ffd54a}
+#menu{background:linear-gradient(180deg,#05060fcc 0,#05060f55 30%,#05060f55 60%,#05060fdd 100%),url(img/portada.webp?v=202611120339) center/cover no-repeat;--ink:#f3f1ff;--mut:#c4c8e6;--panel:#0a1024c4;--line:#ffffff4d;--slot:#0a102488;--slotline:#ffffff44;--acc:#ffc680;--accfg:#1a0d00;color:var(--ink)}
 #menu button,#menu .rr,#menu .mi label{text-shadow:0 1px 3px #000}
 #menu button{-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);box-shadow:0 3px 12px #000c}
 #menu button.pri{background:linear-gradient(180deg,#ffd49a,#e3873a);color:#1a0d00;text-shadow:0 1px 0 #fff8;border-color:#ffe2b8;box-shadow:0 0 18px #ff9a3c99,0 4px 14px #000d}
@@ -362,7 +369,7 @@ textarea{font:12px/1.35 ui-monospace,Menlo,Consolas,monospace;width:100%;color:v
 
 <script>
 'use strict';
-const LOGO_IMG="img/logo.webp?v=202611120249";
+const LOGO_IMG="img/logo.webp?v=202611120339";
 /* ============ EFECTOS (formato v2): vocabulario, texto generado, migración y validación ============
    Un efecto = { disparador:{tipo,ventanas?}, condicion:null|{tipo,..}, costo:{tipo,n}, objetivo, accion:{tipo,..}, limite, alternativas? } */
 const VENT={ataque:'attack',invocacion:'summon',finTurno:'endTurn',dano:'damage'};
@@ -616,7 +623,7 @@ function validateCards(data0){
  if(data.version!==2)return{data,fatal:'Versión de formato no soportada: '+esc(data.version)+'.',issues:I};
  if(!Array.isArray(data.facciones)||!Array.isArray(data.monstruos)||!Array.isArray(data.acciones))return{data,fatal:'Faltan las listas "facciones", "monstruos" y "acciones".',issues:I};
  if(data0&&data0.version===1&&data.avisosMigracion)data.avisosMigracion.forEach(m=>w('Conversión de la versión 1: '+esc(m)));
- if(data.facciones.length>12)e('Máximo 12 facciones.');
+ if(data.facciones.length>40)e('Máximo 40 facciones.');
  if(data.monstruos.length>400)e('Máximo 400 monstruos en total.');
  if(!data.facciones.length)e('Hace falta al menos una facción.');
  const ids=new Set();let bytes=0;
@@ -737,7 +744,7 @@ function cardHTML(x,o={}){
   body=`<div class="nm">${d.name}</div><div class="art">${artS(d)}<i class="fb t">${ic(typeIcon(d))}</i></div><div class="sub"><span>${lab}</span><span></span></div><div class="st"><span>${costText(d.cost)}</span></div>${o.large?`<div class="txt">${d.text}</div>`:''}`}
  return`<div class="card${o.hand?' hand':''}${o.field||o.tile?' fld':''}${o.full?' full':''}${isMon?'':(d.type==='A'?' spa':d.type==='R'?' spr':' spf')}${o.cls||''}" style="${style}"${ua}>${body}</div>`}
 
-let DEFAULT_DATA=null;const BASE_JSON='cartas/base.json?v=202611120249';
+let DEFAULT_DATA=null;const BASE_JSON='cartas/base.json?v=202611120339';
 /* ============ CONFIG (todo lo marcado "supuesto" está por validar) ============ */
 const CFG={lp:8000,hand0:5,handMax:7,xpCap0:200,xpCapStep:100,xpGain:100,vetNivel:300,vetValue:2,recActLP:500,recReaXP:300,tieAtk:3000};
 const WLAB={attack:'cuando el rival ataca',summon:'cuando el rival invoca',endTurn:'al final del turno rival',damage:'cuando recibes daño'};
@@ -1287,7 +1294,7 @@ function rules(){return modal(`<h3>Reglas de este prototipo</h3><div class="rtxt
 function catalog(tab=0){
  const tabs=[...FAC.map(f=>f.n),'Acciones, Reacciones y Campos'];
  const list=tab<FAC.length?MONS.filter(d=>d.fi===tab):SP;
- return modal(`<h3>Catálogo (${MONS.length+SP.length} cartas)</h3><div class="tabs">${tabs.map((n,i)=>`<button class="${i===tab?'pri':''}" data-m="t${i}">${n}</button>`).join('')}<button class="ghost" data-m="x">Cerrar</button></div><div class="cat">${list.map(d=>`<div class="ci">${cardHTML(d,{})}<div><b>${d.name}</b><br>${d.kind?`${KLAB[d.kind]} · ${stars(d)}★${d.sac?` · ${d.sac} sac.`:''}<br>ATK ${d.at} / DEF ${d.df}<br>Nivel tope ${d.cap}, +${d.speed}<br>${fxText(d)}`:`${d.type==='F'?'Campo':d.type==='A'?(d.perm==='equip'?'Equipo':d.perm==='cont'?'Continua':'Acción'):(d.perm?'Reacción continua':'Reacción')} · ${costText(d.cost)}<br>${d.text}${d.windows?`<br><span class="mut">Se activa ${d.windows.map(w=>WLAB[w]).join(', ')}.</span>`:''}`}</div></div>`).join('')}</div>`).then(v=>{if(v&&v[0]==='t')return catalog(+v.slice(1))})}
+ return modal(`<h3>Catálogo (${MONS.length+SP.length} cartas)</h3><div class="tabs">${tabs.map((n,i)=>`<button class="${i===tab?'pri':''}" data-m="t${i}">${n}</button>`).join('')}<button class="ghost" data-m="x">Cerrar</button></div><div class="cat">${list.map(d=>d.lock?`<div class="ci">${cardHTML(d,{hidden:1})}<div><b>Carta bloqueada</b><br><span class="mut">Desbloquéala con su clave en Facciones.</span></div></div>`:`<div class="ci">${cardHTML(d,{})}<div><b>${d.name}</b><br>${d.kind?`${KLAB[d.kind]} · ${stars(d)}★${d.sac?` · ${d.sac} sac.`:''}<br>ATK ${d.at} / DEF ${d.df}<br>Nivel tope ${d.cap}, +${d.speed}<br>${fxText(d)}`:`${d.type==='F'?'Campo':d.type==='A'?(d.perm==='equip'?'Equipo':d.perm==='cont'?'Continua':'Acción'):(d.perm?'Reacción continua':'Reacción')} · ${costText(d.cost)}<br>${d.text}${d.windows?`<br><span class="mut">Se activa ${d.windows.map(w=>WLAB[w]).join(', ')}.</span>`:''}`}</div></div>`).join('')}</div>`).then(v=>{if(v&&v[0]==='t')return catalog(+v.slice(1))})}
 async function logModal(){return modal(`<h3>Registro</h3><div class="logl">${G.log.map(e=>`<div class="${e.h?'h':''}">${e.t}</div>`).join('')}</div><div class="mbtns"><button class="pri" data-m="x">Cerrar</button></div>`)}
 async function openMenu(){
  const v=await modal(`<h3>Menú</h3><div class="mbtns"><button data-m="rules">Reglas</button><button data-m="cat">Catálogo</button><button data-m="log">Registro</button><button data-m="sfx">Sonido: ${Snd.cfg.sfx?'sí':'no'}</button><button data-m="mus">Música: ${Snd.cfg.mus?'sí':'no'}</button><button data-m="quit">Salir al inicio</button><button class="pri" data-m="x">Seguir jugando</button></div>`);
@@ -1301,7 +1308,7 @@ document.addEventListener('click',e=>{
  const gp=t.closest('[data-pick]');if(gp){const[k,v]=gp.dataset.pick.split(':');UI.menu[k]=+v;renderMenu();return}
  const go=t.closest('[data-go]');
  if(go){const g=go.dataset.go;
-  if(g==='rules')rules();else if(g==='cat')catalog(0);else if(g==='cards')cardsDialog();else if(g==='menu')openMenu();
+  if(g==='rules')rules();else if(g==='cat')catalog(0);else if(g==='cards')cardsDialog();else if(g==='facs')factionsDialog();else if(g==='menu')openMenu();
   else if(g==='start'){enterPlay();startGame(UI.menu.me,UI.menu.op<0?Math.random()*FAC.length|0:UI.menu.op,false)}
   else if(g==='sim')startGame(Math.random()*FAC.length|0,Math.random()*FAC.length|0,true);
   else if(g==='cancelt')endTarget(null);
@@ -1379,6 +1386,7 @@ function recInfo(r){
  if(n<REC_MIN)err.push(`Faltan ${REC_MIN-n} carta(s): mínimo ${REC_MIN}.`);
  if(n>REC_MAX)err.push(`Sobran ${n-REC_MAX} carta(s): máximo ${REC_MAX}.`);
  if(mon<1)err.push('Necesita al menos un monstruo.');
+ const lk=cards.filter(c=>c.d.lock).reduce((a,c)=>a+c.n,0);if(lk)err.push(`${lk} carta(s) son de una facción bloqueada.`);
  if(miss)warn.push(`${miss} carta(s) ya no existen en este set y se ignoran.`);
  const fm={};cards.forEach(({d,n})=>{if(d.kind!==undefined)fm[d.fi]=(fm[d.fi]||0)+n});
  const hard=cards.filter(({d})=>d.kind!==undefined&&d.sac>0&&(fm[d.fi]||0)-1<d.sac).length;
@@ -1401,7 +1409,7 @@ const symSvg=f=>`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${f.sym}" 
 const back=to=>`<button class="ghost bk" data-mg="go:${to}">‹ Atrás</button>`;
 function drawCover(){
  return`<div class="mi cv"><div class="cv-sym">${FAC.map(symSvg).join('')}</div>${LOGO_IMG?`<img class="cv-logo" src="${LOGO_IMG}" alt="${TITULO.n}">`:`<h1 class="cv-t">${TITULO.n}</h1>`}<div class="cv-brand">${MARCA_SVG}<span>${TITULO.marca}</span></div><button class="pri big" data-mg="go:mode">Jugar</button>
- <div class="cv-l"><button class="ghost" data-go="rules">Reglas</button><button class="ghost" data-go="cat">Catálogo</button><button class="ghost" data-go="cards">Cartas</button><label><input type="checkbox" id="fxtog" ${FX.rm?'':'checked'}> Animaciones</label> <label><input type="checkbox" id="sfxtog" ${Snd.cfg.sfx?'checked':''}> Sonido</label> <label><input type="checkbox" id="mustog" ${Snd.cfg.mus?'checked':''}> Música</label></div>
+ <div class="cv-l"><button class="ghost" data-go="rules">Reglas</button><button class="ghost" data-go="cat">Catálogo</button><button class="ghost" data-go="cards">Cartas</button><button class="ghost" data-go="facs">Facciones</button><label><input type="checkbox" id="fxtog" ${FX.rm?'':'checked'}> Animaciones</label> <label><input type="checkbox" id="sfxtog" ${Snd.cfg.sfx?'checked':''}> Sonido</label> <label><input type="checkbox" id="mustog" ${Snd.cfg.mus?'checked':''}> Música</label></div>
  <div class="mut cv-f">Set: <b>${FAC.setName}</b> · ${FAC.length} facciones · ${MONS.length} monstruos · ${SP.length} Acciones, Reacciones y Campos</div></div>`}
 function drawMode(){
  return`<div class="mi"><div class="mtop">${back('cover')}<h2 class="mt">Elige modo</h2></div>
@@ -1427,7 +1435,7 @@ function edCount(r,id){const c=r.cards.find(x=>x.id===id);return c?c.n:0}
 function edSet(r,id,n){const c=r.cards.find(x=>x.id===id);n=Math.max(0,Math.min(REC_COP,n));if(c){c.n=n;if(!n)r.cards.splice(r.cards.indexOf(c),1)}else if(n)r.cards.push({id,n});recSave()}
 function drawEdit(){
  const r=recSel(),i=recInfo(r),idx=cardIdx();
- const fch=(v,txt,f)=>`<button class="fk ${MENU.ff===v?'on':''}" data-mg="ff:${v}" title="${txt}">${f?symSvg(f):'<b>Todas</b>'}</button>`;
+ const fch=(v,txt,f)=>`<button class="fk ${MENU.ff===v?'on':''}${f&&f.lock?' lk':''}" data-mg="ff:${v}" title="${txt}${f&&f.lock?' (bloqueada)':''}">${f?symSvg(f):'<b>Todas</b>'}</button>`;
  const kinds=[['m','Monstruos'],['A','Acciones'],['R','Reacciones'],['F','Campos'],['d','En el mazo']];
  let pool=[];
  if(MENU.fk==='m')pool=MONS.filter(d=>MENU.ff<0||d.fi===MENU.ff);
@@ -1435,7 +1443,7 @@ function drawEdit(){
  else if(MENU.fk==='R')pool=SP.filter(d=>d.type==='R');
  else if(MENU.fk==='F')pool=SP.filter(d=>d.type==='F');
  else pool=i.cards.map(c=>c.d);
- const tile=d=>{const id=cid(d),n=edCount(r,id);return`<div class="pt ${n?'has':''}"><button class="pc" data-mg="info:${id}" aria-label="Ver ${esc(d.name)}">${cardHTML(d,{tile:1})}${n?`<b class="cn">${n}</b>`:''}</button><small class="ps">${d.kind!==undefined?d.at+' / '+d.df:costText(d.cost)}</small><div class="pb"><button data-mg="sub:${id}" ${n?'':'disabled'} aria-label="Quitar una">−</button><button data-mg="add:${id}" ${n>=REC_COP||i.n>=REC_MAX?'disabled':''} aria-label="Agregar una">+</button></div></div>`};
+ const tile=d=>{const id=cid(d),n=edCount(r,id);if(d.lock)return`<div class="pt lk"><div class="pc">${cardHTML(d,{hidden:1,cls:' fld'})}${LOCKSVG}</div><small class="ps">Bloqueada</small><div class="pb"><button disabled>−</button><button disabled>+</button></div></div>`;return`<div class="pt ${n?'has':''}"><button class="pc" data-mg="info:${id}" aria-label="Ver ${esc(d.name)}">${cardHTML(d,{tile:1})}${n?`<b class="cn">${n}</b>`:''}</button><small class="ps">${d.kind!==undefined?d.at+' / '+d.df:costText(d.cost)}</small><div class="pb"><button data-mg="sub:${id}" ${n?'':'disabled'} aria-label="Quitar una">−</button><button data-mg="add:${id}" ${n>=REC_COP||i.n>=REC_MAX?'disabled':''} aria-label="Agregar una">+</button></div></div>`};
  const sorted=[...i.cards].sort((a,b)=>(a.d.kind!==undefined?0:1)-(b.d.kind!==undefined?0:1)||(a.d.fi-b.d.fi)||(a.d.cap-b.d.cap));
  const cls=i.n>REC_MAX||i.n<REC_MIN?'bad':'good';
  return`<div class="mi ed"><div class="mtop">${back('decks')}<input id="rname" maxlength="20" value="${esc(r.name)}" aria-label="Nombre de la receta"><span class="cnt ${cls}">${i.n}/${REC_MAX}</span></div>
@@ -1449,6 +1457,7 @@ function drawEdit(){
    <p class="mut" style="font-size:10.5px;line-height:1.3">Toca una carta del mazo para quitarla. Muchas copias repetidas llenan el mazo de ruido y bajan la chance de robar la carta justa.${i.triples?` Ahora tienes ${i.triples} carta(s) en triple.`:''}</p></div></div></div>`}
 function infoModal(id){
  const d=cardIdx().get(id);if(!d)return;
+ if(d.lock)return modal(`<h3>Carta bloqueada</h3><p>Es de una facción personalizada bloqueada. Desbloquéala con su clave en Facciones.</p><div class="mbtns"><button class="pri" data-m="x">Cerrar</button></div>`);
  const mon=d.kind!==undefined;
  const det=mon?`<div><b>${FAC[d.fi].n}</b> · ${KLAB[d.kind]}</div><div>Tope de Nivel ${d.cap} (${stars(d)} estrellas): ${d.sac?d.sac+' sacrificio(s) de su facción':'sin sacrificio'}</div><div>ATK ${d.at} · DEF ${d.df}</div><div>+${d.speed} de Nivel por batalla</div><div>${fxText(d)||'Sin efecto.'}</div>`:`<div><b>${d.type==='A'?'Acción (tu turno)':'Reacción (turno rival)'}</b> · ${costText(d.cost)}</div><div>${d.text}</div>`;
  return modal(`<div class="dtl"><div class="big">${cardHTML(d,{full:1})}</div><div class="det"><h3>${d.name}</h3>${det}</div></div><div class="mbtns"><button class="pri" data-m="x">Cerrar</button></div>`)}
@@ -1885,6 +1894,77 @@ const FX={q:[],until:0,
    else if(it.k==='lv'){FX.float({x:sl.right-8,y:sl.top+2},`+${it.amt} Nv`,'fxl sm',{dy:-26,t:900});FX.hold(250)}
    else if(it.k==='pulse'){FX.ring(pt,'#ffd54a',Math.min(sl.width,100));FX.float({x:pt.x,y:sl.top},it.label,'fxl',{t:1100});FX.hold(700)}}}
 };
+/* ============ PAQUETES DE FACCIÓN: facciones personalizadas que se suman al set base ============ */
+const PK={db:null,
+ open(){return this.db||(this.db=new Promise((res,rej)=>{const r=indexedDB.open('guerra-de-facciones',1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains('packs'))r.result.createObjectStore('packs',{keyPath:'faccion.id'})};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}))},
+ async tx(mode,fn){const db=await this.open();return new Promise((res,rej)=>{const t=db.transaction('packs',mode),q=fn(t.objectStore('packs'));t.oncomplete=()=>res(q&&q.result);t.onerror=()=>rej(t.error)})},
+ async all(){try{return(await this.tx('readonly',s=>s.getAll()))||[]}catch(e){return[]}},
+ put(p){return this.tx('readwrite',s=>s.put(p))},del(id){return this.tx('readwrite',s=>s.delete(id))}};
+let BASE_SET=null,PACKS=[],PACK_ERR=[];
+const UNLOCK_KEY='gf.desbloqueos';
+const unlocks=()=>{try{return JSON.parse(localStorage.getItem(UNLOCK_KEY)||'{}')||{}}catch(e){return{}}};
+const packLocked=p=>!!(p&&p.clave&&p.clave.hash&&unlocks()[p.faccion.id]!==p.clave.hash);
+async function sha256hex(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+function packShape(p){
+ if(!p||typeof p!=='object'||p.formato!=='tcg-faccion')return'No es un paquete de facción (falta "formato": "tcg-faccion").';
+ if(!p.faccion||typeof p.faccion!=='object'||typeof p.faccion.id!=='string'||!RX_ID.test(p.faccion.id))return'El paquete no trae una facción con id válido (minúsculas, números, - o _).';
+ if(!Array.isArray(p.monstruos)||!p.monstruos.length)return'El paquete no trae monstruos.';
+ if(p.acciones!==undefined&&!Array.isArray(p.acciones))return'"acciones" debe ser una lista.';
+ if(p.monstruos.some(m=>!m||m.faccion!==p.faccion.id))return'Todos los monstruos del paquete deben ser de su facción.';
+ if((p.acciones||[]).some(a=>!a||a.faccion!==p.faccion.id))return'Todas las cartas de Acción, Reacción y Campo del paquete deben ser de su facción.';
+ return null}
+/* suma un paquete a un set (copia); renombra ids repetidos para que no choquen con el set base */
+function mergeOne(D,p){
+ const e=packShape(p);if(e)return{err:e};
+ if(D.facciones.some(f=>f&&f.id===p.faccion.id))return{err:`Ya existe una facción con el id "${esc(p.faccion.id)}".`};
+ const N=JSON.parse(JSON.stringify(D)),q=JSON.parse(JSON.stringify(p)),fid=q.faccion.id;
+ const mids=new Set(N.monstruos.map(m=>m&&m.id)),aids=new Set((N.acciones||[]).map(a=>a&&a.id));
+ q.monstruos.forEach((m,i)=>{if(!m.id||mids.has(m.id))m.id=`${fid}-${m.id||'m'+i}`;mids.add(m.id)});
+ (q.acciones||[]).forEach((a,i)=>{if(!a.id||aids.has(a.id))a.id=`${fid}-${a.id||'a'+i}`;aids.add(a.id)});
+ N.facciones.push(q.faccion);N.monstruos.push(...q.monstruos);N.acciones=(N.acciones||[]).concat(q.acciones||[]);
+ const vids=new Set((N.efectos||[]).map(x=>x&&x.id));(q.efectos||[]).forEach(x=>{if(x&&!vids.has(x.id)){(N.efectos=N.efectos||[]).push(x);vids.add(x.id)}});
+ const v=validateCards(N);if(v.fatal)return{err:v.fatal};
+ const er=v.issues.filter(i=>i.lvl==='e');if(er.length)return{err:er.slice(0,4).map(i=>i.msg).join(' · ')+(er.length>4?` · …y ${er.length-4} más`:'')};
+ return{D:N}}
+function mergePacks(base,packs){let D=base;const bad=[];
+ for(const p of packs){const r=mergeOne(D,p);if(r.err)bad.push({id:p&&p.faccion&&p.faccion.id,err:r.err});else D=r.D}
+ return{D,bad}}
+function applyMerged(){const m=mergePacks(BASE_SET,PACKS);PACK_ERR=m.bad;applyCards(m.D);
+ const pk=new Map(PACKS.map(p=>[p.faccion.id,p]));
+ FAC.forEach(f=>{const p=pk.get(f.id);f.pack=!!p;f.lock=packLocked(p)});
+ MONS.forEach(d=>d.lock=!!(FAC[d.fi]&&FAC[d.fi].lock));SP.forEach(d=>d.lock=!!(d.fi>=0&&FAC[d.fi]&&FAC[d.fi].lock))}
+const LOCKSVG='<svg class="lki" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>';
+function readFileText(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result));r.onerror=()=>rej(r.error);r.readAsText(f)})}
+async function factionsDialog(){
+ for(;;){
+  const pk=new Map(PACKS.map(p=>[p.faccion.id,p]));
+  const rows=FAC.map(f=>{const p=pk.get(f.id),n=MONS.filter(d=>d.fac===f.id||FAC[d.fi]===f).length;
+   return`<div class="fxr"><i class="dot" style="background:${f.c};border-color:${f.c}"></i><span class="fxn"><b>${f.n}</b><small>${n} monstruos · ${p?'personalizada'+(p.autor?' · de '+esc(String(p.autor).slice(0,30)):''):'base del juego'}${f.lock?' · bloqueada':''}</small></span>${p?`${f.lock?`<button data-m="unl:${f.id}">${LOCKSVG} Desbloquear</button>`:''}<button class="ghost" data-m="del:${f.id}">Eliminar</button>`:'<span class="mut fxb">Base</span>'}</div>`}).join('');
+  const errs=PACK_ERR.map(e=>`<li><b>${esc(e.id||'?')}</b>: ${e.err}</li>`).join('');
+  const v=await modal(`<h3>Facciones</h3><p class="mut">Las facciones personalizadas se guardan en este navegador y se suman a las del juego. Las bloqueadas se ven pero no se pueden usar en tus recetas sin su clave.</p>
+   <div class="fxl">${rows}</div>${errs?`<div class="cmsg bad"><b>No se pudieron cargar:</b><ul>${errs}</ul></div>`:''}
+   <div id="pmsg" class="cmsg mut" hidden></div>
+   <div class="mbtns"><label class="fileb pri">Importar facción (.json)<input type="file" id="pfile" accept=".json,application/json" hidden></label><button class="ghost" data-m="x">Cerrar</button></div>`,{init:box=>{
+    const msg=box.querySelector('#pmsg');
+    box.querySelector('#pfile').addEventListener('change',async ev=>{const f=ev.target.files[0];if(!f)return;msg.hidden=false;
+     const bad=t=>{msg.className='cmsg bad';msg.innerHTML=t};
+     if(f.size>15e6)return bad('El archivo pesa más de 15 MB.');
+     let p;try{p=JSON.parse(await readFileText(f))}catch(e){return bad('No es un JSON válido: '+esc(e.message))}
+     const e=packShape(p);if(e)return bad(e);
+     const others=PACKS.filter(x=>x.faccion.id!==p.faccion.id),r=mergeOne(mergePacks(BASE_SET,others).D,p);if(r.err)return bad(r.err);
+     try{await PK.put(p)}catch(er){return bad('Este navegador no pudo guardar la facción.')}
+     PACKS=[...others,p];closeModal('ok:'+p.faccion.id)})}});
+  if(!v||v==='x')break;
+  const[a,id]=v.split(':');
+  if(a==='ok'){applyMerged();renderMenu();const p=PACKS.find(x=>x.faccion.id===id);await modal(`<h3>Facción importada</h3><p><b>${esc(p.faccion.nombre||id)}</b> ya está en tu juego.${packLocked(p)?' Está bloqueada: pide la clave a quien la creó para usarla en tus recetas.':''}</p><div class="mbtns"><button class="pri" data-m="x">Aceptar</button></div>`)}
+  else if(a==='del'){const p=PACKS.find(x=>x.faccion.id===id);if(!p)continue;
+   const c=await modal(`<h3>Eliminar facción</h3><p>¿Quitar <b>${esc(p.faccion.nombre||id)}</b> de tu juego? Las recetas que usen sus cartas quedarán incompletas. Puedes volver a importarla después.</p><div class="mbtns"><button class="pri" data-m="si">Eliminar</button><button class="ghost" data-m="x">Cancelar</button></div>`);
+   if(c==='si'){try{await PK.del(id)}catch(e){}PACKS=PACKS.filter(x=>x.faccion.id!==id);applyMerged();renderMenu()}}
+  else if(a==='unl'){const p=PACKS.find(x=>x.faccion.id===id);if(!p)continue;let pw='';
+   const c=await modal(`<h3>Desbloquear ${esc(p.faccion.nombre||id)}</h3><p class="mut">Escribe la clave que te dio quien creó esta facción.</p><input type="password" id="pkw" autocomplete="off" style="width:100%;padding:8px;font:inherit"><div class="mbtns"><button class="pri" data-m="ok">Desbloquear</button><button class="ghost" data-m="x">Cancelar</button></div>`,{init:box=>{const i=box.querySelector('#pkw');i.focus();i.oninput=()=>pw=i.value;i.onkeydown=e=>{if(e.key==='Enter')closeModal('ok')}}});
+   if(c==='ok'){let h='';try{h=await sha256hex(p.clave.sal+pw)}catch(e){}
+    if(h===p.clave.hash){const u=unlocks();u[id]=h;try{localStorage.setItem(UNLOCK_KEY,JSON.stringify(u))}catch(e){}applyMerged();renderMenu();await modal(`<h3>Desbloqueada</h3><p>Ya puedes usar sus cartas en tus recetas.</p><div class="mbtns"><button class="pri" data-m="x">Aceptar</button></div>`)}
+    else await modal(`<h3>Clave incorrecta</h3><p>La facción sigue bloqueada.</p><div class="mbtns"><button class="pri" data-m="x">Aceptar</button></div>`)}}}}
 
 /* ============ CARTAS: guardado, importación y vuelta al menú ============ */
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v);return true}catch(e){return false}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
@@ -1895,14 +1975,14 @@ function toMenu(){Snd.ambient(null);Snd.moodReset();Snd.music('calm');GEN++;FX.c
  try{screen.orientation&&screen.orientation.unlock&&screen.orientation.unlock()}catch(e){}
  renderMenu()}
 function useCards(data,save){
- applyCards(data);UI.menu={me:0,op:-1};
+ BASE_SET=data;applyMerged();UI.menu={me:0,op:-1};
  if(save===true){const ok=store.set('tcg.cartas',JSON.stringify(data));return ok}
  if(save===false)store.del('tcg.cartas');return true}
 async function bootCards(){
  if(!DEFAULT_DATA&&typeof BASE_JSON==='string'){try{const r=await fetch(BASE_JSON,{cache:'no-cache'});if(!r.ok)throw new Error(r.status);DEFAULT_DATA=await r.json()}catch(e){$('#menu').innerHTML='<div style="padding:30px;text-align:center;color:#fff"><h2>No se pudieron cargar las cartas</h2><p>Abre el juego desde su página web (GitHub Pages) o con un servidor local. Si abres el archivo con doble clic, el navegador bloquea la lectura de <code>cartas/base.json</code>.</p></div>';return}}
  let data=DEFAULT_DATA;const raw=store.get('tcg.cartas');
  if(raw){try{const d=JSON.parse(raw),v=validateCards(d);if(!v.fatal&&!v.issues.some(i=>i.lvl==='e'))data=v.data}catch(e){}}
- applyCards(data);renderMenu()}
+ BASE_SET=data;PACKS=await PK.all();applyMerged();renderMenu()}
 async function cardsDialog(){
  let pending=null,again=true;
  while(again){again=false;pending=null;
