@@ -215,7 +215,7 @@ button.big{font-size:clamp(15px,3.6dvh,22px);padding:.55em 1.8em;border-radius:1
 .card .sd{flex:none;width:13cqw;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:.5cqw 0 1cqw}
 .card .sv{flex:1;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;transform:rotate(180deg);font:900 var(--vf,11cqw)/1 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;letter-spacing:.04em;white-space:nowrap;font-variant-numeric:tabular-nums;color:#fff;text-shadow:0 0 .6cqw #000,0 .5cqw 0 #000a,0 0 2cqw #0008}
 .card .sd>.ic{flex:none;width:11.5cqw;height:11.5cqw;color:#fff;filter:drop-shadow(0 .4cqw .3cqw #000c)}
-.card.spa .sv,.card.spr .sv,.card.spf .sv{font:700 6.4cqw/1 "Pixelify Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;letter-spacing:.02em}
+.card.spa .sv,.card.spr .sv,.card.spf .sv{font:700 var(--vf,6.4cqw)/1 "Pixelify Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;letter-spacing:.02em}
 .card .art{flex:none;width:68cqw;height:68cqw;border-radius:.8cqw;overflow:hidden;background:#0004;box-shadow:0 0 0 .55cqw #000a,0 0 0 1cqw #fff6}
 .card .art svg{width:100%;height:100%;display:block}
 .card .ds{left:3cqw;right:3cqw;top:89cqw;bottom:3cqw;overflow:hidden;background:linear-gradient(180deg,#101019ee,#07070df4);border-radius:1.6cqw;padding:1.4cqw 2.6cqw 1.6cqw;font:500 var(--tf,4cqw)/1.18 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#f4f2ee;box-shadow:inset 0 0 0 .45cqw #fff2}
@@ -264,7 +264,7 @@ body.phb .slot.m .card .lb,.slot.m:has(.fst.fl) .card .lb{opacity:0}
 .lki{width:1.1em;height:1.1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .pt.lk .pc{position:relative;filter:grayscale(.6) brightness(.6)}.pt.lk .lki{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:42%;height:42%;color:#ffd54a;filter:drop-shadow(0 0 4px #000)}
 .fk.lk{opacity:.55;position:relative}.fk.lk::after{content:'';position:absolute;right:1px;bottom:1px;width:7px;height:7px;border-radius:50%;background:#ffd54a}
-#menu{background:linear-gradient(180deg,#05060fcc 0,#05060f55 30%,#05060f55 60%,#05060fdd 100%),url(img/portada.webp?v=202611140008) center/cover no-repeat;--ink:#f3f1ff;--mut:#c4c8e6;--panel:#0a1024c4;--line:#ffffff4d;--slot:#0a102488;--slotline:#ffffff44;--acc:#ffc680;--accfg:#1a0d00;color:var(--ink)}
+#menu{background:linear-gradient(180deg,#05060fcc 0,#05060f55 30%,#05060f55 60%,#05060fdd 100%),url(img/portada.webp?v=202611140103) center/cover no-repeat;--ink:#f3f1ff;--mut:#c4c8e6;--panel:#0a1024c4;--line:#ffffff4d;--slot:#0a102488;--slotline:#ffffff44;--acc:#ffc680;--accfg:#1a0d00;color:var(--ink)}
 #menu button,#menu .rr,#menu .mi label{text-shadow:0 1px 3px #000}
 #menu button{-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);box-shadow:0 3px 12px #000c}
 #menu button.pri{background:linear-gradient(180deg,#ffd49a,#e3873a);color:#1a0d00;text-shadow:0 1px 0 #fff8;border-color:#ffe2b8;box-shadow:0 0 18px #ff9a3c99,0 4px 14px #000d}
@@ -391,7 +391,7 @@ textarea{font:12px/1.35 ui-monospace,Menlo,Consolas,monospace;width:100%;color:v
 
 <script>
 'use strict';
-const LOGO_IMG="img/logo.webp?v=202611140008";
+const LOGO_IMG="img/logo.webp?v=202611140103";
 /* ============ EFECTOS (formato v2): vocabulario, texto generado, migración y validación ============
    Un efecto = { disparador:{tipo,ventanas?}, condicion:null|{tipo,..}, costo:{tipo,n}, objetivo, accion:{tipo,..}, limite, alternativas? } */
 const VENT={ataque:'attack',invocacion:'summon',finTurno:'endTurn',dano:'damage'};
@@ -411,7 +411,10 @@ const V_TRIG={
  manual:{n:'Manual',da:['esteMonstruo'],mon:1,carta:1},
  continuo:{n:'Continuo',da:['esteMonstruo'],mon:1}};
 const V_COND={nivelMin:{n:'Nivel de este monstruo ≥ N',p:['n']},aliadosMin:{n:'Monstruos de mi facción en el campo ≥ N',p:['n']},rivalTieneMas:{n:'El rival tiene más monstruos que yo',p:[]},lpMax:{n:'Mis LP ≤ N',p:['n']},posicionVictima:{n:'El monstruo destruido estaba en ataque o defensa',p:['pos']},manoMin:{n:'Cartas en mi mano ≥ N',p:['n']}};
-const V_COSTO={ninguno:'Ninguno',lp:'LP',xp:'XP',descartar:'Descartar',gastarNivel:'Gastar Nivel'};
+const V_COSTO={ninguno:'Ninguno',lp:'LP',xp:'XP',descartar:'Descartar',gastarNivel:'Gastar Nivel',defensa:'Poner un monstruo tuyo en defensa',nivel0:'Bajar a 0 el Nivel del monstruo elegido',molerPropio:'Enviar cartas de tu mazo al cementerio',sinCartas:'No jugar más Acciones ni Reacciones este turno',sinReacciones:'No activar Reacciones en el próximo turno rival',devolverMano:'Devolver un monstruo tuyo a la mano',devolverMazo:'Devolver un monstruo tuyo al mazo'};
+/* costos de riesgo o renuncia ("me privo de"): solo para Acciones y Reacciones */
+const COSTO_RIESGO=['defensa','nivel0','molerPropio','sinCartas','sinReacciones','devolverMano','devolverMazo'];
+const costoRiesgoTxt=c=>({defensa:'pones en posición de defensa un monstruo tuyo que esté en ataque',nivel0:'el monstruo elegido baja su Nivel a 0',molerPropio:`envías ${c.n} carta${c.n>1?'s':''} de arriba de tu mazo al cementerio`,sinCartas:'no puedes jugar ni colocar otras Acciones o Reacciones el resto del turno',sinReacciones:'no puedes activar Reacciones durante el próximo turno del rival',devolverMano:'devuelves a tu mano un monstruo tuyo del campo',devolverMazo:'devuelves a tu mazo un monstruo tuyo del campo'})[c.tipo]||'';
 const V_OBJ={esteMonstruo:'Este monstruo',monstruoMio:'Un monstruo mío',todosMisMonstruos:'Todos mis monstruos',monstruoRival:'Un monstruo rival',monstruoCampo:'Un monstruo del campo',cartaCampoRival:'Una carta del campo rival',atacante:'El atacante',yo:'El jugador (yo)',jugadorRival:'El jugador rival'};
 /* acciones: p = parámetros numéricos [clave, etiqueta, valor inicial, máx]; ob = objetivos válidos; dur = exige duración; pas = pasiva (no se "ejecuta") */
 const V_ACC={
@@ -474,8 +477,8 @@ function textoEfecto(e,conCosto){if(!e)return'';const D=e.disparador||{},t=D.tip
  let body=alts?'elige una: '+alts.join('; o '):accTxt(e);
  if(DUR_LIM.includes(lim))body+=T_DUR[lim];
  body=(cost+body).trim();if(cond)body=cond+', '+body;
- return (pre?cap1(pre)+': '+body:cap1(body))+'.'}
-const costoCarta=c=>!c||c.tipo==='ninguno'?null:c.tipo==='lp'?{t:'lp',v:c.n}:c.tipo==='xp'?{t:'xp',v:c.n}:c.tipo==='descartar'?{t:'disc',v:c.n}:{t:'lvl',v:c.n};
+ const out=(pre?cap1(pre)+': '+body:cap1(body))+'.';return e.costo&&COSTO_RIESGO.includes(e.costo.tipo)?'Costo: '+costoRiesgoTxt(e.costo)+'. '+out:out}
+const costoCarta=c=>!c||c.tipo==='ninguno'?null:c.tipo==='lp'?{t:'lp',v:c.n}:c.tipo==='xp'?{t:'xp',v:c.n}:c.tipo==='descartar'?{t:'disc',v:c.n}:c.tipo==='gastarNivel'?{t:'lvl',v:c.n}:{t:c.tipo,v:c.tipo==='molerPropio'?Math.max(1,c.n):0};
 
 /* ---- compilar: sanea un efecto del JSON; devuelve null si no se puede usar ---- */
 const _int=(v,a,b,d)=>{v=+v;return Number.isFinite(v)?Math.min(b,Math.max(a,Math.round(v))):d};
@@ -519,7 +522,11 @@ function validarEfecto(x,esMonstruo,perm){
  if(A.pas&&x.disparador.tipo!=='continuo')E(`"${A.n}" es una acción pasiva: usa el disparador continuo.`);
  if(!A.pas&&x.disparador.tipo==='continuo')E('Un efecto continuo solo admite acciones pasivas.');
  if(x.costo&&x.costo.tipo==='gastarNivel'&&!esMonstruo)E('"Gastar Nivel" solo sirve en monstruos.');
- if(!esMonstruo&&(!x.costo||x.costo.tipo==='ninguno'))W('Una Acción o Reacción sin costo es muy fuerte.');
+ if(x.costo&&COSTO_RIESGO.includes(x.costo.tipo)){
+  if(esMonstruo)E('Ese costo es solo para Acciones y Reacciones.');
+  if(x.costo.tipo==='nivel0'&&x.objetivo!=='monstruoMio')E('"Bajar a 0 el Nivel" necesita que el objetivo sea "un monstruo mío" (el que elegís paga el costo).');
+  if(x.costo.tipo==='molerPropio'&&!(Number.isInteger(x.costo.n)&&x.costo.n>=1&&x.costo.n<=5))E('Las cartas del mazo deben ser de 1 a 5.');
+  if(x.costo.tipo==='sinCartas'&&x.disparador.tipo==='ventana')W('Una Reacción se activa en el turno rival: "no jugar más cartas este turno" casi no cuesta nada ahí.')}
  const pr=[...(x.alternativas||[]).map(a=>a.accion).filter(Boolean),x.accion];
  pr.forEach(p=>{const d=V_ACC[p.tipo];if(d)d.p.forEach(([k,l,,mx])=>{if(!Number.isInteger(p[k])||p[k]<0||p[k]>mx)E(`"${l}" debe ser un entero entre 0 y ${mx}.`)})});
  return I}
@@ -628,7 +635,7 @@ function accToD(a){
  const fi=a.faccion?FAC.findIndex(f=>f.id===a.faccion):-1;
  if(a.tipo==='campo'){const co=costoCarta(a.costo)||{t:'lp',v:0},F=fi>=0?FAC[fi]:null;
   return{id:esc(a.id),vfx:typeof a.vfx==='string'&&RX_ID.test(a.vfx)?a.vfx:null,type:'F',perm:null,fac:esc(a.faccion||''),fi,name:esc(a.nombre||'Carta'),icon:'lp',cost:co,windows:[],text:esc(campoTexto(a,F?F.n:'su facción')),ef:null,field:{mods:(a.modificadores||[]).map(m=>({para:m.para,stat:m.stat,valor:+m.valor||0}))},amb:ambOf(a.ambiente),copies:+a.copias||1,img:RX_IMG.test(a.imagen)?imgURL(a.imagen):null}}
- const ef=compilarEfecto(a.efecto);if(!ef)return null;const co=costoCarta(ef.costo)||{t:'lp',v:0};
+ const ef=compilarEfecto(a.efecto);if(!ef)return null;const co=costoCarta(ef.costo)||{t:'none',v:0};
  const perm=PERMS[a.permanencia]||null;let text=textoEfecto(ef,false);
  if(perm){if(DUR_LIM.includes(ef.limite))text=text.replace(T_DUR[ef.limite]+'.','.');
   const fn=fi>=0?FAC[fi].n:'';text=perm==='equip'?'Equipo: se queda en tu zona. '+text+(fn?' Solo puede equiparse a monstruos de '+fn+'.':'')+' Se destruye si el monstruo equipado deja el campo.':a.tipo==='reaccion'?text+' Se queda en tu zona después de activarse.':'Continua: se queda en tu zona. '+text+(fn?' Solo beneficia a monstruos de '+fn+'.':'')+' Se aplica mientras esté en tu zona.'}
@@ -782,7 +789,7 @@ function artM(d){const f=d.f,W='#ffffffdd',D='#00000066',i=d.id.slice(1)%10;let 
  if(d.img)return`<img class="pic" src="${d.img}" alt="">`;
  return`<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><rect width="100" height="100" fill="${f.c2}"/><path d="${f.sym}" transform="translate(7 5) scale(3.6)" fill="${f.c}" opacity=".55"/>${fig}${ac}</svg>`}
 function artS(d){if(d.img)return`<img class="pic" src="${d.img}" alt="">`;const col=d.type==='A'?'#ffd28a':d.type==='F'?'#b9f0c4':'#bcc8ff';return`<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="${d.type==='A'?'#4a2d06':d.type==='F'?'#0c3a1c':'#1b2562'}"/><circle cx="50" cy="50" r="38" fill="none" stroke="${col}" stroke-opacity=".35" stroke-width="2"/><use href="#i-${d.icon}" x="22" y="22" width="56" height="56" fill="none" stroke="${col}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>`}
-const costText=c=>c.t==='lp'?`${c.v} LP`:c.t==='xp'?`${c.v} XP`:c.t==='lvl'?`${c.v} de Nivel`:`Descartar ${c.v}`;
+const costText=c=>c.t==='lp'?`${c.v} LP`:c.t==='xp'?`${c.v} XP`:c.t==='lvl'?`${c.v} de Nivel`:c.t==='disc'?`Descartar ${c.v}`:({none:'Sin costo',defensa:'Pasa a defensa',nivel0:'Nivel a 0',molerPropio:`${c.v} del mazo`,sinCartas:'Fin de cartas',sinReacciones:'Sin reacciones',devolverMano:'Retira 1 a mano',devolverMazo:'Retira 1 a mazo'})[c.t]||'';
 const ic=n=>`<svg class="ic"><use href="#i-${n}"/></svg>`;
 const stars=d=>d.cap/100;
 const cmp=(v,b)=>v>b?'up':v<b?'dn':'';
@@ -794,7 +801,7 @@ function cardHTML(x,o={}){
  const inst=x.uid!==undefined?x:null,d=inst?inst.d:x,ua=inst?` data-uid="${inst.uid}"`:'';
  if(o.hidden)return`<div class="card back${o.cls||''}"${ua}><div class="bk"></div></div>`;
  const isMon=d.kind!==undefined;let style,body;
- const fitV=v=>Math.min(12.5,50/(String(v).length*.62)).toFixed(2);
+ const fitV=v=>Math.min(12.5,50/(String(v).length*.62)).toFixed(2),fitS=t=>Math.min(6.4,56/(String(t).length*.62)).toFixed(2);
  if(isMon){const f=d.f,K=KFR[d.kind]||KFR.N;style=`--fc:${K[0]};--fc2:${K[1]};--fac:${f.c}`;
   let a=d.at,df=d.df,ca='',cd='';if(inst&&o.eff){a=eATK(inst);df=eDEF(inst);ca=cmp(a,d.at);cd=cmp(df,d.df)}
   const efs=d.efs||(d.ef?[d.ef]:[]),tx=efs.length?efTextos(d):[],ty=f.n+(d.kind==='E'?' / Efecto':d.kind==='H'?' / Pesado':d.kind==='T'?' / Tanque':'');
@@ -803,10 +810,10 @@ function cardHTML(x,o={}){
  else{const T=d.type;style=T==='A'?'--fc:#19b5d1;--fc2:#06505f':T==='R'?'--fc:#d8453a;--fc2:#5a0f0b':'--fc:#3fae5a;--fc2:#0f4a22';
   const lab=T==='F'?'Campo':T==='A'?(d.perm==='equip'?'Equipo':d.perm==='cont'?'Continua':'Acción'):(d.perm?'Reacción continua':'Reacción');
   const F=typeof FAC!=='undefined'&&d.fi>=0?FAC[d.fi]:null,ty=(F?F.n+' / ':'')+(T==='F'?'Campo':T==='A'?'Acción'+(d.perm==='equip'?' de equipo':d.perm==='cont'?' continua':''):lab);
-  body=`<div class="hd"><i class="fb t" title="${lab}">${ic(typeIcon(d))}</i><div class="nm" style="--nf:${fitN(d.name,72,.6,6.6,3)}cqw">${d.name}</div></div><div class="mid"><div class="sd l"><span class="sv">${lab}</span></div><div class="art">${artS(d)}</div><div class="sd r"><span class="sv">${costText(d.cost)}</span></div></div><div class="ds" style="--tf:${fitT(d.text||'',2650,5.8,2.4)}cqw"><u class="ty">${ty}</u><p>${d.text||'Sin efectos.'}</p></div><div class="st"></div>`}
+  body=`<div class="hd"><i class="fb t" title="${lab}">${ic(typeIcon(d))}</i><div class="nm" style="--nf:${fitN(d.name,72,.6,6.6,3)}cqw">${d.name}</div></div><div class="mid"><div class="sd l"><span class="sv" style="--vf:${fitS(lab)}cqw">${lab}</span></div><div class="art">${artS(d)}</div><div class="sd r"><span class="sv" style="--vf:${fitS(costText(d.cost))}cqw">${costText(d.cost)}</span></div></div><div class="ds" style="--tf:${fitT(d.text||'',2650,5.8,2.4)}cqw"><u class="ty">${ty}</u><p>${d.text||'Sin efectos.'}</p></div><div class="st"></div>`}
  return`<div class="card${o.hand?' hand':''}${o.field||o.tile?' fld':''}${o.full?' full':''}${isMon?' k'+d.kind:''}${isMon&&d.efs&&d.efs.length>=2?' ef'+d.efs.length:''}${isMon?'':(d.type==='A'?' spa':d.type==='R'?' spr':' spf')}${o.cls||''}" style="${style}"${ua}>${body}</div>`}
 
-let DEFAULT_DATA=null;const BASE_JSON='cartas/base.json?v=202611140008';
+let DEFAULT_DATA=null;const BASE_JSON='cartas/base.json?v=202611140103';
 /* ============ CONFIG (todo lo marcado "supuesto" está por validar) ============ */
 const CFG={lp:8000,hand0:5,handMax:7,xpCap0:200,xpCapStep:100,xpGain:100,vetNivel:300,vetValue:2,recActLP:500,recReaXP:300,tieAtk:3000};
 const WLAB={attack:'cuando el rival ataca',summon:'cuando el rival invoca',endTurn:'al final del turno rival',damage:'cuando recibes daño'};
@@ -902,8 +909,22 @@ const inField=c=>G.pl[c.o].mons.includes(c);
 const canAttack=c=>inField(c)&&c.pos==='atk'&&!c.att&&G.turn>1;
 
 /* costos */
-function canPay(p,c,ex){if(c.t==='lp')return p.lp>c.v;if(c.t==='xp')return p.xp>=c.v;return p.hand.filter(x=>x!==ex).length>=c.v}
-async function payCost(p,c,ex){
+const arLock=p=>p.lockAR===G.turn;
+function canPay(p,c,ex){switch(c.t){case'lp':return p.lp>c.v;case'xp':return p.xp>=c.v;case'none':case'sinCartas':case'sinReacciones':case'nivel0':return true;
+ case'defensa':return p.mons.some(m=>m&&m.pos==='atk');case'molerPropio':return p.deck.length>c.v;case'devolverMano':case'devolverMazo':return p.mons.some(Boolean)}
+ return p.hand.filter(x=>x!==ex).length>=c.v}
+async function payCost(p,c,ex,tgt){
+ if(c.t==='none')return true;
+ if(c.t==='sinCartas'){p.lockAR=G.turn;log(`${p.name} no podrá jugar más Acciones ni Reacciones este turno.`);return true}
+ if(c.t==='sinReacciones'){p.noReactT=p.i===G.cur?G.turn+1:G.turn+2;log(`${p.name} no podrá activar Reacciones en el próximo turno rival.`);return true}
+ if(c.t==='molerPropio'){let k=0;for(let i=0;i<c.v&&p.deck.length;i++){p.grave.push(p.deck.pop());k++}log(`${p.name} envía ${k} carta(s) de su mazo al cementerio.`);FX.snd('slide');render();return true}
+ if(c.t==='nivel0'){if(tgt&&p.mons.includes(tgt)){tgt.nivel=0;log(`${tgt.d.name} baja su Nivel a 0.`)}return true}
+ if(c.t==='defensa'){const L=p.mons.filter(m=>m&&m.pos==='atk');if(!L.length)return false;
+  const m=p.ai?[...L].sort((a,b)=>(eDEF(b)-eATK(b))-(eDEF(a)-eATK(a)))[0]:(L.length===1?L[0]:await pickTarget('Costo: elige el monstruo que pasa a defensa',L));if(!m)return false;
+  flip(m);m.pc=true;log(`${m.d.name} pasa a defensa para pagar el costo.`);render();return true}
+ if(c.t==='devolverMano'||c.t==='devolverMazo'){const L=p.mons.filter(m=>m&&m!==tgt);if(!L.length)return false;
+  const m=p.ai?[...L].sort((a,b)=>val(a)-val(b))[0]:await pickTarget(`Costo: elige el monstruo que vuelve ${c.t==='devolverMano'?'a tu mano':'a tu mazo'}`,L);if(!m)return false;
+  log(`${m.d.name} vuelve ${c.t==='devolverMano'?'a la mano':'al mazo'} para pagar el costo.`);if(c.t==='devolverMano')bounce(m);else toDeck(m);render();return true}
  if(c.t==='lp'){p.lp-=c.v;log(`${p.name} paga ${c.v} LP.`);return true}
  if(c.t==='xp'){p.xp-=c.v;log(`${p.name} gasta ${c.v} XP.`);return true}
  const pool=p.hand.filter(x=>x!==ex);let ch;
@@ -938,7 +959,7 @@ async function doSummon(p,c,pos,presel){
  await fireMon(c,'alInvocar',{});
  await FX.settle();await react('summon',{card:c});return true;
 }
-async function doSet(p,c){const from=FX.fromHand(p,c);const i=p.zones.indexOf(null);p.hand.splice(p.hand.indexOf(c),1);p.zones[i]=c;c.o=p.i;log(`${p.name} coloca una carta boca abajo.`);render();await FX.land(c,from)}
+async function doSet(p,c){if(arLock(p))return;const from=FX.fromHand(p,c);const i=p.zones.indexOf(null);p.hand.splice(p.hand.indexOf(c),1);p.zones[i]=c;c.o=p.i;log(`${p.name} coloca una carta boca abajo.`);render();await FX.land(c,from)}
 
 /* ===== intérprete de efectos ===== */
 const PICK=['monstruoMio','monstruoRival','monstruoCampo','cartaCampoRival'];
@@ -1015,10 +1036,10 @@ async function askParams(p,d){let e=d.ef,alt=null;
  if(PICK.includes(e.objetivo)){const t=await pickTarget(PICKMSG[e.objetivo],posibles(p,e,null).filter(m=>!(d.perm==='equip'&&d.fi>=0&&m.d&&m.d.fi!==d.fi)));if(!t)return null;prm.t=t}
  return prm}
 async function playAction(p,c,prm){
- const d=c.d;if(!prm){prm=await askParams(p,d);if(!prm)return false}
+ const d=c.d;if(arLock(p))return false;if(!prm){prm=await askParams(p,d);if(!prm)return false}
  if(!canPay(p,d.cost,c))return false;
  if(d.perm&&!p.zones.includes(null))return false;
- if(!(await payCost(p,d.cost,c)))return false;
+ if(!(await payCost(p,d.cost,c,prm.t)))return false;
  if(d.perm){const from=FX.fromHand(p,c);p.hand.splice(p.hand.indexOf(c),1);const i=p.zones.indexOf(null);p.zones[i]=c;c.o=p.i;c.up=true;
   if(d.perm==='equip'&&prm.t){FX.snd('equip');c.eq=prm.t.uid;log(`${p.name} equipa ${d.name} a ${prm.t.d.name}.`)}else log(`${p.name} deja ${d.name} en su zona.`);
   const b=prm.t&&snap(prm.t);render();await FX.land(c,from);if(b)statFx(prm.t,b);render();await FX.settle();return true}
@@ -1028,7 +1049,7 @@ async function playAction(p,c,prm){
 }
 
 async function playField(p,c){
- if(G.phase!=='main'||!canPay(p,c.d.cost,c))return false;
+ if(G.phase!=='main'||arLock(p)||!canPay(p,c.d.cost,c))return false;
  if(!(await payCost(p,c.d.cost,c)))return false;
  const from=FX.fromHand(p,c);p.hand.splice(p.hand.indexOf(c),1);
  if(G.field){const old=G.field;G.field=null;resetC(old);G.pl[old.o].grave.push(old);log(`${old.d.name} sale del campo.`)}
@@ -1073,7 +1094,7 @@ function rOK(z,win,ctx,p){const e=z.d.ef,me=G.pl[1-p.i];
  const a=e.accion.tipo;if(a==='curar')return(e.objetivo==='yo'?p:me).lp<CFG.lp;if(a==='ganarXp')return p.xp<xpCap();return true}
 async function react(win,ctx){
  for(let g=0;g<3;g++){
-  if(G.over||ctx.cancelled)return;const p=opp();
+  if(G.over||ctx.cancelled)return;const p=opp();if(p.noReactT===G.turn||arLock(p))return;
   const all=p.zones.filter(z=>z&&z.d.type==='R'&&z.d.windows.includes(win)&&!(z.d.perm&&z.ut===G.turn)&&rOK(z,win,ctx,p));
   const opts=all.filter(z=>canPay(p,z.d.cost,null));
   if(!opts.length)return;
@@ -1092,7 +1113,7 @@ async function runReaction(p,z,win,ctx){
  const me=cur(),e=z.d.ef;let tgt=null;
  if(PICK.includes(e.objetivo)){const opts=posibles(p,e,ctx);
   tgt=p.ai?aiTarget(z,win,ctx,me,opts):await pickTarget(`${z.d.name}: ${PICKMSG[e.objetivo]}`,opts);if(!tgt)return}
- if(!(await payCost(p,z.d.cost,null)))return;
+ if(!(await payCost(p,z.d.cost,null,tgt)))return;
  if(z.d.perm){z.up=true;z.ut=G.turn}else{p.zones[p.zones.indexOf(z)]=null;p.grave.push(z)}log(`${p.name} activa ${z.d.name}.`,0);render();await FX.pop(z);
  await resolver(e,z,p,ctx,{t:tgt});
  render();await FX.settle();await sleep(UI.speed/2);
@@ -1341,6 +1362,7 @@ function actionsFor(c){
  const ph=G.phase,main=ph==='main',bat=ph==='battle',fin=ph==='end';
  if(p.hand.includes(c)){
   if(isM(c)){const s=summonInfo(p,c);['atk','def'].forEach(k=>L.push({l:`Invocar en ${k==='atk'?'ataque':'defensa'}${c.d.sac?` (sacrifica ${c.d.sac})`:''}`,dis:!s.ok,why:s.ok?'':s.why,fn:()=>doSummon(p,c,k)}))}
+  else if(arLock(p))L.push({l:'Jugar o colocar',dis:true,why:'Pagaste un costo que no te deja jugar más Acciones ni Reacciones este turno.',fn:()=>{}});
   else if(c.d.type==='F'){const pay=canPay(p,c.d.cost,c);L.push({l:`Jugar campo · ${costText(c.d.cost)}`,dis:!main||!pay,why:!main?'Solo en la fase principal.':!pay?'No puedes pagar el costo.':'',fn:()=>playField(p,c)})}
   else if(c.d.type==='A'){const t=actTargets(p,c.d).length>0,pay=canPay(p,c.d.cost,c),full=c.d.ef.accion.tipo==='ganarXp'&&p.xp>=xpCap(),zf=c.d.perm&&!p.zones.includes(null);L.push({l:`${c.d.perm?'Colocar':'Jugar'} · ${costText(c.d.cost)}`,dis:!(main||bat||fin)||!t||!pay||full||zf,why:!(main||bat||fin)?'Solo en tu turno.':!t?'No hay objetivos.':!pay?'No puedes pagar el costo.':full?'Tu XP ya está en el tope.':zf?'Tus 3 zonas están ocupadas.':'',fn:()=>playAction(p,c)})}
   else L.push({l:'Colocar boca abajo',dis:!(main||fin)||!p.zones.includes(null),why:!(main||fin)?'Solo en la fase principal o final.':!p.zones.includes(null)?'Zonas llenas.':'',fn:()=>doSet(p,c)});
