@@ -264,7 +264,7 @@ body.phb .slot.m .card .lb,.slot.m:has(.fst.fl) .card .lb{opacity:0}
 .lki{width:1.1em;height:1.1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .pt.lk .pc{position:relative;filter:grayscale(.6) brightness(.6)}.pt.lk .lki{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:42%;height:42%;color:#ffd54a;filter:drop-shadow(0 0 4px #000)}
 .fk.lk{opacity:.55;position:relative}.fk.lk::after{content:'';position:absolute;right:1px;bottom:1px;width:7px;height:7px;border-radius:50%;background:#ffd54a}
-#menu{background:linear-gradient(180deg,#05060fcc 0,#05060f55 30%,#05060f55 60%,#05060fdd 100%),url(img/portada.webp?v=202611132203) center/cover no-repeat;--ink:#f3f1ff;--mut:#c4c8e6;--panel:#0a1024c4;--line:#ffffff4d;--slot:#0a102488;--slotline:#ffffff44;--acc:#ffc680;--accfg:#1a0d00;color:var(--ink)}
+#menu{background:linear-gradient(180deg,#05060fcc 0,#05060f55 30%,#05060f55 60%,#05060fdd 100%),url(img/portada.webp?v=202611140008) center/cover no-repeat;--ink:#f3f1ff;--mut:#c4c8e6;--panel:#0a1024c4;--line:#ffffff4d;--slot:#0a102488;--slotline:#ffffff44;--acc:#ffc680;--accfg:#1a0d00;color:var(--ink)}
 #menu button,#menu .rr,#menu .mi label{text-shadow:0 1px 3px #000}
 #menu button{-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);box-shadow:0 3px 12px #000c}
 #menu button.pri{background:linear-gradient(180deg,#ffd49a,#e3873a);color:#1a0d00;text-shadow:0 1px 0 #fff8;border-color:#ffe2b8;box-shadow:0 0 18px #ff9a3c99,0 4px 14px #000d}
@@ -391,7 +391,7 @@ textarea{font:12px/1.35 ui-monospace,Menlo,Consolas,monospace;width:100%;color:v
 
 <script>
 'use strict';
-const LOGO_IMG="img/logo.webp?v=202611132203";
+const LOGO_IMG="img/logo.webp?v=202611140008";
 /* ============ EFECTOS (formato v2): vocabulario, texto generado, migración y validación ============
    Un efecto = { disparador:{tipo,ventanas?}, condicion:null|{tipo,..}, costo:{tipo,n}, objetivo, accion:{tipo,..}, limite, alternativas? } */
 const VENT={ataque:'attack',invocacion:'summon',finTurno:'endTurn',dano:'damage'};
@@ -451,7 +451,7 @@ function accTxt(e){const a=e.accion,o=e.objetivo,S=T_SUJ[o]||'';const st=a.stat=
  case'infligirDano':return o==='yo'?`pierdes ${a.n} LP`:`el rival pierde ${a.n} LP`;
  case'curar':return o==='yo'?`recuperas ${a.n} LP`:`el rival recupera ${a.n} LP`;
  case'ganarXp':return`ganas ${a.n} XP (hasta el tope actual)`;
- case'destruir':return`destruyes ${S}`;
+ case'destruir':return o==='atacante'?'destruyes al atacante':`destruyes ${S}`;
  case'devolverMano':return`devuelves ${S} a la mano de su dueño`;
  case'cambiarPosicion':return o==='atacante'?'el atacante pasa a posición de defensa y su ataque se detiene':o==='todosMisMonstruos'?'cambias la posición de todos tus monstruos':`cambias la posición de ${S}`;
  case'negarAtaque':return'niegas el ataque actual';
@@ -473,7 +473,6 @@ function textoEfecto(e,conCosto){if(!e)return'';const D=e.disparador||{},t=D.tip
  const alts=e.alternativas&&e.alternativas.length?e.alternativas.map(x=>accTxt({...e,...x})):null;
  let body=alts?'elige una: '+alts.join('; o '):accTxt(e);
  if(DUR_LIM.includes(lim))body+=T_DUR[lim];
- if(cost)body=body.replace(/^recuperas/,'recuperes');
  body=(cost+body).trim();if(cond)body=cond+', '+body;
  return (pre?cap1(pre)+': '+body:cap1(body))+'.'}
 const costoCarta=c=>!c||c.tipo==='ninguno'?null:c.tipo==='lp'?{t:'lp',v:c.n}:c.tipo==='xp'?{t:'xp',v:c.n}:c.tipo==='descartar'?{t:'disc',v:c.n}:{t:'lvl',v:c.n};
@@ -632,7 +631,6 @@ function accToD(a){
  const ef=compilarEfecto(a.efecto);if(!ef)return null;const co=costoCarta(ef.costo)||{t:'lp',v:0};
  const perm=PERMS[a.permanencia]||null;let text=textoEfecto(ef,false);
  if(perm){if(DUR_LIM.includes(ef.limite))text=text.replace(T_DUR[ef.limite]+'.','.');
-  if(ef.objetivo==='todosMisMonstruos')text=text.replace('Todos tus monstruos gana','Todos tus monstruos ganan');
   const fn=fi>=0?FAC[fi].n:'';text=perm==='equip'?'Equipo: se queda en tu zona. '+text+(fn?' Solo puede equiparse a monstruos de '+fn+'.':'')+' Se destruye si el monstruo equipado deja el campo.':a.tipo==='reaccion'?text+' Se queda en tu zona después de activarse.':'Continua: se queda en tu zona. '+text+(fn?' Solo beneficia a monstruos de '+fn+'.':'')+' Se aplica mientras esté en tu zona.'}
  return{id:esc(a.id),vfx:typeof a.vfx==='string'&&RX_ID.test(a.vfx)?a.vfx:null,type:a.tipo==='reaccion'?'R':'A',perm,fac:esc(a.faccion||''),fi,name:esc(a.nombre||'Carta'),icon:ICONOS.includes(a.icono)?a.icono:'atk',cost:co,windows:ef.disparador.tipo==='ventana'?ef.disparador.ventanas.map(v=>VENT[v]):[],text:esc(text),ef,copies:+a.copias||1,img:RX_IMG.test(a.imagen)?imgURL(a.imagen):null}}
 function applyCards(data){if(typeof LLC!=='undefined')LLC.clear();IMG_REV=String(data&&data.rev||'').replace(/[^a-z0-9]/gi,'').slice(0,20);
@@ -808,7 +806,7 @@ function cardHTML(x,o={}){
   body=`<div class="hd"><i class="fb t" title="${lab}">${ic(typeIcon(d))}</i><div class="nm" style="--nf:${fitN(d.name,72,.6,6.6,3)}cqw">${d.name}</div></div><div class="mid"><div class="sd l"><span class="sv">${lab}</span></div><div class="art">${artS(d)}</div><div class="sd r"><span class="sv">${costText(d.cost)}</span></div></div><div class="ds" style="--tf:${fitT(d.text||'',2650,5.8,2.4)}cqw"><u class="ty">${ty}</u><p>${d.text||'Sin efectos.'}</p></div><div class="st"></div>`}
  return`<div class="card${o.hand?' hand':''}${o.field||o.tile?' fld':''}${o.full?' full':''}${isMon?' k'+d.kind:''}${isMon&&d.efs&&d.efs.length>=2?' ef'+d.efs.length:''}${isMon?'':(d.type==='A'?' spa':d.type==='R'?' spr':' spf')}${o.cls||''}" style="${style}"${ua}>${body}</div>`}
 
-let DEFAULT_DATA=null;const BASE_JSON='cartas/base.json?v=202611132203';
+let DEFAULT_DATA=null;const BASE_JSON='cartas/base.json?v=202611140008';
 /* ============ CONFIG (todo lo marcado "supuesto" está por validar) ============ */
 const CFG={lp:8000,hand0:5,handMax:7,xpCap0:200,xpCapStep:100,xpGain:100,vetNivel:300,vetValue:2,recActLP:500,recReaXP:300,tieAtk:3000};
 const WLAB={attack:'cuando el rival ataca',summon:'cuando el rival invoca',endTurn:'al final del turno rival',damage:'cuando recibes daño'};
@@ -1535,7 +1533,7 @@ function drawCover(){
  return`<div class="mi cv"><div class="cv-sym">${FAC.map(symSvg).join('')}</div>${LOGO_IMG?`<img class="cv-logo" src="${LOGO_IMG}" alt="${TITULO.n}">`:`<h1 class="cv-t">${TITULO.n}</h1>`}<div class="cv-brand">${MARCA_SVG}<span>${TITULO.marca}</span></div><button class="pri big" data-mg="go:mode">Jugar</button>
  <div class="cv-l"><button class="ghost" data-go="rules">Reglas</button><button class="ghost" data-go="cat">Catálogo</button><button class="ghost" data-go="cards">Cartas</button><button class="ghost" data-go="facs">Facciones</button><label><input type="checkbox" id="fxtog" ${FX.rm?'':'checked'}> Animaciones</label> <label><input type="checkbox" id="sfxtog" ${Snd.cfg.sfx?'checked':''}> Sonido</label> <label><input type="checkbox" id="mustog" ${Snd.cfg.mus?'checked':''}> Música</label></div>
  ${canInstall()?'<button class="inst" data-go="install">'+ic('down')+' Instalar el juego</button>':''}
- <div class="mut cv-f">Set: <b>${FAC.setName}</b> · ${FAC.length} facciones · ${MONS.length} monstruos · ${SP.length} Acciones, Reacciones y Campos</div></div>`}
+ <div class="mut cv-f">Versión 1.0 · Set: <b>${FAC.setName}</b> · ${FAC.length} facciones · ${MONS.length} monstruos · ${SP.length} Acciones, Reacciones y Campos</div></div>`}
 function drawMode(){
  return`<div class="mi"><div class="mtop">${back('cover')}<h2 class="mt">Elige modo</h2></div>
  <div class="mbig"><button class="pri big" data-mg="go:play">Jugar contra la IA</button><button class="big" data-mg="go:decks">Editar mazo</button></div>
