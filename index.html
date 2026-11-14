@@ -204,24 +204,32 @@ button.big{font-size:clamp(15px,3.6dvh,22px);padding:.55em 1.8em;border-radius:1
 #tbar{position:fixed;top:max(6px,env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);z-index:30;background:var(--acc);color:var(--accfg);padding:6px 12px;border-radius:10px;display:flex;gap:10px;align-items:center;box-shadow:0 4px 14px var(--shadow)}
 #tbar button{background:var(--accfg);color:var(--acc);border-color:transparent;padding:3px 10px}
 /* cartas */
-.card{width:var(--cw);height:calc(var(--cw)*4/3);font-size:max(5px,calc(var(--cw)/7));border-radius:.2em;background:linear-gradient(160deg,var(--fc),var(--fc2));padding:.2em;display:flex;flex-direction:column;align-items:stretch;gap:.14em;color:#fff;position:relative;cursor:pointer;box-shadow:0 1px 3px var(--shadow);flex:none;overflow:hidden;container-type:inline-size}
-.card .hd{flex:none;display:flex;align-items:center;gap:.15em;height:1.45em}
-.card .fb,.card .lb{flex:none;width:1.45em;height:1.45em;border-radius:50%;display:grid;place-items:center;box-shadow:0 0 .2em #000a}
-.card .fb{background:var(--fc);border:.09em solid #fffe}.card .fb svg{width:70%;height:70%;fill:#fff}.card .fb.t svg{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.card .lb{background:radial-gradient(circle at 40% 35%,#3a2a00,#0c0800);border:.09em solid #ffd54a;color:#ffe58a;font-weight:800;font-size:.8em;width:1.8em;height:1.8em;line-height:1;font-variant-numeric:tabular-nums}
-.card .lb.sp{visibility:hidden}
-.card .nm{flex:1;min-width:0;font-size:.6em;font-weight:700;line-height:1.25;background:#0008;border-radius:.3em;padding:.1em .3em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
-.card .art{flex:none;width:82%;align-self:center;aspect-ratio:1/1;border-radius:.1em;overflow:hidden;background:#0003;box-shadow:0 0 0 .06em #0008}
+.card{width:var(--cw);height:calc(var(--cw)*4/3);font-size:max(5px,calc(var(--cw)/7));border-radius:calc(var(--cw)*.045);background:var(--frm) 0 0/100% 100%,linear-gradient(160deg,var(--fc),var(--fc2));padding:0;color:#fff;position:relative;cursor:pointer;box-shadow:0 1px 3px var(--shadow);flex:none;overflow:hidden;container-type:inline-size}
+.card:not(.back)>*{position:absolute}
+.card .hd{left:3cqw;right:3cqw;top:3cqw;height:12.5cqw;display:flex;align-items:center;gap:1.6cqw;padding:0 2cqw 0 16.5cqw;background:linear-gradient(180deg,#000b,#0007);border-radius:1.8cqw;box-shadow:inset 0 0 0 .45cqw #fff3,0 .4cqw .8cqw #0006}
+.card .fb{position:absolute;left:-.6cqw;top:-.6cqw;width:16cqw;height:16cqw;border-radius:50%;display:grid;place-items:center;background:var(--fac,var(--fc));border:.8cqw solid #fffe;box-shadow:0 .5cqw 1.4cqw #000c;z-index:2}
+.card .fb svg{width:62%;height:62%;fill:#fff;filter:drop-shadow(0 .3cqw .3cqw #0007)}.card .fb.t{background:radial-gradient(circle at 40% 35%,#ffffff44,#0008)}.card .fb.t svg{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.card .nm{flex:1;min-width:0;font-size:var(--nf,6cqw);font-weight:700;line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:clip;text-align:left;text-shadow:0 .35cqw 0 #000,0 0 1.2cqw #000}
+.card .ds .lbsp{float:right;width:0;height:calc(100% - 11cqw)}.card .ds .lb{float:right;clear:right;margin:.6cqw -.8cqw 0 1.2cqw}
+.card .mid{left:3cqw;right:3cqw;top:18.5cqw;height:68cqw;display:flex;justify-content:space-between;align-items:stretch}
+.card .sd{flex:none;width:13cqw;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:.5cqw 0 1cqw}
+.card .sv{flex:1;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;transform:rotate(180deg);font:900 var(--vf,11cqw)/1 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;letter-spacing:.04em;white-space:nowrap;font-variant-numeric:tabular-nums;color:#fff;text-shadow:0 0 .6cqw #000,0 .5cqw 0 #000a,0 0 2cqw #0008}
+.card .sd>.ic{flex:none;width:11.5cqw;height:11.5cqw;color:#fff;filter:drop-shadow(0 .4cqw .3cqw #000c)}
+.card.spa .sv,.card.spr .sv,.card.spf .sv{font:700 6.4cqw/1 "Pixelify Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;letter-spacing:.02em}
+.card .art{flex:none;width:68cqw;height:68cqw;border-radius:.8cqw;overflow:hidden;background:#0004;box-shadow:0 0 0 .55cqw #000a,0 0 0 1cqw #fff6}
 .card .art svg{width:100%;height:100%;display:block}
-.card .ds{flex:1;min-height:0;overflow:hidden;background:#000b;border-radius:.15em;padding:.15em .3em;font-size:.34em;line-height:1.22;color:#f2f2f2}
-.card .ds p{margin:0}.card .ds p+p{margin-top:.25em;padding-top:.25em;border-top:1px solid #fff3}.card .ds .nrm{font-style:italic;opacity:.75}
-.card .st{flex:none;margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:.4em;font-weight:700;font-size:.46em;background:#000b;border-radius:.3em;padding:.12em .4em;white-space:nowrap;font-variant-numeric:tabular-nums}
-.card .st span{display:flex;align-items:center;gap:.25em;min-width:0;overflow:hidden;text-overflow:ellipsis}.card .st .ic{width:1.05em;height:1.05em;flex:none}
-@container (max-width:150px){.card .ds{display:none}.card .art{width:100%}.card .st{font-size:.6em}}
-.card.fld .ds,.card.fld .st{display:none}.card.fld .art{width:100%}
+.card .ds{left:3cqw;right:3cqw;top:89cqw;bottom:3cqw;overflow:hidden;background:linear-gradient(180deg,#101019ee,#07070df4);border-radius:1.6cqw;padding:1.4cqw 2.6cqw 1.6cqw;font:500 var(--tf,4cqw)/1.18 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#f4f2ee;box-shadow:inset 0 0 0 .45cqw #fff2}
+.card .ds .ty{display:block;font:700 4.6cqw/1.25 "Pixelify Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#ffe2a6;text-decoration:underline;text-decoration-thickness:.35cqw;text-underline-offset:.7cqw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:.8cqw}
+.card .ds p{margin:0}.card .ds p+p{margin-top:.3em;padding-top:.3em;border-top:1px solid #fff3}
+.card .ds .wm{position:absolute;left:0;right:0;top:7.5cqw;bottom:0;background:var(--wmk) center/auto 80% no-repeat;opacity:.42;pointer-events:none}
+.card .st{display:none}
+.card .lb{width:9cqw;height:9cqw;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 40% 35%,#ffe58a,#c98b0c 70%,#7a4f00);border:.5cqw solid #fff4c2;color:#2a1700;font:900 5.2cqw/1 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;box-shadow:0 0 1.2cqw #ffb30099,0 .3cqw .6cqw #000a;transition:opacity .25s}
+.card .up{color:#9fd4ff}.card .dn{color:#ff9a8f}
+@container (max-width:105px){.card .ds p{display:none}}
+.card.fld .hd{padding-left:12cqw}.card.fld .fb{width:11cqw;height:11cqw;left:.6cqw;top:.75cqw;border-width:.6cqw}.card.fld .ds,.card.fld .sd{display:none}.card.fld .mid{top:17cqw;height:auto}.card.fld .art{width:94cqw;height:94cqw}.card.fld .st{display:flex;right:3cqw;bottom:2.5cqw}.card.fld .st .lb{width:14cqw;height:14cqw;font-size:8.4cqw}
+body.phb .slot.m .card .lb,.slot.m:has(.fst.fl) .card .lb{opacity:0}
 .card .txt{font-size:.9em;line-height:1.25;background:#0009;border-radius:.3em;padding:.3em .4em}
-.card .up{color:#7cc0ff}.card .dn{color:#ff8579}
-.slot.s .card .ds,.slot.s .card .st{display:none}.slot.s .card .art{width:100%}
+.slot.s .card .ds,.slot.s .card .st,.slot.s .card .sd{display:none}.slot.s .card .hd{padding-left:12cqw}.slot.s .card .fb{width:11cqw;height:11cqw;left:.6cqw;top:.75cqw}.slot.s .card .mid{top:17cqw;height:auto}.slot.s .card .art{width:94cqw;height:94cqw}
 .ic{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.14em}
 .card.sel{outline:3px solid #fff;box-shadow:0 0 0 5px var(--acc);z-index:2}
 .card.tg{outline:3px solid #ffd54a;animation:pl 1s infinite alternate}
@@ -244,6 +252,9 @@ button.big{font-size:clamp(15px,3.6dvh,22px);padding:.55em 1.8em;border-radius:1
 .dtl .det h3{margin:0 0 2px}.dmeta{font-size:13px}.dstat{display:flex;gap:14px;font-weight:700;font-size:14px;align-items:center}.dstat span{display:flex;align-items:center;gap:4px}.dstat .ic{width:1.1em;height:1.1em}
 .defs{display:grid;gap:6px;margin-top:4px}.defs p{margin:0;padding:6px 8px;background:var(--slot);border-radius:6px;line-height:1.35}
 .dkeys{margin-top:6px;font-size:12px}.uni{color:#c58a00}
+/* aviso de facción bloqueada en el editor */
+.lkban{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:#3a2a0099;border:1px solid #ffd54a;color:#ffe58a;border-radius:8px;padding:6px 9px;margin:4px 0;font-size:12px}.lkban .lki{width:1.3em;height:1.3em}.lkban span{flex:1;min-width:160px}.lkban button{padding:4px 10px}
+.pt.lk button.pc{background:none;border:0;padding:0;cursor:pointer}
 /* llaves de búsqueda */
 .llaves{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0 6px}.llaves .ll{padding:3px 8px;font-size:11px;border-radius:999px}.llaves .ll i{font-style:normal;opacity:.6;font-size:.9em}.llaves .ll.on{background:var(--acc);color:var(--accfg);border-color:var(--acc)}
 /* facciones personalizadas */
@@ -253,7 +264,7 @@ button.big{font-size:clamp(15px,3.6dvh,22px);padding:.55em 1.8em;border-radius:1
 .lki{width:1.1em;height:1.1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .pt.lk .pc{position:relative;filter:grayscale(.6) brightness(.6)}.pt.lk .lki{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:42%;height:42%;color:#ffd54a;filter:drop-shadow(0 0 4px #000)}
 .fk.lk{opacity:.55;position:relative}.fk.lk::after{content:'';position:absolute;right:1px;bottom:1px;width:7px;height:7px;border-radius:50%;background:#ffd54a}
-#menu{background:linear-gradient(180deg,#05060fcc 0,#05060f55 30%,#05060f55 60%,#05060fdd 100%),url(img/portada.webp?v=202611122003) center/cover no-repeat;--ink:#f3f1ff;--mut:#c4c8e6;--panel:#0a1024c4;--line:#ffffff4d;--slot:#0a102488;--slotline:#ffffff44;--acc:#ffc680;--accfg:#1a0d00;color:var(--ink)}
+#menu{background:linear-gradient(180deg,#05060fcc 0,#05060f55 30%,#05060f55 60%,#05060fdd 100%),url(img/portada.webp?v=202611132203) center/cover no-repeat;--ink:#f3f1ff;--mut:#c4c8e6;--panel:#0a1024c4;--line:#ffffff4d;--slot:#0a102488;--slotline:#ffffff44;--acc:#ffc680;--accfg:#1a0d00;color:var(--ink)}
 #menu button,#menu .rr,#menu .mi label{text-shadow:0 1px 3px #000}
 #menu button{-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);box-shadow:0 3px 12px #000c}
 #menu button.pri{background:linear-gradient(180deg,#ffd49a,#e3873a);color:#1a0d00;text-shadow:0 1px 0 #fff8;border-color:#ffe2b8;box-shadow:0 0 18px #ff9a3c99,0 4px 14px #000d}
@@ -270,6 +281,8 @@ button.big{font-size:clamp(15px,3.6dvh,22px);padding:.55em 1.8em;border-radius:1
 body:has(#menu:not([hidden])){background:#05060f}
 @font-face{font-family:'Pixelify Sans';font-style:normal;font-weight:400 700;font-display:swap;src:url(data:font/woff2;base64,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) format('woff2')}
 body,button,select,input,textarea{font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0,"calt" 0}
+.card{--frm:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 400'><defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23fff' stop-opacity='.28'/><stop offset='.35' stop-color='%23fff' stop-opacity='0'/><stop offset='.8' stop-color='%23000' stop-opacity='0'/><stop offset='1' stop-color='%23000' stop-opacity='.3'/></linearGradient><pattern id='p' width='8' height='8' patternUnits='userSpaceOnUse'><path d='M0 8L8 0' stroke='%23fff' stroke-opacity='.07' stroke-width='1'/></pattern></defs><rect width='300' height='400' fill='url(%23p)'/><rect width='300' height='400' fill='url(%23g)'/></svg>");--wmk:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><g fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'><circle cx='50' cy='50' r='45'/><circle cx='50' cy='50' r='40' stroke-width='1.2' opacity='.7'/><path d='M33 84L45 20M67 84L55 20'/><path d='M45 20L26 27L41 40Z' fill='%23fff'/><path d='M55 20L74 27L59 40Z' fill='%23fff'/><path d='M50 40L58 54L50 68L42 54Z' fill='%23fff'/></g></svg>")}
+.card:not(.back)::after{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 400'><defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23fff' stop-opacity='.28'/><stop offset='.35' stop-color='%23fff' stop-opacity='0'/><stop offset='.8' stop-color='%23000' stop-opacity='0'/><stop offset='1' stop-color='%23000' stop-opacity='.3'/></linearGradient><pattern id='p' width='8' height='8' patternUnits='userSpaceOnUse'><path d='M0 8L8 0' stroke='%23fff' stroke-opacity='.07' stroke-width='1'/></pattern></defs><rect x='1.5' y='1.5' width='297' height='397' rx='12' fill='none' stroke='%23000' stroke-opacity='.6' stroke-width='3'/><rect x='5.5' y='5.5' width='289' height='389' rx='8' fill='none' stroke='%23fff' stroke-opacity='.5' stroke-width='1.4'/><rect x='8' y='8' width='284' height='384' rx='6' fill='none' stroke='%23000' stroke-opacity='.28' stroke-width='1'/><g transform=''><path d='M4 40V12Q4 4 12 4H40' stroke='%23fff' stroke-opacity='.8' stroke-width='2.4' fill='none'/><path d='M9 26V14Q9 9 14 9H26' stroke='%23000' stroke-opacity='.45' stroke-width='1.4' fill='none'/><path d='M13 4.5l3 3-3 3-3-3z' fill='%23fff' fill-opacity='.9'/><path d='M4.5 13l3 3-3 3-3-3z' fill='%23fff' fill-opacity='.9'/></g><g transform='translate(300 0) scale(-1 1)'><path d='M4 40V12Q4 4 12 4H40' stroke='%23fff' stroke-opacity='.8' stroke-width='2.4' fill='none'/><path d='M9 26V14Q9 9 14 9H26' stroke='%23000' stroke-opacity='.45' stroke-width='1.4' fill='none'/><path d='M13 4.5l3 3-3 3-3-3z' fill='%23fff' fill-opacity='.9'/><path d='M4.5 13l3 3-3 3-3-3z' fill='%23fff' fill-opacity='.9'/></g><g transform='translate(0 400) scale(1 -1)'><path d='M4 40V12Q4 4 12 4H40' stroke='%23fff' stroke-opacity='.8' stroke-width='2.4' fill='none'/><path d='M9 26V14Q9 9 14 9H26' stroke='%23000' stroke-opacity='.45' stroke-width='1.4' fill='none'/><path d='M13 4.5l3 3-3 3-3-3z' fill='%23fff' fill-opacity='.9'/><path d='M4.5 13l3 3-3 3-3-3z' fill='%23fff' fill-opacity='.9'/></g><g transform='translate(300 400) scale(-1 -1)'><path d='M4 40V12Q4 4 12 4H40' stroke='%23fff' stroke-opacity='.8' stroke-width='2.4' fill='none'/><path d='M9 26V14Q9 9 14 9H26' stroke='%23000' stroke-opacity='.45' stroke-width='1.4' fill='none'/><path d='M13 4.5l3 3-3 3-3-3z' fill='%23fff' fill-opacity='.9'/><path d='M4.5 13l3 3-3 3-3-3z' fill='%23fff' fill-opacity='.9'/></g><g fill='%23fff' fill-opacity='.85'><path d='M150 1.5l4 4-4 4-4-4z'/><path d='M150 390.5l4 4-4 4-4-4z'/><path d='M1.5 200l4-4 4 4-4 4z'/><path d='M290.5 200l4-4 4 4-4 4z'/></g></svg>") 0 0/100% 100%;pointer-events:none;z-index:5}
 .card .art{position:relative}
 .wmk{position:absolute;inset:0;z-index:6;display:grid;place-items:center;pointer-events:none;animation:wmk 1.1s ease-in-out infinite}
 .wmk .ic{width:78%;height:78%;color:#fff;stroke-width:1.6;filter:drop-shadow(0 0 4px #fff) drop-shadow(0 0 10px var(--acc,#38e0b0))}
@@ -378,7 +391,7 @@ textarea{font:12px/1.35 ui-monospace,Menlo,Consolas,monospace;width:100%;color:v
 
 <script>
 'use strict';
-const LOGO_IMG="img/logo.webp?v=202611122003";
+const LOGO_IMG="img/logo.webp?v=202611132203";
 /* ============ EFECTOS (formato v2): vocabulario, texto generado, migración y validación ============
    Un efecto = { disparador:{tipo,ventanas?}, condicion:null|{tipo,..}, costo:{tipo,n}, objetivo, accion:{tipo,..}, limite, alternativas? } */
 const VENT={ataque:'attack',invocacion:'summon',finTurno:'endTurn',dano:'damage'};
@@ -433,14 +446,14 @@ function ventTxt(vs){const riv=[],own=[];vs.forEach(v=>{if(v==='ataque')riv.push
 function condTxt(c){if(!c)return'';switch(c.tipo){case'nivelMin':return`si su Nivel es ${c.n} o más`;case'aliadosMin':return`si controlas ${c.n} o más monstruos de su facción`;case'rivalTieneMas':return'si el rival controla más monstruos que tú';case'lpMax':return`si tienes ${c.n} LP o menos`;case'posicionVictima':return c.pos==='def'?'si el monstruo destruido estaba en defensa':'si el monstruo destruido estaba en ataque';case'manoMin':return`si tienes ${c.n} o más cartas en la mano`}return''}
 function accTxt(e){const a=e.accion,o=e.objetivo,S=T_SUJ[o]||'';const st=a.stat==='def'?'DEF':'ATK';switch(a.tipo){
  case'robar':return`robas ${a.n} carta${a.n>1?'s':''}`;
- case'cambiarStat':{const sub=cap1(S);if(a.porNivel){const k=Math.abs(a.valor);return`${S} ${a.valor<0?'pierde':'gana'} ${st} igual a ${k===1?'su Nivel':k+' veces su Nivel'}`}return`${S} ${a.valor<0?'pierde '+Math.abs(a.valor):'gana +'+a.valor} ${st}`}
+ case'cambiarStat':{const pl=o==='todosMisMonstruos',g=a.valor<0?(pl?'pierden':'pierde'):(pl?'ganan':'gana');if(a.porNivel){const k=Math.abs(a.valor);return`${S} ${g} ${st} igual a ${k===1?(pl?'su propio Nivel':'su Nivel'):k+' veces '+(pl?'su propio Nivel':'su Nivel')}`}return`${S} ${g} ${a.valor<0?Math.abs(a.valor):'+'+a.valor} ${st}`}
  case'sinergiaStat':return`+${a.por} ${st} por cada otro monstruo de tu facción en tu campo (máx. +${a.max})`;
  case'infligirDano':return o==='yo'?`pierdes ${a.n} LP`:`el rival pierde ${a.n} LP`;
  case'curar':return o==='yo'?`recuperas ${a.n} LP`:`el rival recupera ${a.n} LP`;
  case'ganarXp':return`ganas ${a.n} XP (hasta el tope actual)`;
  case'destruir':return`destruyes ${S}`;
  case'devolverMano':return`devuelves ${S} a la mano de su dueño`;
- case'cambiarPosicion':return o==='todosMisMonstruos'?'cambias la posición de todos tus monstruos':`cambias la posición de ${S}`;
+ case'cambiarPosicion':return o==='atacante'?'el atacante pasa a posición de defensa y su ataque se detiene':o==='todosMisMonstruos'?'cambias la posición de todos tus monstruos':`cambias la posición de ${S}`;
  case'negarAtaque':return'niegas el ataque actual';
  case'fijarNivel0':return`${S} tiene Nivel 0`;
  case'nivelExtra':return`aprende rápido: gana +${a.n} de Nivel extra por batalla`;
@@ -456,7 +469,7 @@ function textoEfecto(e,conCosto){if(!e)return'';const D=e.disparador||{},t=D.tip
  let pre='';if(t==='alInvocar')pre='Al ser invocado';else if(t==='alAtacar')pre='Cuando ataca';else if(t==='alSerAtacado')pre='Cuando es atacado';else if(t==='alDestruirEnBatalla')pre=e.condicion&&e.condicion.tipo==='posicionVictima'?(e.condicion.pos==='def'?'Si destruye un monstruo en defensa':'Si destruye un monstruo en ataque'):'Si destruye un monstruo en batalla';else if(t==='alRecibirDano')pre='Cuando recibes daño';else if(t==='finMiTurno')pre='Al final de tu turno';else if(t==='ventana')pre=ventTxt(D.ventanas||[]);
  const lim=e.limite;if(lim==='unaVezTurno')pre=(pre?pre+', ':'')+'1 vez por turno';else if(lim==='unaVezDuelo')pre=(pre?pre+', ':'')+'1 vez por duelo';
  const cond=t==='alDestruirEnBatalla'&&e.condicion&&e.condicion.tipo==='posicionVictima'?'':condTxt(e.condicion);
- let cost='';if(conCosto&&e.costo&&e.costo.tipo==='gastarNivel')cost=`gasta ${e.costo.n} de su Nivel para que `;
+ let cost='';if(conCosto&&e.costo&&e.costo.tipo==='gastarNivel')cost=`gasta ${e.costo.n} de su Nivel y `;
  const alts=e.alternativas&&e.alternativas.length?e.alternativas.map(x=>accTxt({...e,...x})):null;
  let body=alts?'elige una: '+alts.join('; o '):accTxt(e);
  if(DUR_LIM.includes(lim))body+=T_DUR[lim];
@@ -588,6 +601,9 @@ function llavesCarta(d){const s=new Set();if(!d)return s;
  if(d.kind!==undefined){(d.efs||(d.ef?[d.ef]:[])).forEach(x=>llavesEf(x,s));if(d.efs&&d.efs.length>=3)s.add('unica');return s}
  if(d.type==='F'){s.add('campo');(d.field&&d.field.mods||[]).forEach(m=>{s.add(m.valor<0?'baja':'sube');if(m.para==='faccion')s.add('fac')});return s}
  llavesEf(d.ef,s);if(d.perm==='equip')s.add('equipo');if(d.perm==='cont')s.add('cont');if(d.type==='R')s.add('reac');return s}
+/* textos de los efectos de una carta, en orden; un efecto encadenado se une al anterior con "Si lo hace," */
+function efTextos(d){const efs=d.efs||(d.ef?[d.ef]:[]),lk=d.lk||[],out=[];
+ efs.forEach((x,i)=>{let t=textoEfecto(x,true);if(lk[i]&&out.length){const j=t.indexOf(': ');t='Si lo hace, '+(j>=0?t.slice(j+2):t);out[out.length-1]+=' '+t}else out.push(t)});return out}
 /* ============ COMÚN: formato de cartas, validación, aplicación y dibujo de carta ============ */
 const KLAB={N:'Normal',E:'Efecto',H:'Pesado',T:'Tanque'};
 const KIND={normal:'N',efecto:'E',pesado:'H',tanque:'T'};
@@ -595,7 +611,7 @@ const KIND_N={N:'normal',E:'efecto',H:'pesado',T:'tanque'};
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const sacOf=cap=>cap<=400?0:cap<=600?1:cap<=800?2:3;
 const FAC=[],MONS=[];
-const fxText=d=>d.efs&&d.efs.length>1?d.efs.map(e=>textoEfecto(e,true)).join(' '):d.ef?textoEfecto(d.ef,true):'';
+const fxText=d=>d.kind!==undefined?efTextos(d).join(' '):d.ef?textoEfecto(d.ef,true):'';
 const SP=[],ICONOS=['atk','def','lp','xp','swap','boom','down','eye','block','undo'];
 
 /* JSON -> objetos internos */
@@ -603,7 +619,7 @@ const facToF=f=>({id:esc(f.id||''),n:esc(f.nombre||'Facción'),c:RX_COL.test(f.c
 function monToD(m,F,fi,i){
  const efs=[m.efecto,m.efecto2,m.efecto3].filter(Boolean).map(compilarEfecto).filter(Boolean),ef=efs[0]||null;
  const cap=+m.topeNivel||0,extra=efs.reduce((s,x)=>s+(x.accion.tipo==='nivelExtra'?x.accion.n:0),0);
- return{id:'m'+i,rid:m.id||null,vfx:typeof m.vfx==='string'&&RX_ID.test(m.vfx)?m.vfx:null,fi,fac:esc(m.faccion),f:F,name:esc(m.nombre||'Sin nombre'),kind:KIND[m.tipo]||'N',at:+m.ataque||0,df:+m.defensa||0,sac:sacOf(cap),ef,efs,speed:NIVEL_BATALLA+extra,cap,copies:+m.copias||1,img:RX_IMG.test(m.imagen)?imgURL(m.imagen):((F&&F.img)||null)}}
+ return{id:'m'+i,rid:m.id||null,vfx:typeof m.vfx==='string'&&RX_ID.test(m.vfx)?m.vfx:null,fi,fac:esc(m.faccion),f:F,name:esc(m.nombre||'Sin nombre'),kind:KIND[m.tipo]||'N',at:+m.ataque||0,df:+m.defensa||0,sac:sacOf(cap),ef,efs,lk:[false,m.enlace2==='si',m.enlace3==='si'],speed:NIVEL_BATALLA+extra,cap,copies:+m.copias||1,img:RX_IMG.test(m.imagen)?imgURL(m.imagen):((F&&F.img)||null)}}
 const PERMS={equipo:'equip',continua:'cont'};
 const MODPARA={faccion:'de la facción',otras:'de otras facciones',todas:'de cualquier facción'};
 function campoTexto(a,fname){const g={};(a.modificadores||[]).forEach(m=>{(g[m.para]=g[m.para]||[]).push(`${m.valor>0?'+':''}${m.valor} ${m.stat==='atk'?'ATK':'DEF'}`)});
@@ -703,8 +719,14 @@ function validateCards(data0){
     if(c&&c.costo.tipo==='gastarNivel'&&capOK&&c.costo.n>m.topeNivel)w(tk+': gasta más Nivel del que puede acumular, nunca podrá usarlo.',i,fi)});
    const cs=EF3.filter(Boolean).map(compilarEfecto).filter(Boolean);
    if(cs.filter(x=>x.disparador.tipo==='manual').length>1)e(t+': solo puede tener un efecto manual.',i,fi);
-   if(cs.length===3&&m.copias>1)e(t+': con 3 efectos es una carta única: solo 1 copia.',i,fi)}
-  else if(m.tipo==='efecto')w(t+': es de tipo efecto pero no tiene efecto.',i,fi);
+   if(capOK)cs.forEach((x,k)=>{if(x.condicion&&x.condicion.tipo==='nivelMin'&&x.condicion.n>m.topeNivel)w(t+`: la condición de Nivel ${x.condicion.n} nunca se cumple, porque su tope de Nivel es ${m.topeNivel}.`,i,fi)});
+   if(cs.length===3&&m.copias>1)e(t+': con 3 efectos es una carta única: solo 1 copia.',i,fi);
+   [2,3].forEach(k=>{if(m['enlace'+k]!=='si')return;const a=EF3[k-2]&&compilarEfecto(EF3[k-2]),b=EF3[k-1]&&compilarEfecto(EF3[k-1]);
+    if(!a||!b){e(t+`: el efecto ${k} está encadenado pero falta él o el anterior.`,i,fi);return}
+    if(['continuo','manual'].includes(a.disparador.tipo))e(t+`: el efecto ${k} no puede encadenarse a un efecto ${a.disparador.tipo==='manual'?'manual':'continuo'}.`,i,fi);
+    else if(a.disparador.tipo!==b.disparador.tipo)e(t+`: el efecto ${k} está encadenado y debe tener el mismo disparador que el efecto ${k-1}.`,i,fi)})}
+  else if(m.tipo==='efecto'&&!m.borrador)w(t+': es de tipo efecto pero no tiene efecto.',i,fi);
+  if(typeof m.borrador==='string'&&m.borrador.trim()&&!m.borradorOk)w(t+': tiene un efecto descrito con palabras, pendiente de traducir (comparte el .json con Claude).',i,fi);
   if(ef&&m.tipo==='normal')w(t+': es de tipo normal pero tiene efecto.',i,fi);
   if(capOK&&m.tipo==='pesado'&&m.topeNivel<=400)w(t+': es pesado pero no pide sacrificio (tope de 400 o menos).',i,fi);
   if(capOK&&(m.tipo==='normal'||m.tipo==='efecto')&&m.topeNivel>400)w(t+': es '+m.tipo+' pero pide sacrificio (tope mayor a 400).',i,fi);
@@ -742,14 +764,14 @@ function validateCards(data0){
   const dsp=x.efecto&&x.efecto.disparador&&x.efecto.disparador.tipo;
   if(x.tipo==='accion'&&dsp&&dsp!=='manual')e(t+': una Acción debe tener el disparador manual.');
   if(x.tipo==='reaccion'&&dsp&&dsp!=='ventana')e(t+': una Reacción debe tener el disparador "ventana del rival".');
+  if(typeof x.borrador==='string'&&x.borrador.trim()&&!x.borradorOk)w(t+': tiene un efecto descrito con palabras, pendiente de traducir (comparte el .json con Claude).');
   validarEfecto(x.efecto,false,x.permanencia==='equipo'||x.permanencia==='continua'?x.permanencia:null).forEach(y=>(y.lvl==='e'?e:w)(t+': '+y.msg))});
  if(bytes>6e6)w('El archivo pesa más de 6 MB por las imágenes y audios.');
  data.facciones.forEach((f,fi)=>{if(!f||!f.id)return;const ms=data.monstruos.filter(m=>m&&m.faccion===f.id),nm=esc(f.nombre||f.id);
   if(!ms.length)e(`${nm}: no tiene monstruos.`,null,fi);
   else if(!ms.some(m=>m.topeNivel<=400))e(`${nm}: necesita al menos un monstruo sin sacrificio (tope de 400 o menos) para poder jugar.`,null,fi);
   if(ms.length&&!ms.some(m=>m.topeNivel>400))w(`${nm}: no tiene monstruos pesados.`,null,fi);
-  const n=deckSize(data,f.id);if(n<20||n>40)w(`${nm}: el mazo queda de ${n} cartas (la regla pide entre 20 y 40).`,null,fi);
-  if(ms.length&&n<12)e(`${nm}: mazo de ${n} cartas, demasiado chico para jugar.`,null,fi)});
+  const mat=deckSize(data,f.id);if(ms.length&&mat<20)w(`${nm}: con todas sus copias máximas suma ${mat} cartas; no alcanza para armar un mazo de 20 (mínimo del juego).`,null,fi)});
  return{data,fatal:null,issues:I};
 }
 /* dibujo de carta (compartido) */
@@ -767,20 +789,26 @@ const ic=n=>`<svg class="ic"><use href="#i-${n}"/></svg>`;
 const stars=d=>d.cap/100;
 const cmp=(v,b)=>v>b?'up':v<b?'dn':'';
 const typeIcon=d=>d.type==='F'?'castle':d.perm==='equip'?'eqp':d.perm?'inf':'boom';
+const KFR={N:['#e0b04a','#7d5a12'],E:['#ee8a3c','#8a3608'],H:['#2f93c8','#0e3a66'],T:['#6d55d6','#25186e']};
+const fitN=(t,w,k,mx,mn)=>{const n=String(t).replace(/&[a-z#0-9]+;/gi,'_').length||1;return Math.max(mn,Math.min(mx,w/(n*k))).toFixed(2)};
+const fitT=(t,area,mx,mn)=>{const ps=(Array.isArray(t)?t:[t]).map(x=>String(x).replace(/<[^>]+>/g,'').replace(/&[a-z#0-9]+;/gi,'_').length);const H=area/88;for(let z=mx;z>mn;z-=.1){let L=0;ps.forEach(n=>{L+=Math.max(1,Math.ceil(n*.5*z*1.05/86))});if(L*1.18*z+(ps.length-1)*.6*z<=H)return z.toFixed(2)}return mn.toFixed(2)};
 function cardHTML(x,o={}){
  const inst=x.uid!==undefined?x:null,d=inst?inst.d:x,ua=inst?` data-uid="${inst.uid}"`:'';
  if(o.hidden)return`<div class="card back${o.cls||''}"${ua}><div class="bk"></div></div>`;
  const isMon=d.kind!==undefined;let style,body;
- if(isMon){const f=d.f;style=`--fc:${f.c};--fc2:${f.c2}`;
+ const fitV=v=>Math.min(12.5,50/(String(v).length*.62)).toFixed(2);
+ if(isMon){const f=d.f,K=KFR[d.kind]||KFR.N;style=`--fc:${K[0]};--fc2:${K[1]};--fac:${f.c}`;
   let a=d.at,df=d.df,ca='',cd='';if(inst&&o.eff){a=eATK(inst);df=eDEF(inst);ca=cmp(a,d.at);cd=cmp(df,d.df)}
-  const efs=d.efs||(d.ef?[d.ef]:[]),ds=efs.length?efs.map(e=>`<p>${textoEfecto(e,true)}</p>`).join(''):'<p class="nrm">Monstruo normal.</p>';
-  body=`<div class="hd"><i class="fb" title="${f.n}"><svg viewBox="0 0 24 24"><path d="${f.sym}"/></svg></i><div class="nm">${d.name}</div><b class="lb" title="${stars(d)} estrellas">${stars(d)}</b></div><div class="art">${artM(d)}</div><div class="ds${efs.length>1?' m'+efs.length:''}">${ds}</div><div class="st"><span class="${ca}">${ic('atk')}${a}</span><span class="${cd}">${ic('def')}${df}</span></div>`}
+  const efs=d.efs||(d.ef?[d.ef]:[]),tx=efs.length?efTextos(d):[],ty=f.n+(d.kind==='E'?' / Efecto':d.kind==='H'?' / Pesado':d.kind==='T'?' / Tanque':'');
+  const ds=tx.length?tx.map(t=>`<p>${t}</p>`).join(''):'<i class="wm"></i>',lb=`<b class="lb" title="${stars(d)} estrellas">${stars(d)}</b>`;
+  body=`<div class="hd"><i class="fb" title="${f.n}"><svg viewBox="0 0 24 24"><path d="${f.sym}"/></svg></i><div class="nm" style="--nf:${fitN(d.name,72,.6,6.6,3)}cqw">${d.name}</div></div><div class="mid"><div class="sd l"><span class="sv ${ca}" style="--vf:${fitV(a)}cqw">${a}</span>${ic('atk')}</div><div class="art">${artM(d)}</div><div class="sd r"><span class="sv ${cd}" style="--vf:${fitV(df)}cqw">${df}</span>${ic('def')}</div></div><div class="ds" style="--tf:${fitT(tx,2650,5.8,2.4)}cqw"><i class="lbsp"></i>${lb}<u class="ty">${ty}</u>${ds}</div><div class="st">${lb}</div>`}
  else{const T=d.type;style=T==='A'?'--fc:#19b5d1;--fc2:#06505f':T==='R'?'--fc:#d8453a;--fc2:#5a0f0b':'--fc:#3fae5a;--fc2:#0f4a22';
   const lab=T==='F'?'Campo':T==='A'?(d.perm==='equip'?'Equipo':d.perm==='cont'?'Continua':'Acción'):(d.perm?'Reacción continua':'Reacción');
-  body=`<div class="hd"><i class="fb t" title="${lab}">${ic(typeIcon(d))}</i><div class="nm">${d.name}</div><b class="lb sp"></b></div><div class="art">${artS(d)}</div><div class="ds"><p>${d.text||'Sin efectos.'}</p></div><div class="st"><span>${lab}</span><span>${costText(d.cost)}</span></div>`}
- return`<div class="card${o.hand?' hand':''}${o.field||o.tile?' fld':''}${o.full?' full':''}${isMon&&d.efs&&d.efs.length>=2?' ef'+d.efs.length:''}${isMon?'':(d.type==='A'?' spa':d.type==='R'?' spr':' spf')}${o.cls||''}" style="${style}"${ua}>${body}</div>`}
+  const F=typeof FAC!=='undefined'&&d.fi>=0?FAC[d.fi]:null,ty=(F?F.n+' / ':'')+(T==='F'?'Campo':T==='A'?'Acción'+(d.perm==='equip'?' de equipo':d.perm==='cont'?' continua':''):lab);
+  body=`<div class="hd"><i class="fb t" title="${lab}">${ic(typeIcon(d))}</i><div class="nm" style="--nf:${fitN(d.name,72,.6,6.6,3)}cqw">${d.name}</div></div><div class="mid"><div class="sd l"><span class="sv">${lab}</span></div><div class="art">${artS(d)}</div><div class="sd r"><span class="sv">${costText(d.cost)}</span></div></div><div class="ds" style="--tf:${fitT(d.text||'',2650,5.8,2.4)}cqw"><u class="ty">${ty}</u><p>${d.text||'Sin efectos.'}</p></div><div class="st"></div>`}
+ return`<div class="card${o.hand?' hand':''}${o.field||o.tile?' fld':''}${o.full?' full':''}${isMon?' k'+d.kind:''}${isMon&&d.efs&&d.efs.length>=2?' ef'+d.efs.length:''}${isMon?'':(d.type==='A'?' spa':d.type==='R'?' spr':' spf')}${o.cls||''}" style="${style}"${ua}>${body}</div>`}
 
-let DEFAULT_DATA=null;const BASE_JSON='cartas/base.json?v=202611122003';
+let DEFAULT_DATA=null;const BASE_JSON='cartas/base.json?v=202611132203';
 /* ============ CONFIG (todo lo marcado "supuesto" está por validar) ============ */
 const CFG={lp:8000,hand0:5,handMax:7,xpCap0:200,xpCapStep:100,xpGain:100,vetNivel:300,vetValue:2,recActLP:500,recReaXP:300,tieAtk:3000};
 const WLAB={attack:'cuando el rival ataca',summon:'cuando el rival invoca',endTurn:'al final del turno rival',damage:'cuando recibes daño'};
@@ -814,7 +842,13 @@ function log(t,h){G.log.push({t,h});if(G.log.length>120)G.log.shift()}
 const byUid=u=>{for(const p of G.pl)for(const c of [...p.hand,...p.mons,...p.zones,...p.grave])if(c&&c.uid===u)return c;return G.field&&G.field.uid===u?G.field:null};
 function expire(ph){G.pl.forEach(p=>[...p.mons,...p.zones].forEach(c=>{if(c)c.mods=c.mods.filter(m=>!(m.until.phase===ph&&m.until.turn<=G.turn))}))}
 
-function buildDeck(fi,o){const a=[];MONS.filter(d=>d.fi===fi).forEach(d=>{for(let i=0;i<d.copies;i++)a.push(mk(d,o))});SP.filter(d=>d.fi<0||d.fi===fi).forEach(d=>{for(let i=0;i<d.copies;i++)a.push(mk(d,o))});return shuffle(a)}
+/* copias máximas que una carta admite en un mazo (lo define el Taller; una carta única admite 1) */
+const maxCop=d=>d.efs&&d.efs.length>=3?1:Math.max(1,Math.min(3,d.copies||1));
+/* mazo automático de una facción (IA y simulaciones): elige del material de la facción hasta 40 cartas, como haría un jugador */
+function buildDeck(fi,o){const bag=L=>shuffle(L.flatMap(d=>Array(maxCop(d)).fill(d)));
+ const mons=MONS.filter(d=>d.fi===fi),light=bag(mons.filter(d=>!d.sac)),heavy=bag(mons.filter(d=>d.sac)),sps=bag(SP.filter(d=>d.fi<0||d.fi===fi));
+ const pick=[...light.slice(0,15),...heavy.slice(0,7)];if(pick.length<22)pick.push(...light.slice(15,15+22-pick.length));
+ pick.push(...sps.slice(0,40-pick.length));return shuffle(pick.map(d=>mk(d,o)))}
 function buildRec(cards,o){const a=[];cards.forEach(({d,n})=>{for(let i=0;i<n;i++)a.push(mk(d,o))});return shuffle(a)}
 function startGame(f0,f1,sim,rec){
  if(!MONS.length)return Promise.resolve();GEN++;FX.clear();CH.clear();
@@ -940,16 +974,16 @@ async function resolver(e,src,ap,ctx,prm){
   case'ganarXp':{const b=ap.xp;ap.xp=Math.min(xpCap(),ap.xp+a.n);log(`${ap.name} gana ${ap.xp-b} XP.`);FX.hud(ap.i,'+'+(ap.xp-b)+' XP','xp',1);break}
   case'destruir':for(const x of cards()){log(`${nm(x)} es destruida.`);destroy(x)}break;
   case'devolverMano':for(const x of cards()){log(`${nm(x)} vuelve a la mano.`);if(ctx&&(x===ctx.attacker||x===ctx.card))ctx.cancelled=true;bounce(x)}break;
-  case'cambiarPosicion':cards().forEach(flip);log('Cambian posiciones de batalla.');break;
+  case'cambiarPosicion':if(e.objetivo==='atacante'){cards().forEach(m=>{if(m.pos==='atk')flip(m)});log('El atacante pasa a posición de defensa.')}else{cards().forEach(flip);log('Cambian posiciones de batalla.')}break;
   case'negarAtaque':if(ctx){ctx.cancelled=true;FX.lockFx(ctx.attacker);FX.mark(ctx.attacker,{k:'pulse',label:'¡Ataque negado!'})}break;
   case'fijarNivel0':for(const x of cards()){const b=snap(x);x.mods.push({stat:'nivel0',amt:0,until:durUntil(e.limite,ap)});statFx(x,b);log(`${nm(x)} tiene Nivel 0.`)}break;
   case'pasarSobrante':log(`${src.d.name} perfora la defensa.`);await hurt(rv.i,ctx.exceso,'battle');break;
   case'descartarAzar':{let k=0;for(let i=0;i<a.n&&pl.hand.length;i++){const j=Math.random()*pl.hand.length|0,x=pl.hand.splice(j,1)[0];pl.grave.push(x);k++}
-   log(k?`${pl.name} descarta ${k} carta${k>1?'s':''} al azar.`:`${pl.name} no tiene cartas en la mano.`);if(k){FX.snd('slide');FX.hud(pl.i,`−${k} carta${k>1?'s':''}`,'dn')}render();break}
-  case'recuperar':{const pool=ap.grave.slice();if(!pool.length){log(`${ap.name} no tiene cartas en el cementerio.`);break}const n=Math.min(a.n,pool.length);
+   log(k?`${pl.name} descarta ${k} carta${k>1?'s':''} al azar.`:`${pl.name} no tiene cartas en la mano.`);if(k){FX.snd('slide');FX.hud(pl.i,`−${k} carta${k>1?'s':''}`,'dn')}render();if(!k)return false;break}
+  case'recuperar':{const pool=ap.grave.slice();if(!pool.length){log(`${ap.name} no tiene cartas en el cementerio.`);return false}const n=Math.min(a.n,pool.length);
    let ch;if(ap.ai)ch=pool.sort((x,y)=>val(y)-val(x)).slice(0,n);else ch=await pickCards(`Elige ${n} carta(s) de tu cementerio para volver a tu mano`,pool,n,n,{nocancel:1});
    (ch||[]).forEach(x=>{ap.grave.splice(ap.grave.indexOf(x),1);joinHand(ap,x)});log(`${ap.name} recupera ${(ch||[]).length} carta(s) del cementerio.`);render();break}
-  case'moler':{let k=0;for(let i=0;i<a.n&&pl.deck.length;i++){pl.grave.push(pl.deck.pop());k++}log(`${pl.name} envía ${k} carta${k>1?'s':''} de su mazo al cementerio.`);if(k)FX.snd('slide');render();break}
+  case'moler':{let k=0;for(let i=0;i<a.n&&pl.deck.length;i++){pl.grave.push(pl.deck.pop());k++}log(`${pl.name} envía ${k} carta${k>1?'s':''} de su mazo al cementerio.`);if(k)FX.snd('slide');render();if(!k)return false;break}
   case'devolverMazo':for(const x of cards()){log(`${nm(x)} vuelve al mazo de su dueño.`);if(ctx&&(x===ctx.attacker||x===ctx.card))ctx.cancelled=true;toDeck(x)}break}}
 /* efecto de monstruo con disparador (alInvocar, alSerAtacado, alDestruirEnBatalla, finMiTurno) */
 const CH=new Set(); /* cartas cuyo efecto se está resolviendo: una carta no puede encadenar su efecto dos veces */
@@ -957,11 +991,14 @@ const LBL={robar:'Roba una carta',infligirDano:'Daño',pasarSobrante:'Perfora',c
 async function fireMon(src,trig,ctx){if(CH.has(src.uid))return false;
  const L=effs(src).map((e,i)=>[e,i]).filter(([e])=>e.disparador.tipo===trig);if(!L.length)return false;
  let any=false;src.lt=src.lt||{};CH.add(src.uid);
- try{for(const[e,i]of L){if(G.over)break;if(!cumple(e.condicion,src,ctx))continue;
+ const done={},lk=src.d.lk||[];
+ try{for(const[e,i]of L){if(G.over)break;if(lk[i]&&!done[i-1])continue;if(!cumple(e.condicion,src,ctx))continue;
   if(e.limite==='unaVezTurno'&&src.lt[i]===G.turn)continue;if(e.limite==='unaVezDuelo'&&src.lt['d'+i])continue;
+  const prm={};if(PICK.includes(e.objetivo)){const ow=G.pl[src.o],opts=posibles(ow,e,ctx).filter(x=>x!==src);if(!opts.length)continue;
+   prm.t=ow.ai?aiPickFor(e,opts):await pickTarget(`${src.d.name}: ${PICKMSG[e.objetivo]}`,opts);if(!prm.t)continue}
   if(e.limite==='unaVezTurno')src.lt[i]=G.turn;if(e.limite==='unaVezDuelo')src.lt['d'+i]=true;
   FX.mark(src,{k:'pulse',label:LBL[e.accion.tipo]||(V_ACC[e.accion.tipo]||{}).n||''});render();await FX.settle();
-  await resolver(e,src,G.pl[src.o],ctx,{});any=true}}finally{CH.delete(src.uid)}
+  const ok=await resolver(e,src,G.pl[src.o],ctx,prm);done[i]=ok!==false;any=true}}finally{CH.delete(src.uid)}
  return any}
 /* efecto manual de un monstruo (por ejemplo, curar gastando Nivel) */
 function manualInfo(p,c){const e=disp(c,'manual');if(!e)return null;
@@ -1005,10 +1042,11 @@ async function doAttack(att,tgt){
  log(`${att.d.name} (${eATK(att)} ATK) ataca ${tgt?'a '+tgt.d.name:'directamente'}.`);
  const ctx={attacker:att,target:tgt,cancelled:false};
  render();await FX.attack(att,tgt);await fireMon(att,'alAtacar',{attacker:att,target:tgt});if(G.over)return;await react('attack',ctx);if(G.over)return;
- if(ctx.cancelled||!inField(att)){log('El ataque no se realiza.');render();return}
+ if(ctx.cancelled||!inField(att)||att.pos!=='atk'){log(att.pos!=='atk'&&inField(att)?'El atacante quedó en defensa: el ataque se detiene.':'El ataque no se realiza.');render();return}
  if(!tgt){const dmg=eATK(att);gainNivel(att);gainXP(op);await hurt(op.i,dmg,'battle');render();await FX.settle();return}
  const a=eATK(att);let killed=false,attDead=false;
  await fireMon(tgt,'alSerAtacado',{attacker:att});if(G.over)return
+ if(!inField(att)||att.pos!=='atk'||!inField(tgt)){log(inField(att)&&att.pos!=='atk'?'El atacante quedó en defensa: el ataque se detiene.':'El ataque no se realiza.');render();await FX.settle();return}
  let vp='atk',exc=0;
  if(tgt.pos==='atk'){const d=eATK(tgt);
   if(a>d){destroy(tgt);killed=true;await hurt(op.i,a-d,'battle')}
@@ -1045,9 +1083,12 @@ async function react(win,ctx){
   if(!ch)return;await runReaction(p,ch,win,ctx);
  }
 }
+function aiPickFor(e,opts){const a=e.accion,bad=['destruir','devolverMano','devolverMazo','fijarNivel0'].includes(a.tipo)||(a.tipo==='cambiarStat'&&a.valor<0);
+ const s=[...opts].sort((x,y)=>(x.d&&isM(x)?val(x):1500)-(y.d&&isM(y)?val(y):1500));return bad||a.tipo==='cambiarStat'?s[s.length-1]:s[0]}
 function aiTarget(z,win,ctx,me,opts){const id=z.d.id;
  if(id==='R2')return [...opts].sort((a,b)=>(b.pos==='def')-(a.pos==='def')||eN(b)-eN(a))[0];
  if(id==='R4')return aiR4(win,ctx,me);
+ const a=z.d.ef.accion.tipo;if(['destruir','devolverMano','devolverMazo'].includes(a)){const k=win==='summon'?ctx.card:win==='attack'?ctx.attacker:null;if(k&&opts.includes(k))return k;return aiPickFor(z.d.ef,opts)}
  return opts[0]}
 async function runReaction(p,z,win,ctx){
  const me=cur(),e=z.d.ef;let tgt=null;
@@ -1077,7 +1118,10 @@ function aiReact(p,opts,win,ctx){
  const r5=has('R5');if(r5&&p.lp<=5000)return r5;
  const r2=has('R2');if(r2&&win==='endTurn'&&me.mons.some(m=>m&&m.pos==='def'&&eN(m)>=200))return r2;
  for(const z of opts){if(/^R[1-5]$/.test(z.d.id))continue;const ac=z.d.ef.accion.tipo;
-  if(ac==='negarAtaque'&&win==='attack'&&(att&&eATK(att)>=1500||p.lp<=5000))return z;
+  if((ac==='negarAtaque'||(ac==='cambiarPosicion'&&z.d.ef.objetivo==='atacante'))&&win==='attack'&&(att&&eATK(att)>=1500||p.lp<=5000))return z;
+  if(ac==='destruir'&&win==='attack'&&att&&eATK(att)>=1800)return z;
+  if(ac==='destruir'&&win==='summon'&&ctx.card&&(ctx.card.d.sac>=1||ctx.card.d.at>=1800))return z;
+  if(ac==='moler'&&z.d.ef.objetivo==='jugadorRival')return z;
   if(ac==='curar'&&p.lp<=5000)return z;
   if(ac==='cambiarStat'&&win==='attack'&&z.d.ef.objetivo==='atacante'&&att&&(!tg||eATK(att)>=(tg.pos==='atk'?eATK(tg):eDEF(tg))))return z;
   if(ac==='robar'&&p.hand.length<=3)return z;if(ac==='infligirDano'&&win!=='damage')return z}
@@ -1151,6 +1195,21 @@ async function aiActions(p){
   const ok=ts.length?ts.some(t=>{const v=t.pos==='atk'?eATK(t):eDEF(t);return eATK(a)<=v&&eATK(a)+500>v}):o.lp<=eATK(a)+500;
   if(ok&&p.hand.includes(c)){await playAction(p,c,{t:a});await S();break}}
  if((c=p.hand.find(x=>x.d.id==='A2'))&&p.hand.length>=4){const m=p.mons.filter(x=>x&&x.pos==='def')[0];if(m&&o.mons.some(Boolean)){await playAction(p,c,{t:m});await S()}}
+ if(G.over)return;await aiGeneric(p);
+}
+/* IA genérica para Acciones instantáneas de facción (las del set general tienen su propia lógica arriba) */
+async function aiGeneric(p){
+ const o=opp(),S=()=>sleep(UI.speed),atks=()=>p.mons.filter(m=>m&&canAttack(m));
+ for(const c of [...p.hand]){if(G.over||!p.hand.includes(c))continue;const d=c.d;
+  if(d.type!=='A'||d.perm||/^A[1-6]$/.test(d.id)||!d.ef||!canPay(p,d.cost,c))continue;
+  if(d.cost.t==='lp'&&p.lp<=d.cost.v+1500)continue;if(d.cost.t==='disc'&&p.hand.length<=d.cost.v+1)continue;
+  const e=d.ef,a=e.accion.tipo,em=o.mons.filter(Boolean);let t=null,go=false;
+  if(a==='destruir'&&e.objetivo==='monstruoRival'){t=em.sort((x,y)=>val(y)-val(x))[0];go=t&&val(t)>=1800}
+  else if(a==='moler'&&e.objetivo==='jugadorRival')go=o.deck.length>0;
+  else if(a==='infligirDano'&&e.objetivo==='jugadorRival')go=true;
+  else if(a==='cambiarPosicion'&&e.objetivo==='monstruoRival'){t=em.filter(m=>m.pos==='atk').find(m=>atks().some(x=>eATK(x)>eDEF(m)&&eATK(x)<=eATK(m)));go=!!t}
+  else if(a==='cambiarStat'&&e.objetivo==='monstruoRival'&&e.accion.valor<0){t=em.find(m=>atks().some(x=>{const v=m.pos==='atk'?eATK(m):eDEF(m);return eATK(x)<=v&&eATK(x)>v+e.accion.valor}));go=!!t}
+  if(go){await playAction(p,c,t?{t}:{});await S()}}
 }
 async function aiPerm(p){
  const S=()=>sleep(UI.speed);
@@ -1166,13 +1225,17 @@ async function aiPerm(p){
    else if(ms.length>=2||a.valor>0){await playAction(p,c,{});await S()}}}
 }
 async function aiBattle(p){
- for(const a of [...p.mons]){
+/* un monstruo que todavía puede frenar un ataque este turno (pone al atacante en defensa) */
+const frena=t=>effs(t).some((e,i)=>e.disparador.tipo==='alSerAtacado'&&e.accion.tipo==='cambiarPosicion'&&e.objetivo==='atacante'&&!(e.limite==='unaVezTurno'&&t.lt&&t.lt[i]===G.turn)&&!(e.limite==='unaVezDuelo'&&t.lt&&t.lt['d'+i]));
+ const ord=[...p.mons].filter(Boolean).sort((x,y)=>eATK(x)-eATK(y));
+ for(const a of ord){
   if(G.over)return;if(!a||!canAttack(a))continue;const o=opp();const tg=o.mons.filter(Boolean);
   if(!tg.length){await doAttack(a,null);await sleep(UI.speed);continue}
   let best=null,bs=0;const av=eATK(a);
   for(const t of tg){let s;
    if(t.pos==='atk'){const d=eATK(t);s=av>d?500+d+(av-d)*.3:(av===d&&val(t)>val(a)+300?200:-1)}
    else{const d=eDEF(t);s=av>d?300+d*.5:-1}
+   if(s>0&&frena(t))s=a===ord.find(x=>canAttack(x))?s:s-450;
    if(s>bs){bs=s;best=t}}
   if(best){await doAttack(a,best);await sleep(UI.speed)}
  }
@@ -1330,7 +1393,7 @@ function cardDetail(d,c){
   det=`<div class="dmeta"><b>${FAC[d.fi].n}</b> · ${KLAB[d.kind]} · ${stars(d)}★ · ${d.sac?d.sac+' sacrificio(s) de su facción':'sin sacrificio'}${efs.length>=3?' · <b class="uni">Carta única</b>':''}</div>
   <div class="dstat"><span>${ic('atk')} ATK ${a}</span><span>${ic('def')} DEF ${df}</span>${c?`<span class="mut">en ${c.pos==='atk'?'ataque':'defensa'}</span>`:''}</div>
   <div class="mut">Tope de Nivel ${d.cap} · +${d.speed} por batalla${c?` · Nivel actual ${c.nivel}${c.boost?' · potenciando '+c.boost.toUpperCase():''}`:''}</div>
-  <div class="defs">${efs.length?efs.map((e,i)=>`<p>${efs.length>1?`<b>Efecto ${i+1}:</b> `:''}${textoEfecto(e,true)}</p>`).join(''):'<p class="mut">Monstruo normal: sin efectos.</p>'}</div>`}
+  <div class="defs">${efs.length?efTextos(d).map((t,i,a)=>`<p>${a.length>1?`<b>Efecto ${i+1}:</b> `:''}${t}</p>`).join(''):'<p class="mut">Monstruo normal: sin efectos.</p>'}</div>`}
  else{const lab=d.type==='F'?'Carta de Campo':d.type==='A'?(d.perm==='equip'?'Acción de Equipo':d.perm==='cont'?'Acción Continua':'Acción'):(d.perm?'Reacción continua':'Reacción');
   det=`<div class="dmeta"><b>${lab}</b> · Costo: ${costText(d.cost)}</div><div class="defs"><p>${d.text}</p>${d.type==='R'&&d.windows&&d.windows.length?`<p class="mut">Se coloca boca abajo y se activa ${d.windows.map(w=>WLAB[w]).join(', ')}.</p>`:''}</div>`}
  const kl=keys.length?`<div class="dkeys"><span class="mut">${G?'Llaves para encontrarla en el editor de mazo:':'Llaves para encontrarla en el editor de mazo (toca una para ir):'}</span><div class="llaves">${keys.map(([k,l])=>`<button class="ll"${G?' disabled':''} data-m="ll:${k}">${l}</button>`).join('')}</div></div>`:'';
@@ -1432,7 +1495,7 @@ function recBase(name){
  const add=d=>{const id=cid(d);cnt.set(id,(cnt.get(id)||0)+1);tot++};
  ms.forEach(add);for(const d of SP.filter(d=>d.fi<0||d.fi===fi)){if(tot>=REC_MIN)break;add(d)}
  const cheap=[...ms].sort((a,b)=>a.cap-b.cap);let k=0;
- while(tot<REC_MIN&&cheap.length&&k<200){const d=cheap[k++%cheap.length];if((cnt.get(cid(d))||0)<REC_COP)add(d)}
+ while(tot<REC_MIN&&cheap.length&&k<200){const d=cheap[k++%cheap.length];if((cnt.get(cid(d))||0)<maxCop(d))add(d)}
  return{id:newRid(),name,cards:[...cnt].map(([id,n])=>({id,n}))}}
 function recLoad(){
  if(REC.list.length&&REC.loaded)return;
@@ -1442,7 +1505,7 @@ function recLoad(){
  REC.loaded=true;recSave()}
 function recInfo(r){
  const idx=cardIdx();let n=0,mon=0,sp=0,miss=0;const cards=[];
- r.cards.forEach(c=>{const d=idx.get(c.id);const k=Math.max(0,Math.min(d&&d.efs&&d.efs.length>=3?1:REC_COP,c.n|0));if(!d){miss+=k;return}n+=k;if(d.kind!==undefined)mon+=k;else sp+=k;if(k)cards.push({d,n:k})});
+ r.cards.forEach(c=>{const d=idx.get(c.id);const k=Math.max(0,Math.min(d?maxCop(d):REC_COP,c.n|0));if(!d){miss+=k;return}n+=k;if(d.kind!==undefined)mon+=k;else sp+=k;if(k)cards.push({d,n:k})});
  const err=[],warn=[];
  if(n<REC_MIN)err.push(`Faltan ${REC_MIN-n} carta(s): mínimo ${REC_MIN}.`);
  if(n>REC_MAX)err.push(`Sobran ${n-REC_MAX} carta(s): máximo ${REC_MAX}.`);
@@ -1494,7 +1557,7 @@ function drawDecks(){
 
 /* editor */
 function edCount(r,id){const c=r.cards.find(x=>x.id===id);return c?c.n:0}
-function edSet(r,id,n){const c=r.cards.find(x=>x.id===id);n=Math.max(0,Math.min(REC_COP,n));if(c){c.n=n;if(!n)r.cards.splice(r.cards.indexOf(c),1)}else if(n)r.cards.push({id,n});recSave()}
+function edSet(r,id,n){const c=r.cards.find(x=>x.id===id),dd=cardIdx().get(id);n=Math.max(0,Math.min(dd?maxCop(dd):REC_COP,n));if(c){c.n=n;if(!n)r.cards.splice(r.cards.indexOf(c),1)}else if(n)r.cards.push({id,n});recSave()}
 function drawEdit(){
  const r=recSel(),i=recInfo(r),idx=cardIdx();
  const fch=(v,txt,f)=>`<button class="fk ${MENU.ff===v?'on':''}${f&&f.lock?' lk':''}" data-mg="ff:${v}" title="${txt}${f&&f.lock?' (bloqueada)':''}">${f?symSvg(f):'<b>Todas</b>'}</button>`;
@@ -1506,13 +1569,13 @@ function drawEdit(){
  else if(MENU.fk==='F')pool=SP.filter(d=>d.type==='F');
  else pool=i.cards.map(c=>c.d);
  const pool0=pool;if(MENU.ll)pool=pool.filter(d=>llavesDe(d).has(MENU.ll));
- const tile=d=>{const id=cid(d),n=edCount(r,id);if(d.lock)return`<div class="pt lk"><div class="pc">${cardHTML(d,{hidden:1,cls:' fld'})}${LOCKSVG}</div><small class="ps">Bloqueada</small><div class="pb"><button disabled>−</button><button disabled>+</button></div></div>`;return`<div class="pt ${n?'has':''}"><button class="pc" data-mg="info:${id}" aria-label="Ver ${esc(d.name)}">${cardHTML(d,{tile:1})}${n?`<b class="cn">${n}</b>`:''}</button><small class="ps">${d.kind!==undefined?d.at+' / '+d.df:costText(d.cost)}</small><div class="pb"><button data-mg="sub:${id}" ${n?'':'disabled'} aria-label="Quitar una">−</button><button data-mg="add:${id}" ${n>=(d.efs&&d.efs.length>=3?1:REC_COP)||i.n>=REC_MAX?'disabled':''} aria-label="Agregar una">+</button></div></div>`};
+ const tile=d=>{const id=cid(d),n=edCount(r,id);if(d.lock)return`<div class="pt lk"><button class="pc" data-mg="unl:${FAC[d.fi].id}" title="Desbloquear con clave">${cardHTML(d,{hidden:1,cls:' fld'})}${LOCKSVG}</button><small class="ps">Bloqueada</small><div class="pb"><button disabled>−</button><button disabled>+</button></div></div>`;return`<div class="pt ${n?'has':''}"><button class="pc" data-mg="info:${id}" aria-label="Ver ${esc(d.name)}">${cardHTML(d,{tile:1})}${n?`<b class="cn">${n}</b>`:''}</button><small class="ps">${d.kind!==undefined?d.at+' / '+d.df:costText(d.cost)} · máx ${maxCop(d)}</small><div class="pb"><button data-mg="sub:${id}" ${n?'':'disabled'} aria-label="Quitar una">−</button><button data-mg="add:${id}" ${n>=maxCop(d)||i.n>=REC_MAX?'disabled':''} aria-label="Agregar una">+</button></div></div>`};
  const sorted=[...i.cards].sort((a,b)=>(a.d.kind!==undefined?0:1)-(b.d.kind!==undefined?0:1)||(a.d.fi-b.d.fi)||(a.d.cap-b.d.cap));
  const cls=i.n>REC_MAX||i.n<REC_MIN?'bad':'good';
  return`<div class="mi ed"><div class="mtop">${back('decks')}<input id="rname" maxlength="20" value="${esc(r.name)}" aria-label="Nombre de la receta"><span class="cnt ${cls}">${i.n}/${REC_MAX}</span></div>
  <div class="edg"><div class="edp"><div class="ftabs">${kinds.map(([k,t])=>`<button class="${MENU.fk===k?'pri':''}" data-mg="fk:${k}">${t}</button>`).join('')}</div>
   ${MENU.fk==='m'?`<div class="fks">${fch(-1,'Todas las facciones',null)}${FAC.map((f,k)=>fch(k,f.n,f)).join('')}</div>`:''}
-  ${MENU.fk==='d'?'':llavesFila(pool0,MENU.ll,'data-mg-ll')}<div class="pkg">${pool.map(tile).join('')||'<p class="mut">No hay cartas aquí'+(MENU.ll?' con esta llave':'')+'.</p>'}</div></div>
+  ${(()=>{const L=FAC.filter((f,k)=>f.lock&&(MENU.ff<0||MENU.ff===k));return L.length&&MENU.fk!=='d'?`<div class="lkban">${LOCKSVG}<span>${L.length===1?`<b>${L[0].n}</b> está bloqueada.`:`${L.length} facciones bloqueadas.`} Sus cartas no se pueden agregar sin la clave.</span>${L.map(f=>`<button data-mg="unl:${f.id}">Desbloquear ${L.length>1?f.n:''}</button>`).join('')}</div>`:''})()}${MENU.fk==='d'?'':llavesFila(pool0.filter(d=>!d.lock),MENU.ll,'data-mg-ll')}<div class="pkg">${pool.map(tile).join('')||'<p class="mut">No hay cartas aquí'+(MENU.ll?' con esta llave':'')+'.</p>'}</div></div>
   <div class="edd"><h3 class="sh">Mazo · ${i.n} cartas</h3><div class="mut" style="font-size:11px">${i.mon} monstruos · ${i.sp} A/R · mínimo ${REC_MIN}</div>
    <div class="dl">${sorted.map(({d,n})=>`<button class="dr" data-mg="sub:${cid(d)}"><i class="dot" style="background:${d.kind!==undefined?d.f.c:(d.type==='A'?'#19b5d1':'#d8453a')};border-color:transparent"></i><span>${n}× ${esc(d.name)}</span></button>`).join('')||'<p class="mut">Vacío: toca “+” en las cartas.</p>'}</div>
    ${[...i.err.map(t=>`<div class="wn bad">${t}</div>`),...i.warn.map(t=>`<div class="wn">${t}</div>`)].join('')}
@@ -1554,7 +1617,8 @@ document.addEventListener('click',e=>{
  else if(a==='del'){if(MENU.del===v){REC.list=REC.list.filter(r=>r.id!==v);if(!REC.list.some(r=>r.id===REC.sel))REC.sel=REC.list[0].id;MENU.del=null;recSave()}else MENU.del=v;renderMenu()}
  else if(a==='ff'){MENU.ff=+v;renderMenu()}
  else if(a==='fk'){MENU.fk=v;renderMenu()}
- else if(a==='add'){const r=recSel(),d=cardIdx().get(v);if(recInfo(r).n<REC_MAX&&!(d&&d.efs&&d.efs.length>=3&&edCount(r,v)>=1))edSet(r,v,edCount(r,v)+1);renderMenu()}
+ else if(a==='unl'){unlockPack(v).then(()=>renderMenu())}
+ else if(a==='add'){const r=recSel(),d=cardIdx().get(v);if(recInfo(r).n<REC_MAX&&!(d&&edCount(r,v)>=maxCop(d)))edSet(r,v,edCount(r,v)+1);renderMenu()}
  else if(a==='sub'){const r=recSel();edSet(r,v,edCount(r,v)-1);renderMenu()}
  else if(a==='clear'){recSel().cards=[];recSave();renderMenu()}
  else if(a==='info')infoModal(v)});
@@ -2022,11 +2086,13 @@ async function factionsDialog(){
   else if(a==='del'){const p=PACKS.find(x=>x.faccion.id===id);if(!p)continue;
    const c=await modal(`<h3>Eliminar facción</h3><p>¿Quitar <b>${esc(p.faccion.nombre||id)}</b> de tu juego? Las recetas que usen sus cartas quedarán incompletas. Puedes volver a importarla después.</p><div class="mbtns"><button class="pri" data-m="si">Eliminar</button><button class="ghost" data-m="x">Cancelar</button></div>`);
    if(c==='si'){try{await PK.del(id)}catch(e){}PACKS=PACKS.filter(x=>x.faccion.id!==id);applyMerged();renderMenu()}}
-  else if(a==='unl'){const p=PACKS.find(x=>x.faccion.id===id);if(!p)continue;let pw='';
-   const c=await modal(`<h3>Desbloquear ${esc(p.faccion.nombre||id)}</h3><p class="mut">Escribe la clave que te dio quien creó esta facción.</p><input type="password" id="pkw" autocomplete="off" style="width:100%;padding:8px;font:inherit"><div class="mbtns"><button class="pri" data-m="ok">Desbloquear</button><button class="ghost" data-m="x">Cancelar</button></div>`,{init:box=>{const i=box.querySelector('#pkw');i.focus();i.oninput=()=>pw=i.value;i.onkeydown=e=>{if(e.key==='Enter')closeModal('ok')}}});
-   if(c==='ok'){let h='';try{h=await sha256hex(p.clave.sal+pw)}catch(e){}
-    if(h===p.clave.hash){const u=unlocks();u[id]=h;try{localStorage.setItem(UNLOCK_KEY,JSON.stringify(u))}catch(e){}applyMerged();renderMenu();await modal(`<h3>Desbloqueada</h3><p>Ya puedes usar sus cartas en tus recetas.</p><div class="mbtns"><button class="pri" data-m="x">Aceptar</button></div>`)}
-    else await modal(`<h3>Clave incorrecta</h3><p>La facción sigue bloqueada.</p><div class="mbtns"><button class="pri" data-m="x">Aceptar</button></div>`)}}}}
+  else if(a==='unl')await unlockPack(id)}}
+/* pide la clave de una facción bloqueada; true si quedó desbloqueada */
+async function unlockPack(id){const p=PACKS.find(x=>x.faccion.id===id);if(!p||!packLocked(p))return true;let pw='';
+ const c=await modal(`<h3>Desbloquear ${esc(p.faccion.nombre||id)}</h3><p class="mut">Escribe la clave que te dio quien creó esta facción. Sin ella, sus cartas se ven bloqueadas y no se pueden agregar a tus recetas.</p><input type="password" id="pkw" autocomplete="off" style="width:100%;padding:8px;font:inherit"><div class="mbtns"><button class="pri" data-m="ok">Desbloquear</button><button class="ghost" data-m="x">Cancelar</button></div>`,{init:box=>{const i=box.querySelector('#pkw');i.focus();i.oninput=()=>pw=i.value;i.onkeydown=e=>{if(e.key==='Enter')closeModal('ok')}}});
+ if(c!=='ok')return false;let h='';try{h=await sha256hex(p.clave.sal+pw)}catch(e){}
+ if(h===p.clave.hash){const u=unlocks();u[id]=h;try{localStorage.setItem(UNLOCK_KEY,JSON.stringify(u))}catch(e){}applyMerged();renderMenu();await modal(`<h3>Desbloqueada</h3><p>Ya puedes usar las cartas de <b>${esc(p.faccion.nombre||id)}</b> en tus recetas.</p><div class="mbtns"><button class="pri" data-m="x">Aceptar</button></div>`);return true}
+ await modal(`<h3>Clave incorrecta</h3><p>La facción sigue bloqueada.</p><div class="mbtns"><button class="pri" data-m="x">Aceptar</button></div>`);return false}
 
 /* ============ CARTAS: guardado, importación y vuelta al menú ============ */
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v);return true}catch(e){return false}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
