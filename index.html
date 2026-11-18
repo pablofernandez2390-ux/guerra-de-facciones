@@ -264,7 +264,7 @@ body.phb .slot.m .card .lb,.slot.m:has(.fst.fl) .card .lb{opacity:0}
 .lki{width:1.1em;height:1.1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .pt.lk .pc{position:relative;filter:grayscale(.6) brightness(.6)}.pt.lk .lki{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:42%;height:42%;color:#ffd54a;filter:drop-shadow(0 0 4px #000)}
 .fk.lk{opacity:.55;position:relative}.fk.lk::after{content:'';position:absolute;right:1px;bottom:1px;width:7px;height:7px;border-radius:50%;background:#ffd54a}
-#menu{background:linear-gradient(180deg,#05060fcc 0,#05060f55 30%,#05060f55 60%,#05060fdd 100%),url(img/portada.webp?v=202611140103) center/cover no-repeat;--ink:#f3f1ff;--mut:#c4c8e6;--panel:#0a1024c4;--line:#ffffff4d;--slot:#0a102488;--slotline:#ffffff44;--acc:#ffc680;--accfg:#1a0d00;color:var(--ink)}
+#menu{background:linear-gradient(180deg,#05060fcc 0,#05060f55 30%,#05060f55 60%,#05060fdd 100%),url(img/portada.webp?v=202611161900) center/cover no-repeat;--ink:#f3f1ff;--mut:#c4c8e6;--panel:#0a1024c4;--line:#ffffff4d;--slot:#0a102488;--slotline:#ffffff44;--acc:#ffc680;--accfg:#1a0d00;color:var(--ink)}
 #menu button,#menu .rr,#menu .mi label{text-shadow:0 1px 3px #000}
 #menu button{-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);box-shadow:0 3px 12px #000c}
 #menu button.pri{background:linear-gradient(180deg,#ffd49a,#e3873a);color:#1a0d00;text-shadow:0 1px 0 #fff8;border-color:#ffe2b8;box-shadow:0 0 18px #ff9a3c99,0 4px 14px #000d}
@@ -272,6 +272,8 @@ body.phb .slot.m .card .lb,.slot.m:has(.fst.fl) .card .lb{opacity:0}
 #menu .mt,#menu .sh,#menu h3,#menu h2{text-shadow:0 2px 6px #000,0 0 14px #000}
 .cv-t{color:#fff1d2!important;text-shadow:0 0 2px #000,0 3px 0 #000,0 5px 14px #000,0 0 32px #000,0 0 46px #c4122e99!important}
 .cv-s{color:#ffd9a8!important;text-shadow:0 2px 6px #000,0 0 14px #000}
+.cv-top{position:absolute;right:12px;top:8px;display:flex;gap:6px;z-index:3}
+#menu .cv-top button{padding:4px 10px;font-size:clamp(10px,2.3dvh,13px);background:#0a1024b3}
 .cv-brand{position:absolute;left:12px;top:10px;display:flex;align-items:center;gap:7px;color:#e0b04f;font-size:clamp(9px,2.1dvh,12px);letter-spacing:.2em;text-transform:uppercase;text-shadow:0 1px 4px #000,0 0 10px #000;opacity:.92}
 .cv-brand svg{width:clamp(18px,4.4dvh,28px);height:clamp(18px,4.4dvh,28px);filter:drop-shadow(0 0 4px #000)}
 .cv-logo{max-width:min(92%,700px);max-height:40dvh;object-fit:contain;filter:drop-shadow(0 4px 10px #000) drop-shadow(0 0 24px #000a)}
@@ -391,7 +393,7 @@ textarea{font:12px/1.35 ui-monospace,Menlo,Consolas,monospace;width:100%;color:v
 
 <script>
 'use strict';
-const LOGO_IMG="img/logo.webp?v=202611140103";
+const LOGO_IMG="img/logo.webp?v=202611161900";
 /* ============ EFECTOS (formato v2): vocabulario, texto generado, migración y validación ============
    Un efecto = { disparador:{tipo,ventanas?}, condicion:null|{tipo,..}, costo:{tipo,n}, objetivo, accion:{tipo,..}, limite, alternativas? } */
 const VENT={ataque:'attack',invocacion:'summon',finTurno:'endTurn',dano:'damage'};
@@ -813,7 +815,7 @@ function cardHTML(x,o={}){
   body=`<div class="hd"><i class="fb t" title="${lab}">${ic(typeIcon(d))}</i><div class="nm" style="--nf:${fitN(d.name,72,.6,6.6,3)}cqw">${d.name}</div></div><div class="mid"><div class="sd l"><span class="sv" style="--vf:${fitS(lab)}cqw">${lab}</span></div><div class="art">${artS(d)}</div><div class="sd r"><span class="sv" style="--vf:${fitS(costText(d.cost))}cqw">${costText(d.cost)}</span></div></div><div class="ds" style="--tf:${fitT(d.text||'',2650,5.8,2.4)}cqw"><u class="ty">${ty}</u><p>${d.text||'Sin efectos.'}</p></div><div class="st"></div>`}
  return`<div class="card${o.hand?' hand':''}${o.field||o.tile?' fld':''}${o.full?' full':''}${isMon?' k'+d.kind:''}${isMon&&d.efs&&d.efs.length>=2?' ef'+d.efs.length:''}${isMon?'':(d.type==='A'?' spa':d.type==='R'?' spr':' spf')}${o.cls||''}" style="${style}"${ua}>${body}</div>`}
 
-let DEFAULT_DATA=null;const BASE_JSON='cartas/base.json?v=202611140103';
+let DEFAULT_DATA=null;const BASE_JSON='cartas/base.json?v=202611161900';
 /* ============ CONFIG (todo lo marcado "supuesto" está por validar) ============ */
 const CFG={lp:8000,hand0:5,handMax:7,xpCap0:200,xpCapStep:100,xpGain:100,vetNivel:300,vetValue:2,recActLP:500,recReaXP:300,tieAtk:3000};
 const WLAB={attack:'cuando el rival ataca',summon:'cuando el rival invoca',endTurn:'al final del turno rival',damage:'cuando recibes daño'};
@@ -1449,7 +1451,7 @@ document.addEventListener('click',e=>{
  const gp=t.closest('[data-pick]');if(gp){const[k,v]=gp.dataset.pick.split(':');UI.menu[k]=+v;renderMenu();return}
  const go=t.closest('[data-go]');
  if(go){const g=go.dataset.go;
-  if(g==='rules')rules();else if(g==='cat')catalog(0);else if(g==='cards')cardsDialog();else if(g==='facs')factionsDialog();else if(g==='install')installApp();else if(g==='menu')openMenu();
+  if(g==='rules')rules();else if(g==='cat')catalog(0);else if(g==='cards')cardsDialog();else if(g==='facs')factionsDialog();else if(g==='install')installApp();else if(g==='full')toggleFull();else if(g==='quit')quitGame();else if(g==='menu')openMenu();
   else if(g==='start'){enterPlay();startGame(UI.menu.me,UI.menu.op<0?Math.random()*FAC.length|0:UI.menu.op,false)}
   else if(g==='sim')startGame(Math.random()*FAC.length|0,Math.random()*FAC.length|0,true);
   else if(g==='cancelt')endTarget(null);
@@ -1552,7 +1554,7 @@ function placeScreens(){
 const symSvg=f=>`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${f.sym}" fill="${f.c}"/></svg>`;
 const back=to=>`<button class="ghost bk" data-mg="go:${to}">‹ Atrás</button>`;
 function drawCover(){
- return`<div class="mi cv"><div class="cv-sym">${FAC.map(symSvg).join('')}</div>${LOGO_IMG?`<img class="cv-logo" src="${LOGO_IMG}" alt="${TITULO.n}">`:`<h1 class="cv-t">${TITULO.n}</h1>`}<div class="cv-brand">${MARCA_SVG}<span>${TITULO.marca}</span></div><button class="pri big" data-mg="go:mode">Jugar</button>
+ return`<div class="mi cv"><div class="cv-sym">${FAC.map(symSvg).join('')}</div>${LOGO_IMG?`<img class="cv-logo" src="${LOGO_IMG}" alt="${TITULO.n}">`:`<h1 class="cv-t">${TITULO.n}</h1>`}<div class="cv-brand">${MARCA_SVG}<span>${TITULO.marca}</span></div><div class="cv-top">${canFull()?`<button class="ghost" data-go="full" title="Pantalla completa">${document.fullscreenElement?'⤡ Salir de pantalla completa':'⤢ Pantalla completa'}</button>`:''}<button class="ghost" data-go="quit" title="Salir del juego">✕ Salir</button></div><button class="pri big" data-mg="go:mode">Jugar</button>
  <div class="cv-l"><button class="ghost" data-go="rules">Reglas</button><button class="ghost" data-go="cat">Catálogo</button><button class="ghost" data-go="cards">Cartas</button><button class="ghost" data-go="facs">Facciones</button><label><input type="checkbox" id="fxtog" ${FX.rm?'':'checked'}> Animaciones</label> <label><input type="checkbox" id="sfxtog" ${Snd.cfg.sfx?'checked':''}> Sonido</label> <label><input type="checkbox" id="mustog" ${Snd.cfg.mus?'checked':''}> Música</label></div>
  ${canInstall()?'<button class="inst" data-go="install">'+ic('down')+' Instalar el juego</button>':''}
  <div class="mut cv-f">Versión 1.0 · Set: <b>${FAC.setName}</b> · ${FAC.length} facciones · ${MONS.length} monstruos · ${SP.length} Acciones, Reacciones y Campos</div></div>`}
@@ -2163,9 +2165,23 @@ window.addEventListener('appinstalled',()=>{INSTALL_EVT=null;if(!G)renderMenu()}
 async function installApp(){
  if(INSTALL_EVT){const e=INSTALL_EVT;e.prompt();try{await e.userChoice}catch(_){}INSTALL_EVT=null;renderMenu();return}
  if(isIOS())modal(`<h3>Instalar en iPhone o iPad</h3><p>En Safari, toca el botón <b>Compartir</b> (el cuadrado con la flecha hacia arriba) y elige <b>Agregar a pantalla de inicio</b>.</p><div class="mbtns"><button class="pri" data-m="x">Entendido</button></div>`)}
-/* pantalla completa automática: al primer toque (los navegadores exigen un gesto del jugador) */
-function goFull(){try{const d=document.documentElement;if(!document.fullscreenElement&&d.requestFullscreen&&matchMedia('(pointer:coarse)').matches)d.requestFullscreen({navigationUI:'hide'}).then(()=>screen.orientation&&screen.orientation.lock&&screen.orientation.lock('landscape').catch(()=>{})).catch(()=>{})}catch(_){}}
+/* pantalla completa: se activa al primer toque (los navegadores exigen un gesto del jugador),
+   pero solo mientras el jugador la quiera. Si sale de ella (con el botón o con el gesto del celular), no se vuelve a activar sola. */
+const FULL_KEY='gf.pantallaCompleta';
+const fullPref=()=>{try{return localStorage.getItem(FULL_KEY)!=='0'}catch(_){return true}};
+const setFullPref=v=>{try{localStorage.setItem(FULL_KEY,v?'1':'0')}catch(_){}};
+const canFull=()=>!!(document.documentElement.requestFullscreen)&&matchMedia('(pointer:coarse)').matches;
+let FULL_BY_US=false;
+function enterFull(){try{const d=document.documentElement;if(document.fullscreenElement||!d.requestFullscreen)return;FULL_BY_US=true;
+ d.requestFullscreen({navigationUI:'hide'}).then(()=>screen.orientation&&screen.orientation.lock&&screen.orientation.lock('landscape').catch(()=>{})).catch(()=>{FULL_BY_US=false})}catch(_){}}
+function exitFull(){FULL_BY_US=false;try{if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen().catch(()=>{})}catch(_){}}
+function goFull(){if(fullPref()&&canFull())enterFull()}
 document.addEventListener('pointerdown',goFull,{passive:true});
+document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement&&FULL_BY_US){FULL_BY_US=false;setFullPref(false)}if(!G)renderMenu()});
+function toggleFull(){if(document.fullscreenElement){setFullPref(false);exitFull()}else{setFullPref(true);enterFull()}}
+/* salir del juego: las páginas web no siempre pueden cerrarse solas; si no se puede, se sale de pantalla completa y se explica cómo volver al celular */
+function quitGame(){setFullPref(false);exitFull();try{window.close()}catch(_){}
+ setTimeout(()=>{if(!document.hidden)modal(`<h3>Salir del juego</h3><p>Ya saliste de la pantalla completa. Tu celular no deja que el juego se cierre solo: usa el botón o el gesto de <b>inicio</b> (o el de aplicaciones recientes) para volver a tu pantalla.</p><p class="mut">La pantalla completa no se vuelve a activar sola. Para usarla de nuevo, toca el botón de pantalla completa en la portada.</p><div class="mbtns"><button class="pri" data-m="x">Entendido</button></div>`)},350)}
 /* service worker: solo en la página publicada (https o localhost) */
 if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)&&typeof BASE_JSON==='string')window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js',{scope:'./'}).catch(()=>{})});
 

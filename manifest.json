@@ -6,9 +6,8 @@
  "lang": "es",
  "start_url": "/guerra-de-facciones/",
  "scope": "/guerra-de-facciones/",
- "display": "fullscreen",
+ "display": "standalone",
  "display_override": [
-  "fullscreen",
   "standalone"
  ],
  "orientation": "landscape",
