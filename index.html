@@ -283,7 +283,7 @@ body.phb .slot.m .card .lb,.slot.m:has(.fst.fl) .card .lb{opacity:0}
 .lki{width:1.1em;height:1.1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .pt.lk .pc{position:relative;filter:grayscale(.6) brightness(.6)}.pt.lk .lki{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:42%;height:42%;color:#ffd54a;filter:drop-shadow(0 0 4px #000)}
 .fk.lk{opacity:.55;position:relative}.fk.lk::after{content:'';position:absolute;right:1px;bottom:1px;width:7px;height:7px;border-radius:50%;background:#ffd54a}
-#menu{background:linear-gradient(180deg,#05060fcc 0,#05060f55 30%,#05060f55 60%,#05060fdd 100%),url(img/portada.webp?v=202611180437) center/cover no-repeat;--ink:#f3f1ff;--mut:#c4c8e6;--panel:#0a1024c4;--line:#ffffff4d;--slot:#0a102488;--slotline:#ffffff44;--acc:#ffc680;--accfg:#1a0d00;color:var(--ink)}
+#menu{background:linear-gradient(180deg,#05060fcc 0,#05060f55 30%,#05060f55 60%,#05060fdd 100%),url(img/portada.webp?v=202611180924) center/cover no-repeat;--ink:#f3f1ff;--mut:#c4c8e6;--panel:#0a1024c4;--line:#ffffff4d;--slot:#0a102488;--slotline:#ffffff44;--acc:#ffc680;--accfg:#1a0d00;color:var(--ink)}
 #menu button,#menu .rr,#menu .mi label{text-shadow:0 1px 3px #000}
 #menu button{-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);box-shadow:0 3px 12px #000c}
 #menu button.pri{background:linear-gradient(180deg,#ffd49a,#e3873a);color:#1a0d00;text-shadow:0 1px 0 #fff8;border-color:#ffe2b8;box-shadow:0 0 18px #ff9a3c99,0 4px 14px #000d}
@@ -499,11 +499,11 @@ body.phb .fst{opacity:1;animation:fbob 1.5s ease-in-out infinite alternate}
 @keyframes fflash{0%{opacity:0;transform:translateY(4px) scale(.8)}12%{opacity:1;transform:translateY(0) scale(1.18)}65%{opacity:1;transform:translateY(-4px) scale(1)}100%{opacity:0;transform:translateY(-12px) scale(1)}}
 .card .art img.pic{width:100%;height:100%;object-fit:cover;display:block;image-rendering:pixelated}
 </script>
-<script src="lib/three.min.js?v=202611180437"></script>
+<script src="lib/three.min.js?v=202611180924"></script>
 <script>
 'use strict';
 (()=>{const t=document.getElementById('cardcss');if(t){const s=document.createElement('style');s.textContent=t.textContent;document.head.appendChild(s)}})();
-const LOGO_IMG="img/logo.webp?v=202611180437";
+const LOGO_IMG="img/logo.webp?v=202611180924";
 /* ============ EFECTOS (formato v2): vocabulario, texto generado, migración y validación ============
    Un efecto = { disparador:{tipo,ventanas?}, condicion:null|{tipo,..}, costo:{tipo,n}, objetivo, accion:{tipo,..}, limite, alternativas? } */
 const VENT={ataque:'attack',invocacion:'summon',finTurno:'endTurn',dano:'damage'};
@@ -925,7 +925,7 @@ function cardHTML(x,o={}){
   body=`<div class="hd"><i class="fb t" title="${lab}">${ic(typeIcon(d))}</i><div class="nm" style="--nf:${fitN(d.name,72,.6,6.6,3)}cqw">${d.name}</div></div><div class="mid"><div class="sd l"><span class="sv" style="--vf:${fitS(lab)}cqw">${lab}</span></div><div class="art">${artS(d)}</div><div class="sd r"><span class="sv" style="--vf:${fitS(costText(d.cost))}cqw">${costText(d.cost)}</span></div></div><div class="ds" style="--tf:${fitT(d.text||'',2650,5.8,2.4)}cqw"><u class="ty">${ty}</u><p>${d.text||'Sin efectos.'}</p></div><div class="st"></div>`}
  return`<div class="card${o.hand?' hand':''}${o.field||o.tile?' fld':''}${o.full?' full':''}${isMon?' k'+d.kind:''}${isMon&&d.efs&&d.efs.length>=2?' ef'+d.efs.length:''}${isMon?'':(d.type==='A'?' spa':d.type==='R'?' spr':' spf')}${o.cls||''}" style="${style}"${ua}>${body}</div>`}
 
-let DEFAULT_DATA=null;const BASE_JSON='cartas/base.json?v=202611180437';
+let DEFAULT_DATA=null;const BASE_JSON='cartas/base.json?v=202611180924';
 /* ============ CONFIG (todo lo marcado "supuesto" está por validar) ============ */
 const CFG={lp:8000,hand0:5,handMax:7,xpCap0:200,xpCapStep:100,xpGain:100,vetNivel:300,vetValue:2,recActLP:500,recReaXP:300,tieAtk:3000};
 const WLAB={attack:'cuando el rival ataca',summon:'cuando el rival invoca',endTurn:'al final del turno rival',damage:'cuando recibes daño'};
@@ -2172,6 +2172,12 @@ async function rasterCard(html,W,extraCss,twice){
  if(!RASTER_WARM||twice){await rasterLoad(url);await new Promise(r=>setTimeout(r,140));RASTER_WARM=true}
  const img=await rasterLoad(url+' ');
  const c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d');g.imageSmoothingQuality='high';g.drawImage(img,0,0,W,H);return c}
+/* las imágenes en archivos aparte (versión web) no se cargan dentro del SVG: se descargan y se incrustan antes de dibujar */
+const RASTER_IMG=new Map();
+async function rasterInline(url){if(!url||/^data:/.test(url))return url;if(RASTER_IMG.has(url))return RASTER_IMG.get(url);
+ const pr=fetch(url).then(r=>{if(!r.ok)throw 0;return r.blob()}).then(b=>new Promise(ok=>{const f=new FileReader();f.onload=()=>ok(f.result);f.onerror=()=>ok(null);f.readAsDataURL(b)})).catch(()=>null);
+ RASTER_IMG.set(url,pr);return pr}
+async function rasterCardOf(d,W,extraCss,twice){let dd=d;if(d.img&&!/^data:/.test(d.img)){const u=await rasterInline(d.img);dd=Object.assign({},d,{img:u||null})}return rasterCard(cardHTML(dd),W,extraCss,twice)}
 /* ============ MESA 3D ============
    Plano del fondo: una mesa 3D con el tapete y las cartas. El motor de reglas no cambia:
    después de cada render() se compara el estado del duelo con lo que hay en la mesa y las cartas viajan a su lugar.
@@ -2269,7 +2275,7 @@ function m3fallback(d){const c=document.createElement('canvas');c.width=150;c.he
  g.fillStyle='#0008';g.fillRect(10,30,130,100);g.fillStyle='#fff';g.font='bold 13px Georgia,serif';g.textAlign='center';g.fillText(unescHTML(d.name).slice(0,20),75,20);if(F){g.fillStyle=F.c;g.beginPath();g.arc(75,80,24,0,7);g.fill()}return m3canvasTex(c)}
 const unescHTML=s=>String(s).replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'");
 async function m3pump(){if(M3.busyTex)return;M3.busyTex=true;
- while(M3.queue.length){const[k,d]=M3.queue.shift();try{const c=await rasterCard(cardHTML(d),330),e=M3.tex.get(k);if(e){const old=e.mat.map;e.mat.map=m3canvasTex(c);e.mat.needsUpdate=true;if(old)old.dispose();M3.dirty=true}}catch(_){}await new Promise(r=>setTimeout(r,8))}
+ while(M3.queue.length){const[k,d]=M3.queue.shift();try{const c=await rasterCardOf(d,330),e=M3.tex.get(k);if(e){const old=e.mat.map;e.mat.map=m3canvasTex(c);e.mat.needsUpdate=true;if(old)old.dispose();M3.dirty=true}}catch(_){}await new Promise(r=>setTimeout(r,8))}
  M3.busyTex=false}
 function m3prefetch(){if(!G)return;G.pl.forEach(p=>[...p.deck,...p.hand].forEach(c=>m3faceMat(c.d)))}
 
