@@ -286,7 +286,7 @@ body.phb .slot.m .card .lb,.slot.m:has(.fst.fl) .card .lb{opacity:0}
 .lki{width:1.1em;height:1.1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .pt.lk .pc{position:relative;filter:grayscale(.6) brightness(.6)}.pt.lk .lki{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:42%;height:42%;color:#ffd54a;filter:drop-shadow(0 0 4px #000)}
 .fk.lk{opacity:.55;position:relative}.fk.lk::after{content:'';position:absolute;right:1px;bottom:1px;width:7px;height:7px;border-radius:50%;background:#ffd54a}
-#menu{background:linear-gradient(180deg,#05060fcc 0,#05060f55 30%,#05060f55 60%,#05060fdd 100%),url(img/portada.webp?v=202611181926) center/cover no-repeat;--ink:#f3f1ff;--mut:#c4c8e6;--panel:#0a1024c4;--line:#ffffff4d;--slot:#0a102488;--slotline:#ffffff44;--acc:#ffc680;--accfg:#1a0d00;color:var(--ink)}
+#menu{background:linear-gradient(180deg,#05060fcc 0,#05060f55 30%,#05060f55 60%,#05060fdd 100%),url(img/portada.webp?v=202611182205) center/cover no-repeat;--ink:#f3f1ff;--mut:#c4c8e6;--panel:#0a1024c4;--line:#ffffff4d;--slot:#0a102488;--slotline:#ffffff44;--acc:#ffc680;--accfg:#1a0d00;color:var(--ink)}
 #menu button,#menu .rr,#menu .mi label{text-shadow:0 1px 3px #000}
 #menu button{-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);box-shadow:0 3px 12px #000c}
 #menu button.pri{background:linear-gradient(180deg,#ffd49a,#e3873a);color:#1a0d00;text-shadow:0 1px 0 #fff8;border-color:#ffe2b8;box-shadow:0 0 18px #ff9a3c99,0 4px 14px #000d}
@@ -502,11 +502,11 @@ body.phb .fst{opacity:1;animation:fbob 1.5s ease-in-out infinite alternate}
 @keyframes fflash{0%{opacity:0;transform:translateY(4px) scale(.8)}12%{opacity:1;transform:translateY(0) scale(1.18)}65%{opacity:1;transform:translateY(-4px) scale(1)}100%{opacity:0;transform:translateY(-12px) scale(1)}}
 .card .art img.pic{width:100%;height:100%;object-fit:cover;display:block;image-rendering:pixelated}
 </script>
-<script src="lib/three.min.js?v=202611181926"></script>
+<script src="lib/three.min.js?v=202611182205"></script>
 <script>
 'use strict';
 (()=>{const t=document.getElementById('cardcss');if(t){const s=document.createElement('style');s.textContent=t.textContent;document.head.appendChild(s)}})();
-const LOGO_IMG="img/logo.webp?v=202611181926";
+const LOGO_IMG="img/logo.webp?v=202611182205";
 /* ============ EFECTOS (formato v2): vocabulario, texto generado, migración y validación ============
    Un efecto = { disparador:{tipo,ventanas?}, condicion:null|{tipo,..}, costo:{tipo,n}, objetivo, accion:{tipo,..}, limite, alternativas? } */
 const VENT={ataque:'attack',invocacion:'summon',finTurno:'endTurn',dano:'damage'};
@@ -525,7 +525,7 @@ const V_TRIG={
  ventana:{n:'Ventana del rival',da:[],carta:1},
  manual:{n:'Manual',da:['esteMonstruo'],mon:1,carta:1},
  continuo:{n:'Continuo',da:['esteMonstruo'],mon:1}};
-const V_COND={nivelMin:{n:'Nivel de este monstruo ≥ N',p:['n']},aliadosMin:{n:'Monstruos de mi facción en el campo ≥ N',p:['n']},rivalTieneMas:{n:'El rival tiene más monstruos que yo',p:[]},lpMax:{n:'Mis LP ≤ N',p:['n']},posicionVictima:{n:'El monstruo destruido estaba en ataque o defensa',p:['pos']},manoMin:{n:'Cartas en mi mano ≥ N',p:['n']}};
+const V_COND={nivelMin:{n:'Nivel de este monstruo ≥ N',p:['n']},aliadosMin:{n:'Monstruos de mi facción en el campo ≥ N',p:['n']},rivalTieneMas:{n:'El rival tiene más monstruos que yo',p:[]},lpMax:{n:'Mis LP ≤ N',p:['n']},posicionVictima:{n:'El monstruo destruido estaba en ataque o defensa',p:['pos']},manoMin:{n:'Cartas en mi mano ≥ N',p:['n']},equipado:{n:'Este monstruo tiene un equipo',p:[]}};
 const V_COSTO={ninguno:'Ninguno',lp:'LP',xp:'XP',descartar:'Descartar',gastarNivel:'Gastar Nivel',defensa:'Poner un monstruo tuyo en defensa',nivel0:'Bajar a 0 el Nivel del monstruo elegido',molerPropio:'Enviar cartas de tu mazo al cementerio',sinCartas:'No jugar más Acciones ni Reacciones este turno',sinReacciones:'No activar Reacciones en el próximo turno rival',devolverMano:'Devolver un monstruo tuyo a la mano',devolverMazo:'Devolver un monstruo tuyo al mazo'};
 /* costos de riesgo o renuncia ("me privo de"): solo para Acciones y Reacciones */
 const COSTO_RIESGO=['defensa','nivel0','molerPropio','sinCartas','sinReacciones','devolverMano','devolverMazo'];
@@ -559,7 +559,8 @@ const V_ACC={
  equipoSabiduria:{n:'Sabiduría',p:[],ob:['monstruoMio'],eq:1},
  topeExtra:{n:'Ampliar el tope de Nivel',p:[['valor','Tope extra',500,1000]],ob:['todosMisMonstruos'],cont:1},
  teletransportar:{n:'Teletransportación',p:[],ob:['monstruoMio']},
- invocacionExtra:{n:'Invocación extra',p:[],ob:['yo'],mon:1}};
+ invocacionExtra:{n:'Invocación extra',p:[],ob:['yo'],mon:1},
+ buscarMazo:{n:'Llamado: buscar monstruos chicos en el mazo',p:[['n','Cartas',3,3],['tope','Tope de Nivel máximo',400,600]],ob:['yo'],carta:1}};
 const NIVEL_BATALLA=100;
 
 /* ---- texto ---- */
@@ -569,7 +570,7 @@ const cap1=s=>s?s[0].toUpperCase()+s.slice(1):s;
 function ventTxt(vs){const riv=[],own=[];vs.forEach(v=>{if(v==='ataque')riv.push('ataca');else if(v==='invocacion')riv.push('invoca');else if(v==='finTurno')riv.push('termina su turno');else if(v==='dano')own.push('recibes daño')});
  const j=a=>a.length<2?a.join(''):a.slice(0,-1).join(', ')+' o '+a[a.length-1];
  const parts=[];if(riv.length)parts.push('el rival '+j(riv));if(own.length)parts.push(own[0]);return'Cuando '+parts.join(', o cuando ')}
-function condTxt(c){if(!c)return'';switch(c.tipo){case'nivelMin':return`si su Nivel es ${c.n} o más`;case'aliadosMin':return`si controlas ${c.n} o más monstruos de su facción`;case'rivalTieneMas':return'si el rival controla más monstruos que tú';case'lpMax':return`si tienes ${c.n} LP o menos`;case'posicionVictima':return c.pos==='def'?'si el monstruo destruido estaba en defensa':'si el monstruo destruido estaba en ataque';case'manoMin':return`si tienes ${c.n} o más cartas en la mano`}return''}
+function condTxt(c){if(!c)return'';switch(c.tipo){case'nivelMin':return`si su Nivel es ${c.n} o más`;case'aliadosMin':return`si controlas ${c.n} o más monstruos de su facción`;case'rivalTieneMas':return'si el rival controla más monstruos que tú';case'lpMax':return`si tienes ${c.n} LP o menos`;case'posicionVictima':return c.pos==='def'?'si el monstruo destruido estaba en defensa':'si el monstruo destruido estaba en ataque';case'manoMin':return`si tienes ${c.n} o más cartas en la mano`;case'equipado':return'si tiene un equipo'}return''}
 function accTxt(e){const a=e.accion,o=e.objetivo,S=T_SUJ[o]||'';const st=a.stat==='def'?'DEF':'ATK';switch(a.tipo){
  case'robar':return`robas ${a.n} carta${a.n>1?'s':''}`;
  case'cambiarStat':{const pl=o==='todosMisMonstruos',g=a.valor<0?(pl?'pierden':'pierde'):(pl?'ganan':'gana');if(a.porNivel){const k=Math.abs(a.valor);return`${S} ${g} ${st} igual a ${k===1?(pl?'su propio Nivel':'su Nivel'):k+' veces '+(pl?'su propio Nivel':'su Nivel')}`}return`${S} ${g} ${a.valor<0?Math.abs(a.valor):'+'+a.valor} ${st}`}
@@ -595,6 +596,7 @@ function accTxt(e){const a=e.accion,o=e.objetivo,S=T_SUJ[o]||'';const st=a.stat=
  case'equipoSabiduria':return`${S} sube su Nivel a su tope, y vuelve a subirlo al empezar cada uno de tus turnos`;
  case'topeExtra':return`el tope de Nivel de ${S} sube +${a.valor}`;
  case'teletransportar':return`${S} vuelve a tu mazo y añades a tu mano un monstruo de tu mazo con sus mismas estrellas`;
+ case'buscarMazo':return`si controlas un monstruo de su facción de ${a.tope/100}★ o menos, añades a tu mano hasta ${a.n} monstruo${a.n>1?'s':''} de su facción de ${a.tope/100}★ o menos desde tu mazo`;
  case'invocacionExtra':return'puedes invocar otro monstruo de su facción desde tu mano (invocación extra, hasta 3 por turno)'}return''}
 /* conCosto: los monstruos muestran su costo en el texto; las Acciones y Reacciones lo muestran aparte */
 function textoEfecto(e,conCosto){if(!e)return'';const D=e.disparador||{},t=D.tipo;
@@ -645,6 +647,7 @@ function validarEfecto(x,esMonstruo,perm){
   if(f.objetivo==='esteMonstruo'&&!esMonstruo)E('"Este monstruo" no existe en una Acción o Reacción.');
   if(f.accion.tipo==='pasarSobrante'&&x.disparador.tipo!=='alDestruirEnBatalla')E('"Pasar daño sobrante" necesita el disparador "Al destruir en batalla".')});
  if(A.cont&&perm!=='continua')E(`"${A.n}" solo sirve en una Acción continua.`);
+ if(A.carta&&esMonstruo)E(`"${A.n}" solo sirve en Acciones y Reacciones.`);
  if(A.mon&&!esMonstruo)E(`"${A.n}" solo sirve en monstruos.`);
  if(A.eq&&perm!=='equipo')E(`"${A.n}" solo sirve en una Acción de equipo.`);
  if(A.dur&&!perm&&!DUR_LIM.includes(x.limite))E(`"${A.n}" necesita una duración (hasta el final del turno o hasta tu próximo turno).`);
@@ -661,7 +664,7 @@ function validarEfecto(x,esMonstruo,perm){
   if(x.costo.tipo==='molerPropio'&&!(Number.isInteger(x.costo.n)&&x.costo.n>=1&&x.costo.n<=5))E('Las cartas del mazo deben ser de 1 a 5.');
   if(x.costo.tipo==='sinCartas'&&x.disparador.tipo==='ventana')W('Una Reacción se activa en el turno rival: "no jugar más cartas este turno" casi no cuesta nada ahí.')}
  const pr=[...(x.alternativas||[]).map(a=>a.accion).filter(Boolean),x.accion];
- pr.forEach(p=>{const d=V_ACC[p.tipo];if(d)d.p.forEach(([k,l,,mx])=>{if(!Number.isInteger(p[k])||p[k]<0||p[k]>mx)E(`"${l}" debe ser un entero entre 0 y ${mx}.`)})});
+ pr.forEach(p=>{const d=V_ACC[p.tipo];if(d)d.p.forEach(([k,l,,mx])=>{if(p[k]===undefined&&d.eq)return;if(!Number.isInteger(p[k])||p[k]<0||p[k]>mx)E(`"${l}" debe ser un entero entre 0 y ${mx}.`)})});
  return I}
 
 /* ---- plantillas de efecto de monstruo (las 10 de la versión 1): construyen un efecto v2 ---- */
@@ -728,7 +731,7 @@ function normalizarCartas(d){if(d&&typeof d==='object'&&!Array.isArray(d)&&d.for
 const LLAVES=[['mazo','Destrucción del mazo'],['mano','Destrucción de la mano'],['amano','Devolver a la mano'],['amazo','Devolver al mazo'],['cem','Recuperar del cementerio'],['robar','Robar cartas'],
  ['sube','Aumentar ATK/DEF'],['baja','Reducir ATK/DEF'],['dano','Daño por efecto'],['lp','Aumentar LP'],['perf','Perforar'],['negar','Negar ataque'],['destr','Destruir carta'],['pos','Cambiar posición'],
  ['nivel','Nivel'],['xp','XP'],['menos','Reducir daño'],['fac','Facción y aliados'],['cont','Efecto continuo'],['man','Activación manual'],['reac','Reacción en turno rival'],['equipo','Equipo'],['campo','Carta de campo'],['lim1','Una vez por duelo'],['unica','Carta única (3 efectos)']];
-const LL_ACC={moler:'mazo',descartarAzar:'mano',devolverMano:'amano',devolverMazo:'amazo',recuperar:'cem',robar:'robar',infligirDano:'dano',curar:'lp',pasarSobrante:'perf',equipoPerforar:'perf',equipoMaximizar:'sube',equipoSabiduria:'nivel',topeExtra:'nivel',teletransportar:'amazo',negarAtaque:'negar',destruir:'destr',cambiarPosicion:'pos',ganarXp:'xp',mitadDano:'menos',fijarNivel0:'nivel',nivelExtra:'nivel',sinergiaStat:'sube'};
+const LL_ACC={moler:'mazo',descartarAzar:'mano',devolverMano:'amano',devolverMazo:'amazo',recuperar:'cem',robar:'robar',infligirDano:'dano',curar:'lp',pasarSobrante:'perf',equipoPerforar:'perf',equipoMaximizar:'sube',equipoSabiduria:'nivel',topeExtra:'nivel',teletransportar:'amazo',buscarMazo:'robar',negarAtaque:'negar',destruir:'destr',cambiarPosicion:'pos',ganarXp:'xp',mitadDano:'menos',fijarNivel0:'nivel',nivelExtra:'nivel',sinergiaStat:'sube'};
 function llavesEf(e,s=new Set()){if(!e||!e.accion||!e.disparador)return s;const a=e.accion,t=e.disparador.tipo,c=e.condicion;
  if(LL_ACC[a.tipo])s.add(LL_ACC[a.tipo]);if(a.tipo==='cambiarStat')s.add(a.valor<0?'baja':'sube');if(a.porNivel)s.add('nivel');
  if(a.tipo==='sinergiaStat'||e.objetivo==='todosMisMonstruos'||(c&&c.tipo==='aliadosMin'))s.add('fac');
@@ -951,7 +954,7 @@ function cardHTML(x,o={}){
   body=`<div class="hd"><i class="fb t" title="${lab}">${ic(typeIcon(d))}</i><div class="nm" style="--nf:${fitN(d.name,72,.6,6.6,3)}cqw">${d.name}</div></div><div class="mid"><div class="sd l"><span class="sv" style="--vf:${fitS(lab)}cqw">${lab}</span></div><div class="art">${artS(d)}</div><div class="sd r"><span class="sv" style="--vf:${fitS(costText(d.cost))}cqw">${costText(d.cost)}</span></div></div><div class="ds" style="--tf:${fitT(d.text||'',2650,5.8,2.4)}cqw"><u class="ty">${ty}</u><p>${d.text||'Sin efectos.'}</p></div><div class="st"></div>`}
  return`<div class="card${o.hand?' hand':''}${o.field||o.tile?' fld':''}${o.full?' full':''}${isMon?' k'+d.kind:''}${isMon&&d.efs&&d.efs.length>=2?' ef'+d.efs.length:''}${isMon?'':(d.type==='A'?' spa':d.type==='R'?' spr':' spf')}${o.cls||''}" style="${style}"${ua}>${body}</div>`}
 
-let DEFAULT_DATA=null;const BASE_JSON='cartas/base.json?v=202611181926';
+let DEFAULT_DATA=null;const BASE_JSON='cartas/base.json?v=202611182205';
 /* ============ CONFIG (todo lo marcado "supuesto" está por validar) ============ */
 const CFG={lp:8000,hand0:5,handMax:7,xpCap0:200,xpCapStep:100,xpGain:100,vetNivel:300,vetValue:2,recActLP:500,recReaXP:300,tieAtk:3000};
 const WLAB={attack:'cuando el rival ataca',summon:'cuando el rival invoca',endTurn:'al final del turno rival',damage:'cuando recibes daño'};
@@ -1052,6 +1055,10 @@ function dropEq(c,p){p.zones.forEach((z,i)=>{if(z&&z.eq===c.uid){p.zones[i]=null
 function sabio(m){const b=m.nivel,t=capOf(m);if(t>b){m.nivel=t;FX.mark(m,{k:'lv',amt:t-b});log(`${m.d.name} sube su Nivel a ${t}.`)}}
 /* "Teletransportación": monstruos del mazo con las mismas estrellas */
 const teleOpts=(p,m)=>p.deck.filter(x=>isM(x)&&x.d.cap===m.d.cap);
+/* "llamado": monstruos chicos de la facción (en el mazo y en el campo) */
+const llamFi=(src,p)=>src.d.fi>=0?src.d.fi:p.fi;
+const llamDeck=(src,p,a)=>p.deck.filter(x=>isM(x)&&x.d.fi===llamFi(src,p)&&x.d.cap<=a.tope);
+const llamOK=(src,p,a)=>p.mons.some(m=>m&&m.d.fi===llamFi(src,p)&&m.d.cap<=a.tope)&&llamDeck(src,p,a).length>0;
 /* daño directo sin cadena (lo usa el costo de "Maximizar el ataque") */
 function burn(pi,n,why){if(G.over)return;const p=G.pl[pi];p.lp=Math.max(0,p.lp-n);log(`${why}: ${p.name} pierde ${n} LP.`);FX.hud(pi,'−'+n,'dmg');if(p.lp<=0)endGame(1-pi,`${p.name} se quedó sin puntos de vida.`)}
 /* destrucción en batalla: un "Equipo de protección" se destruye en su lugar */
@@ -1130,7 +1137,7 @@ const flip=m=>{const f=m.pos==='atk'?0:90;m.pos=m.pos==='atk'?'def':'atk';FX.mar
 function cumple(c,src,ctx){if(!c)return true;const p=G.pl[src.o],o=G.pl[1-src.o];switch(c.tipo){
  case'nivelMin':return src.nivel>=c.n;case'aliadosMin':return allies(src).length>=c.n;
  case'rivalTieneMas':return o.mons.filter(Boolean).length>p.mons.filter(Boolean).length;
- case'lpMax':return p.lp<=c.n;case'posicionVictima':return !!ctx&&ctx.victimPos===c.pos;case'manoMin':return p.hand.length>=c.n}return true}
+ case'lpMax':return p.lp<=c.n;case'posicionVictima':return !!ctx&&ctx.victimPos===c.pos;case'manoMin':return p.hand.length>=c.n;case'equipado':return p.zones.some(z=>z&&z.up&&z.d.perm==='equip'&&z.eq===src.uid)}return true}
 function durUntil(lim,ap){const t=ap.i===G.cur?G.turn+2:G.turn+1;return lim==='finDelTurno'?{turn:G.turn,phase:'end'}:lim==='proxTurno'?{turn:t,phase:'start'}:{turn:t,phase:'end'}}
 /* cartas entre las que se puede elegir (o [1] si el objetivo no se elige) */
 function posibles(ap,e,ctx){const rv=G.pl[1-ap.i];switch(e.objetivo){
@@ -1142,7 +1149,7 @@ function posibles(ap,e,ctx){const rv=G.pl[1-ap.i];switch(e.objetivo){
  case'atacante':return ctx&&ctx.attacker&&inField(ctx.attacker)?[ctx.attacker]:[];
  case'todosMisMonstruos':return ap.mons.some(Boolean)?[1]:[];
  default:return[1]}}
-const actTargets=(p,d)=>{const e=d.ef;let L=e.alternativas?e.alternativas.flatMap((a,i)=>posibles(p,efAlt(e,i),null)):posibles(p,e,null);if(e.accion.tipo==='teletransportar')L=L.filter(m=>teleOpts(p,m).length);if(d.perm==='equip'&&d.fi>=0)L=L.filter(m=>m.d&&m.d.fi===d.fi);return L};
+const actTargets=(p,d)=>{const e=d.ef;let L=e.alternativas?e.alternativas.flatMap((a,i)=>posibles(p,efAlt(e,i),null)):posibles(p,e,null);if(e.accion.tipo==='teletransportar')L=L.filter(m=>teleOpts(p,m).length);if(e.accion.tipo==='buscarMazo'&&!llamOK({d},p,e.accion))L=[];if(d.perm==='equip'&&d.fi>=0)L=L.filter(m=>m.d&&m.d.fi===d.fi);return L};
 async function resolver(e,src,ap,ctx,prm){
  const a=e.accion,rv=G.pl[1-ap.i],t=prm&&prm.t,pl=e.objetivo==='yo'?ap:rv;
  const cards=()=>{switch(e.objetivo){case'esteMonstruo':return[src];case'todosMisMonstruos':return ap.mons.filter(Boolean);case'atacante':return ctx&&ctx.attacker?[ctx.attacker]:[];default:return t?[t]:[]}};
@@ -1166,6 +1173,10 @@ async function resolver(e,src,ap,ctx,prm){
    (ch||[]).forEach(x=>{ap.grave.splice(ap.grave.indexOf(x),1);joinHand(ap,x)});log(`${ap.name} recupera ${(ch||[]).length} carta(s) del cementerio.`);render();break}
   case'moler':{let k=0;for(let i=0;i<a.n&&pl.deck.length;i++){pl.grave.push(pl.deck.pop());k++}log(`${pl.name} envía ${k} carta${k>1?'s':''} de su mazo al cementerio.`);if(k)FX.snd('slide');render();if(!k)return false;break}
   case'devolverMazo':for(const x of cards()){log(`${nm(x)} vuelve al mazo de su dueño.`);if(ctx&&(x===ctx.attacker||x===ctx.card))ctx.cancelled=true;toDeck(x)}break;
+  case'buscarMazo':{if(!llamOK(src,ap,a)){log('No se cumple la condición.');return false}const L=llamDeck(src,ap,a);const n=Math.min(a.n,L.length);let ch;
+   if(ap.ai){const seen=new Set();ch=[...L].sort((x,y)=>val(y)-val(x)).filter(x=>seen.has(x.d.id)?false:(seen.add(x.d.id),true)).slice(0,n);if(ch.length<n)ch=ch.concat(L.filter(x=>!ch.includes(x)).slice(0,n-ch.length))}
+   else ch=await pickCards(`${src.d.name}: elige hasta ${n} monstruo(s) de tu mazo`,L,1,n,{nocancel:1});
+   (ch||[]).forEach(x=>{ap.deck.splice(ap.deck.indexOf(x),1);joinHand(ap,x)});shuffle(ap.deck);log(`${ap.name} añade ${(ch||[]).length} monstruo(s) de su mazo a la mano.`);render();break}
   case'teletransportar':{if(!t||!inField(t))return false;const L=teleOpts(ap,t);if(!L.length){log('No hay en el mazo un monstruo con esas estrellas.');return false}
    let ch;if(ap.ai)ch=[...L].sort((x,y)=>val(y)-val(x))[0];else{const r=await pickCards(`Teletransportación: elige un monstruo de ${t.d.cap/100}★ de tu mazo`,L,1,1,{nocancel:1});ch=r&&r[0]}
    if(!ch)return false;ap.deck.splice(ap.deck.indexOf(ch),1);log(`${t.d.name} se teletransporta al mazo y ${ap.name} añade ${ch.d.name} a su mano.`);toDeck(t);joinHand(ap,ch);render();break}
@@ -1263,7 +1274,7 @@ function rOK(z,win,ctx,p){const e=z.d.ef,me=G.pl[1-p.i];
   case'cartaCampoRival':if(!(me.mons.some(Boolean)||me.zones.some(Boolean)))return false;break;
   case'cartaARRival':if(!arRival(me).length)return false;break;
   case'monstruoMio':if(!p.mons.some(Boolean))return false;break}
- const a=e.accion.tipo;if(a==='curar')return(e.objetivo==='yo'?p:me).lp<CFG.lp;if(a==='ganarXp')return p.xp<xpCap();return true}
+ const a=e.accion.tipo;if(a==='buscarMazo')return llamOK(z,p,e.accion);if(a==='curar')return(e.objetivo==='yo'?p:me).lp<CFG.lp;if(a==='ganarXp')return p.xp<xpCap();return true}
 async function react(win,ctx){
  for(let g=0;g<3;g++){
   if(G.over||ctx.cancelled)return;const p=opp();if(p.noReactT===G.turn||arLock(p))return;
@@ -1318,7 +1329,7 @@ function aiReact(p,opts,win,ctx){
   if(ac==='moler'&&z.d.ef.objetivo==='jugadorRival')return z;
   if(ac==='curar'&&p.lp<=5000)return z;
   if(ac==='cambiarStat'&&win==='attack'&&z.d.ef.objetivo==='atacante'&&att&&(!tg||eATK(att)>=(tg.pos==='atk'?eATK(tg):eDEF(tg))))return z;
-  if(ac==='robar'&&p.hand.length<=3)return z;if(ac==='infligirDano'&&win!=='damage')return z}
+  if(ac==='robar'&&p.hand.length<=3)return z;if(ac==='buscarMazo'&&p.hand.length<=4&&p.lp>2000)return z;if(ac==='infligirDano'&&win!=='damage')return z}
  return null}
 async function humanReact(p,opts,win,ctx,all){
  const me=cur();
@@ -1405,6 +1416,7 @@ async function aiGeneric(p){
   else if(a==='moler'&&e.objetivo==='jugadorRival')go=o.deck.length>0;
   else if(a==='infligirDano'&&e.objetivo==='jugadorRival')go=true;
   else if(a==='teletransportar'){const ms=p.mons.filter(m=>m&&teleOpts(p,m).length).map(m=>({m,g:Math.max(...teleOpts(p,m).map(val))-val(m),risk:em.some(x=>x.pos==='atk'&&eATK(x)>(m.pos==='atk'?eATK(m):eDEF(m)))})).filter(x=>x.g>300||(x.risk&&x.g>=0)).sort((x,y)=>y.g-x.g);t=ms[0]&&ms[0].m;go=!!t}
+  else if(a==='buscarMazo')go=llamOK(c,p,e.accion)&&p.hand.length<=4;
   else if(a==='robar'&&e.objetivo==='yo')go=p.hand.length<=3&&(d.cost.t!=='devolverMano'||p.mons.some(m=>m&&eATK(m)<1600&&!m.att)||p.summoned===false);
   else if(a==='cambiarPosicion'&&e.objetivo==='monstruoRival'){t=em.filter(m=>m.pos==='atk').find(m=>atks().some(x=>eATK(x)>eDEF(m)&&eATK(x)<=eATK(m)));go=!!t}
   else if(a==='cambiarStat'&&e.objetivo==='monstruoRival'&&e.accion.valor<0){t=em.find(m=>atks().some(x=>{const v=m.pos==='atk'?eATK(m):eDEF(m);return eATK(x)<=v&&eATK(x)>v+e.accion.valor}));go=!!t}
